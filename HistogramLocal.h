@@ -1,7 +1,8 @@
 #pragma once
-#include "TransImage.h"
+#include "HistogramEQ.h"
+
 class HistogramLocal :
-	public TransImage
+	public HistogramEQ
 {
 private:
 	int mask_size;
