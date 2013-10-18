@@ -70,7 +70,10 @@ shared_ptr<CImage> HistogramEQ::transit(shared_ptr<CImage> src)
 			COLORREF pixel = src->GetPixel(i, j);
 			int r = GetRValue(pixel);
 
-			int g = (statistic_map->at(r) * (statistic_map->size() - 1)) / (srcH * srcW);
+			int sum = statistic_map->at(r);
+			int L = (--statistic_map->end())->first;
+
+			int g = (sum * L) / (srcH * srcW);
 
 			dst->SetPixelRGB(i, j, g, g, g);
 		}

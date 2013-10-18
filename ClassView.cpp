@@ -326,21 +326,32 @@ stTreeItemInfo * CClassView::TransImg(shared_ptr<stImgPara> imgP)
 	if (item->NeedToUpdate == true || item->img == NULL)
 	{
 		stTreeItemInfo * parent = (stTreeItemInfo *)m_wndClassView.getParentItemInfo();
-		if (parent == NULL)
+
+		if (item->tsType == Transitions::gray_level)
 		{
 			if (!(item->img == NULL))
 			{
-				item->img = TransImage::transit_img(item->img, item->tsType,imgP);
+				item->img = TransImage::transit_img(item->img, item->tsType, imgP);
 			}
-		}
+		} 
 		else
 		{
-			item->img = TransImage::transit_img(parent->img, item->tsType,imgP);
+			if (parent == NULL || parent->img == NULL)
+			{
+				if (!(item->img == NULL))
+				{
+					item->img = TransImage::transit_img(item->img, item->tsType, imgP);
+				}
+			}
+			else
+			{
+				item->img = TransImage::transit_img(parent->img, item->tsType, imgP);
+			}
 		}
 
 		CString count;
 		count.Format(L"%d", ((CImageProcessingApp *)AfxGetApp())->img_count++);
-		CString name = _T("processing_img");
+		CString name = item->strType;
 		name += count;
 		name += _T(".jpg");
 		item->img->Save(name);
@@ -372,38 +383,43 @@ void CClassView::OnShowChildFrame(stTreeItemInfo * item)
 
 void CClassView::FillClassView()
 {
-	shared_ptr<CImage> img = make_shared<CImage>(((CImageProcessingApp *)AfxGetApp())->img);
+	shared_ptr<CImage> img(new CImage());
+	img->Load(_T("P1000528.JPG"));
+
+	shared_ptr<CImage> img_gray(new CImage());
+	img_gray->Load(_T("P1000528_Gray.JPG"));
+
 	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("graying"), 0, 0);
 	m_wndClassView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 	m_wndClassView.SetItemData(hRoot, (DWORD_PTR)(new stTreeItemInfo(NULL, img, Transitions::graying, true)));
 
 	HTREEITEM hZoom = m_wndClassView.InsertItem(_T("subsampling"), 1, 1, hRoot);
-	m_wndClassView.SetItemData(hZoom, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::subsampling, true)));
+	m_wndClassView.SetItemData(hZoom, (DWORD_PTR)(new stTreeItemInfo(NULL, img, Transitions::subsampling, true)));
 	HTREEITEM h2 = m_wndClassView.InsertItem(_T("replication method upsampling"), 3, 3, hZoom);
-	m_wndClassView.SetItemData(h2, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::replication, true)));
+	m_wndClassView.SetItemData(h2, (DWORD_PTR)(new stTreeItemInfo(NULL, img, Transitions::replication, true)));
 	HTREEITEM h3 = m_wndClassView.InsertItem(_T("nearest neighbor method upsampling"), 3, 3, hZoom);
-	m_wndClassView.SetItemData(h3, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::nearest_neighbor, true)));
+	m_wndClassView.SetItemData(h3, (DWORD_PTR)(new stTreeItemInfo(NULL, img, Transitions::nearest_neighbor, true)));
 	HTREEITEM h4 = m_wndClassView.InsertItem(_T("bilinear interpolation method upsampling"), 3, 3, hZoom);
 	m_wndClassView.SetItemData(h4, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::bilinear_interpolation, true)));
 
 
 	HTREEITEM hGrayL = m_wndClassView.InsertItem(_T("graylevel"), 1, 1, hRoot);
-	m_wndClassView.SetItemData(hGrayL, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::gray_level, true)));
+	m_wndClassView.SetItemData(hGrayL, (DWORD_PTR)(new stTreeItemInfo(NULL, img_gray, Transitions::gray_level, true)));
 
 	HTREEITEM hPow = m_wndClassView.InsertItem(_T("pow scale"), 1, 1, hRoot);
-	m_wndClassView.SetItemData(hPow, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::pow_scale, true)));
+	m_wndClassView.SetItemData(hPow, (DWORD_PTR)(new stTreeItemInfo(NULL, img, Transitions::pow_scale, true)));
 
 	HTREEITEM hLog = m_wndClassView.InsertItem(_T("log scale"), 1, 1, hRoot);
-	m_wndClassView.SetItemData(hLog, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::log_scale, true)));
+	m_wndClassView.SetItemData(hLog, (DWORD_PTR)(new stTreeItemInfo(NULL, img, Transitions::log_scale, true)));
 
 	HTREEITEM hHeq = m_wndClassView.InsertItem(_T("Histogram equal"), 1, 1, hRoot);
-	m_wndClassView.SetItemData(hHeq, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::histogram_eq, true)));
+	m_wndClassView.SetItemData(hHeq, (DWORD_PTR)(new stTreeItemInfo(NULL, img, Transitions::histogram_eq, true)));
 
 	HTREEITEM hHmc = m_wndClassView.InsertItem(_T("Histogram match"), 1, 1, hRoot);
-	m_wndClassView.SetItemData(hHmc, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::histogram_match, true)));
+	m_wndClassView.SetItemData(hHmc, (DWORD_PTR)(new stTreeItemInfo(NULL, img, Transitions::histogram_match, true)));
 
 	HTREEITEM hHloc = m_wndClassView.InsertItem(_T("Histogram local"), 1, 1, hRoot);
-	m_wndClassView.SetItemData(hHloc, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::histogram_local, true)));
+	m_wndClassView.SetItemData(hHloc, (DWORD_PTR)(new stTreeItemInfo(NULL, img, Transitions::histogram_local, true)));
 
 	m_wndClassView.Expand(hZoom, TVE_EXPAND);
 	m_wndClassView.Expand(hRoot, TVE_EXPAND);

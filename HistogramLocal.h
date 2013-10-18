@@ -1,12 +1,14 @@
 #pragma once
 #include "HistogramEQ.h"
+#include "ImageMask.h"
 
 class HistogramLocal :
-	public HistogramEQ
+	public TransImage
 {
 private:
 	int mask_size;
-
+protected:
+	shared_ptr<type_statistic_map> Statistic(shared_ptr<ImageMask> src);
 public:
 	HistogramLocal();
 	HistogramLocal(shared_ptr<stImgPara> imgP);

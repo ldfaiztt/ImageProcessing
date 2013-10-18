@@ -42,8 +42,44 @@ struct stTreeItemInfo
 			strType = _T("subsampling");
 			break;
 
+		case Transitions::replication:
+			strType = _T("replication");
+			break;
+
+		case Transitions::nearest_neighbor:
+			strType = _T("nearest_neighbor");
+			break;
+
+		case Transitions::bilinear_interpolation:
+			strType = _T("bilinear_interpolation");
+			break;
+
+		case Transitions::gray_level:
+			strType = _T("gray_level");
+			break;
+
+		case Transitions::pow_scale:
+			strType = _T("pow_scale");
+			break;
+
+		case Transitions::log_scale:
+			strType = _T("log_scale");
+			break;
+
+		case Transitions::histogram_eq:
+			strType = _T("histogram_eq");
+			break;
+
+		case Transitions::histogram_match:
+			strType = _T("histogram_match");
+			break;
+
+		case Transitions::histogram_local:
+			strType = _T("histogram_local");
+			break;
+
 		default:
-			strType = _T("");
+			strType = _T("processing_img");
 			break;
 		}
 	}

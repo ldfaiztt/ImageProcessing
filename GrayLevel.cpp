@@ -3,14 +3,14 @@
 
 GrayLevel::GrayLevel()
 {
-	dstL = 4;
+	dstL = 8;
 }
 
 GrayLevel::GrayLevel(shared_ptr<stImgPara> imgP)
 {
 	if (imgP == NULL)
 	{
-		dstL = 4;
+		dstL = 8;
 	}
 	else
 	{
@@ -26,7 +26,7 @@ GrayLevel::~GrayLevel()
 
 int GrayLevel::mapGrayL(int src)
 {
-	float ratioL = pow(2,8) / pow(2,dstL);
+	float ratioL = pow(2, srcL) / pow(2, 1);
 
 	return (floor)(src / ratioL);
 }
@@ -38,19 +38,20 @@ shared_ptr<CImage> GrayLevel::transit(shared_ptr<CImage> src)
 
 	shared_ptr<CImage> dst(new CImage());
 
-	srcL = src->GetBPP();
-	dst->Create(srcW, srcH, src->GetBPP());
-
-	for (int i = 0; i < srcW; i++)
+	srcL = src->GetBPP() / 3;
+	if (dst->Create(srcW, srcH, 4))
 	{
-		for (int j = 0; j < srcH; j++)
+		for (int i = 0; i < srcW; i++)
 		{
-			COLORREF pixel = src->GetPixel(i, j);
-			byte r = mapGrayL(GetRValue(pixel));
-			byte g = mapGrayL(GetGValue(pixel));
-			byte b = mapGrayL(GetBValue(pixel));
+			for (int j = 0; j < srcH; j++)
+			{
+				COLORREF pixel = src->GetPixel(i, j);
+				byte r = mapGrayL(GetRValue(pixel));
+				byte g = mapGrayL(GetGValue(pixel));
+				byte b = mapGrayL(GetBValue(pixel));
 
-			dst->SetPixelRGB(i, j, r, g, b);
+				dst->SetPixelRGB(i, j, r, g, b);
+			}
 		}
 	}
 

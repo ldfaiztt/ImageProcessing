@@ -1,7 +1,6 @@
 typedef int coordinate;
 
-class CImageMask :
-	public CImage
+class ImageMask
 {
 private:
 	CImage & ori_img;
@@ -13,8 +12,8 @@ protected:
 	coordinate route(coordinate src) const throw();
 
 public:
-	CImageMask(CImage & img, int size, coordinate x, coordinate y);
-	virtual ~CImageMask();
+	ImageMask(CImage & img, int size, coordinate x, coordinate y);
+	virtual ~ImageMask();
 
 	int GetHeight() const throw();
 	int GetWidth() const throw();

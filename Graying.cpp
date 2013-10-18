@@ -23,7 +23,7 @@ shared_ptr<CImage> Graying::transit(shared_ptr<CImage> src)
 	}
 
 	shared_ptr<CImage> dst(new CImage());
-	dst->Create(src->GetWidth(), src->GetHeight(), src->GetBPP());
+	dst->Create(src->GetWidth(), src->GetHeight(), src->GetBPP(), 0);
 
 	if (!src->IsIndexed())
 	{
@@ -38,7 +38,7 @@ shared_ptr<CImage> Graying::transit(shared_ptr<CImage> src)
 				byte r = GetRValue(pixel);
 				byte g = GetGValue(pixel);
 				byte b = GetBValue(pixel);
-				byte avg = (int)(((int)r + g + b) / 3);
+				byte avg = (int)((r * 0.3) + (g * 0.59) + (b * 0.11));
 				dst->SetPixelRGB(i, j, avg, avg, avg);
 			}
 		}

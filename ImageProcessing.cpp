@@ -51,7 +51,7 @@ CImageProcessingApp::CImageProcessingApp()
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 	//img.reset(new CImage());
-	img.Load(_T("P1000528.JPG"));
+	//img.Load(_T("P1000528.JPG"));
 
 	img_count = 0;
 }

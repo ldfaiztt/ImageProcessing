@@ -29,7 +29,7 @@ public:
 	UINT  m_nAppLook;
 	BOOL  m_bHiColorIcons;
 
-	CImage img;
+	//CImage img;
 	int img_count;
 
 	virtual void PreLoadState();

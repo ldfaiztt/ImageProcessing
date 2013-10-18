@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ImageMask.h"
 
-CImageMask::CImageMask(CImage & img, int size, coordinate x, coordinate y)
+ImageMask::ImageMask(CImage & img, int size, coordinate x, coordinate y)
 	:ori_img(img)
 {
 	mask_size = size;
@@ -9,11 +9,11 @@ CImageMask::CImageMask(CImage & img, int size, coordinate x, coordinate y)
 	median_y = y;
 }
 
-CImageMask::~CImageMask()
+ImageMask::~ImageMask()
 {
 }
 
-coordinate CImageMask::route(coordinate src) const throw()
+coordinate ImageMask::route(coordinate src) const throw()
 {
 	if (mask_size > 0)
 	{
@@ -23,36 +23,66 @@ coordinate CImageMask::route(coordinate src) const throw()
 	return src - (mask_size / 2);
 }
 
-int CImageMask::GetHeight() const throw()
+int ImageMask::GetHeight() const throw()
 {
 	return mask_size;
 }
 
-int CImageMask::GetWidth() const throw()
+int ImageMask::GetWidth() const throw()
 {
 	return mask_size;
 }
 
-COLORREF CImageMask::GetPixel(int x, int y) const throw()
+COLORREF ImageMask::GetPixel(int x, int y) const throw()
 {
 	int dstX = median_x + route(x);
 	int dstY = median_y + route(y);
+
+	if (dstX < 0)
+	{
+		dstX = 0;
+	}
+
+	if (dstX >= ori_img.GetWidth())
+	{
+		dstX = ori_img.GetWidth() - 1;
+	}
+
+	if (dstY < 0)
+	{
+		dstY = 0;
+	}
+
+	if (dstY >= ori_img.GetHeight())
+	{
+		dstY = ori_img.GetHeight() - 1;
+	}
 
 	return ori_img.GetPixel(dstX,dstY);
 }
 
-void CImageMask::SetPixel(int x, int y, COLORREF color) throw()
+void ImageMask::SetPixel(int x, int y, COLORREF color) throw()
 {
 	int dstX = median_x + route(x);
 	int dstY = median_y + route(y);
+
+	if (dstX < 0 || dstX >= ori_img.GetWidth() || dstY < 0 || dstY >= ori_img.GetHeight())
+	{
+		return;
+	}
 
 	ori_img.SetPixel(dstX, dstY, color);
 }
 
-void CImageMask::SetPixelRGB(int x, int y, BYTE r, BYTE g, BYTE b) throw()
+void ImageMask::SetPixelRGB(int x, int y, BYTE r, BYTE g, BYTE b) throw()
 {
 	int dstX = median_x + route(x);
 	int dstY = median_y + route(y);
+
+	if (dstX < 0 || dstX >= ori_img.GetWidth() || dstY < 0 || dstY >= ori_img.GetHeight())
+	{
+		return;
+	}
 
 	ori_img.SetPixelRGB(dstX, dstY, r, g, b);
 }
