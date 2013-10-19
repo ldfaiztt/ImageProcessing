@@ -12,9 +12,9 @@ private:
 
 public:
 	LogScale();
-	LogScale(shared_ptr<stImgPara> imgP);
+	LogScale(typeImgParaPtr imgP);
 	virtual ~LogScale();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

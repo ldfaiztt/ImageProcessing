@@ -8,7 +8,7 @@ Replication::Replication()
 	dstH = 640;
 }
 
-Replication::Replication(shared_ptr<stImgPara> imgP)
+Replication::Replication(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
@@ -27,12 +27,12 @@ Replication::~Replication()
 {
 }
 
-shared_ptr<CImage> Replication::transit(shared_ptr<CImage> src) 
+typeImgPtr Replication::transit(typeImgPtr src) 
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
 
-	shared_ptr<CImage> dst(new CImage());
+	typeImgPtr dst(new CImage());
 	dst->Create(dstW, dstH, src->GetBPP());
 
 	int gcdW = Gcd(dstW, srcW);
@@ -43,11 +43,23 @@ shared_ptr<CImage> Replication::transit(shared_ptr<CImage> src)
 	int srcW_G = srcW / gcdW;
 	int srcH_G = srcH / gcdH;
 
-	for (int i = 0; i < dstW; i++)
+	int srcRowBytes = src->GetPitch();
+	int srcClrCount = src->GetBPP() / 8;
+	int dstRowBytes = dst->GetPitch();
+	int dstClrCount = dst->GetBPP() / 8;
+
+	for (int index = 0; index < dstClrCount; index++)
 	{
-		for (int j = 0; j < dstH; j++)
+		byte * srcBuf = (byte *)src->GetBits();
+		byte * dstBuf = (byte *)dst->GetBits();
+
+		for (int i = 0; i < dstH; i++)
 		{
-			dst->SetPixel(i, j, src->GetPixel(i / (dstW_G / srcW_G), j / (dstH_G / srcH_G)));
+			for (int j = 0; j < dstW; j++)
+			{
+				byte g = srcBuf[(i / (dstH_G / srcH_G)) * srcRowBytes + (j / (dstW_G / srcW_G)) * srcClrCount + index];
+				dstBuf[i * dstRowBytes + j * dstClrCount + index] = g;
+			}
 		}
 	}
 

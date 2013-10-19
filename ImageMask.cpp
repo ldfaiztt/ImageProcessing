@@ -33,6 +33,11 @@ int ImageMask::GetWidth() const throw()
 	return mask_size;
 }
 
+int ImageMask::GetBPP() const
+{
+	return ori_img.GetBPP();
+}
+
 COLORREF ImageMask::GetPixel(int x, int y) const throw()
 {
 	int dstX = median_x + route(x);

@@ -12,9 +12,9 @@ protected:
 
 public:
 	HistogramMatch();
-	HistogramMatch(shared_ptr<stImgPara> imgP);
+	HistogramMatch(typeImgParaPtr imgP);
 	virtual ~HistogramMatch();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

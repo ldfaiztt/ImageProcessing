@@ -14,6 +14,6 @@ public:
 	HistogramLocal(shared_ptr<stImgPara> imgP);
 	virtual ~HistogramLocal();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

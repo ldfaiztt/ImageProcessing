@@ -7,7 +7,7 @@ Subsampling::Subsampling()
 	dstH = 160;
 }
 
-Subsampling::Subsampling(shared_ptr<stImgPara> imgP)
+Subsampling::Subsampling(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
@@ -26,13 +26,13 @@ Subsampling::~Subsampling()
 {
 }
 
-shared_ptr<CImage> Subsampling::transit(shared_ptr<CImage> src) 
+typeImgPtr Subsampling::transit(typeImgPtr src) 
 {
 
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
 
-	shared_ptr<CImage> dst(new CImage());
+	typeImgPtr dst(new CImage());
 	dst->Create(dstW, dstH, src->GetBPP());
 
 	int gcdW = Gcd(dstW, srcW);
@@ -43,11 +43,23 @@ shared_ptr<CImage> Subsampling::transit(shared_ptr<CImage> src)
 	int srcW_G = srcW / gcdW;
 	int srcH_G = srcH / gcdH;
 
-	for (int i = 0; i < dstW; i++)
+	int srcRowBytes = src->GetPitch();
+	int srcClrCount = src->GetBPP() / 8;
+	int dstRowBytes = dst->GetPitch();
+	int dstClrCount = dst->GetBPP() / 8;
+
+	for (int index = 0; index < dstClrCount; index++)
 	{
-		for (int j = 0; j < dstH; j++)
+		byte * srcBuf = (byte *)src->GetBits();
+		byte * dstBuf = (byte *)dst->GetBits();
+
+		for (int i = 0; i < dstH; i++)
 		{
-			dst->SetPixel(i, j, src->GetPixel(i*srcW_G / dstW_G, j*srcH_G / dstH_G));
+			for (int j = 0; j < dstW; j++)
+			{
+				byte g = srcBuf[(i * (srcH_G / dstH_G)) * srcRowBytes + (j * (srcW_G / dstW_G)) * srcClrCount + index];
+				dstBuf[i * dstRowBytes + j * dstClrCount + index] = g;
+			}
 		}
 	}
 

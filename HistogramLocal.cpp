@@ -61,12 +61,12 @@ shared_ptr<type_statistic_map> HistogramLocal::Statistic(shared_ptr<ImageMask> s
 	return scale_sum_map;
 }
 
-shared_ptr<CImage> HistogramLocal::transit(shared_ptr<CImage> src)
+typeImgPtr HistogramLocal::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
 
-	shared_ptr<CImage> dst(new CImage());
+	typeImgPtr dst(new CImage());
 	dst->Create(srcW, srcH, src->GetBPP());
 
 	for (int i = 0; i < srcW; i++)

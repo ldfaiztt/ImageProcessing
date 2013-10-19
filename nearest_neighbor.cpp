@@ -8,7 +8,7 @@ NearestNeighbor::NearestNeighbor()
 	dstH = 640;
 }
 
-NearestNeighbor::NearestNeighbor(shared_ptr<stImgPara> imgP)
+NearestNeighbor::NearestNeighbor(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
@@ -27,38 +27,47 @@ NearestNeighbor::~NearestNeighbor()
 {
 }
 
-shared_ptr<CImage> NearestNeighbor::transit(shared_ptr<CImage> src)
+typeImgPtr NearestNeighbor::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
-
-	shared_ptr<CImage> dst(new CImage());
+	
+	typeImgPtr dst(new CImage());
 	dst->Create(dstW, dstH, src->GetBPP());
 
 	int ratioX = ((srcW << 16) / dstW) + 1;
 	int ratioH = ((srcH << 16) / dstH) + 1;
 
-	//int * srcArr = (int *)src->GetBits();
-	//int * dstArr = (int *)dst->GetBits();
+	int srcRowBytes = src->GetPitch();
+	int srcClrCount = src->GetBPP() / 8;
+	int dstRowBytes = dst->GetPitch();
+	int dstClrCount = dst->GetBPP() / 8;
 
-	for (int i = 0; i < dstH; i++)
+	for (int index = 0; index < dstClrCount; index++)
 	{
-		for (int j = 0; j < dstW; j++)
+		byte * srcBuf = (byte *)src->GetBits();
+		byte * dstBuf = (byte *)dst->GetBits();
+
+		for (int i = 0; i < dstH; i++)
 		{
-			int dstX = (i * ratioX) >> 16;
-			int dstY = (j * ratioH) >> 16;
-
-			if (dstY >= srcW)
+			for (int j = 0; j < dstW; j++)
 			{
-				dstY = srcW - 1;
-			}
+				int srcX = (i * ratioX) >> 16;
+				int srcY = (j * ratioH) >> 16;
 
-			if (dstX >= srcH)
-			{
-				dstX = srcH - 1;
-			}
+				if (srcY >= srcW)
+				{
+					srcY = srcW - 1;
+				}
 
-			dst->SetPixel(j, i, src->GetPixel(dstY, dstX));
+				if (srcX >= srcH)
+				{
+					srcX = srcH - 1;
+				}
+
+				byte g = srcBuf[srcX * srcRowBytes + srcY * srcClrCount + index];
+				dstBuf[i * dstRowBytes + j * dstClrCount + index] = g;
+			}
 		}
 	}
 

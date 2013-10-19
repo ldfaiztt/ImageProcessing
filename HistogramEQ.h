@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <vector>
 #include "TransImage.h"
 
 typedef int stKey;
@@ -10,12 +11,12 @@ class HistogramEQ :
 	public TransImage
 {
 protected:
-	shared_ptr<type_statistic_map> Statistic(shared_ptr<CImage> src);
+	int Statistic(typeImgPtr src, vector<shared_ptr<type_statistic_map>> & scale_statistic_maps);
 public:
 	HistogramEQ();
-	HistogramEQ(shared_ptr<stImgPara>);
+	HistogramEQ(typeImgParaPtr);
 	virtual ~HistogramEQ();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

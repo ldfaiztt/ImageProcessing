@@ -8,17 +8,15 @@ LogScale::LogScale()
 	//y = 1.0;
 }
 
-LogScale::LogScale(shared_ptr<stImgPara> imgP)
+LogScale::LogScale(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
 		c = 20.0;
-		//y = 1.0;
 	}
 	else
 	{
 		c = imgP->c;
-		//y = imgP->y;
 	}
 
 }
@@ -33,29 +31,33 @@ int LogScale::Log(int inV)
 	return (floor)(log(1 + inV) * c);
 }
 
-shared_ptr<CImage> LogScale::transit(shared_ptr<CImage> src)
+typeImgPtr LogScale::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
+	int srcRowBytes = src->GetPitch();
+	int srcClrCount = src->GetBPP() / 8;
 
-	shared_ptr<CImage> dst(new CImage());
+	typeImgPtr dst(new CImage());
 	dst->Create(srcW, srcH, src->GetBPP());
 
+	int dstW = dst->GetWidth();
+	int dstH = dst->GetHeight();
+	int dstRowBytes = dst->GetPitch();
+	int dstClrCount = dst->GetBPP() / 8;
 
-	for (int i = 0; i < srcW; i++)
+	for (int index = 0; index < dstClrCount; index++)
 	{
-		for (int j = 0; j < srcH; j++)
+		byte * srcBuf = (byte *)src->GetBits();
+		byte * dstBuf = (byte *)dst->GetBits();
+
+		for (int i = 0; i < dstH; i++)
 		{
-			COLORREF pixel = src->GetPixel(i, j);
-			int rr = GetRValue(pixel);
-			int rg = GetGValue(pixel);
-			int rb = GetBValue(pixel);
-
-			int sr = Log(rr);
-			int sg = Log(rg);
-			int sb = Log(rb);
-
-			dst->SetPixelRGB(i, j, sr, sg, sb);
+			for (int j = 0; j < dstW; j++)
+			{
+				byte r = srcBuf[i * srcRowBytes + j * srcClrCount + index];
+				dstBuf[i * dstRowBytes + j * dstClrCount + index] = Log(r);
+			}
 		}
 	}
 

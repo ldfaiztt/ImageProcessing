@@ -9,9 +9,9 @@ private:
 
 public:
 	Subsampling();
-	Subsampling(shared_ptr<stImgPara> imgP);
+	Subsampling(typeImgParaPtr imgP);
 	virtual ~Subsampling();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

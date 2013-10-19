@@ -19,7 +19,7 @@ TransImage::TransImage()
 {
 }
 
-TransImage::TransImage(shared_ptr<stImgPara> imgP)
+TransImage::TransImage(typeImgParaPtr imgP)
 {
 }
 
@@ -28,7 +28,23 @@ TransImage::~TransImage()
 {
 }
 
-TransImage * TransImage::CreateTransition(Transitions tsType, shared_ptr<stImgPara> imgP)
+byte * TransImage::getImgBuff(typeImgPtr src)
+{
+	byte *pData = NULL;
+
+	if (src->GetPitch() < 0)
+	{
+		pData = (BYTE*)src->GetBits() + (src->GetPitch()*(src->GetHeight() - 1));
+	}
+	else
+	{
+		pData = (BYTE*)src->GetBits();
+	}
+
+	return pData;
+}
+
+TransImage * TransImage::CreateTransition(Transitions tsType, typeImgParaPtr imgP)
 {
 	switch (tsType)
 	{
@@ -82,7 +98,7 @@ TransImage * TransImage::CreateTransition(Transitions tsType, shared_ptr<stImgPa
 	}
 }
 
-shared_ptr<CImage> TransImage::transit_img(shared_ptr<CImage> src, Transitions tsType, shared_ptr<stImgPara> imgP /*= NULL*/)
+typeImgPtr TransImage::transit_img(typeImgPtr src, Transitions tsType, typeImgParaPtr imgP /*= NULL*/)
 {
 	unique_ptr<TransImage> trs = unique_ptr<TransImage>(CreateTransition(tsType,imgP));
 	if (trs == NULL)

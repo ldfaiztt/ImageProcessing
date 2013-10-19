@@ -11,9 +11,9 @@ private:
 
 public:
 	PowerScale();
-	PowerScale(shared_ptr<stImgPara> imgP);
+	PowerScale(typeImgParaPtr imgP);
 	virtual ~PowerScale();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

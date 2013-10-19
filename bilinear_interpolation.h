@@ -9,9 +9,9 @@ private:
 
 public:
 	BilinearInterpolation();
-	BilinearInterpolation(shared_ptr<stImgPara> imgP);
+	BilinearInterpolation(typeImgParaPtr imgP);
 	virtual ~BilinearInterpolation();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

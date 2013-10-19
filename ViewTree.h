@@ -11,7 +11,7 @@ using namespace std;
 struct stTreeItemInfo
 {
 	shared_ptr<CChildFrame> frame;
-	shared_ptr<CImage> img;
+	typeImgPtr img;
 	bool NeedToUpdate;
 	Transitions tsType;
 	CString strType;
@@ -25,7 +25,7 @@ struct stTreeItemInfo
 		strType = _T("");
 	}
 
-	stTreeItemInfo(CChildFrame * f, shared_ptr<CImage> i, Transitions t, bool ntu = true)
+	stTreeItemInfo(CChildFrame * f, typeImgPtr i, Transitions t, bool ntu = true)
 	{
 		frame = shared_ptr<CChildFrame>(f);
 		img = i;

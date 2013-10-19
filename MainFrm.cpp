@@ -517,7 +517,7 @@ CMDIChildWndEx* CMainFrame::CreateNewWindow(LPCTSTR lpcszDocName, CObject* pObj)
 	return DYNAMIC_DOWNCAST(CMDIChildWndEx, pView->GetParentFrame());
 }
 
-void CMainFrame::RefreshClassView(shared_ptr<stImgPara> imgP)
+void CMainFrame::RefreshClassView(typeImgParaPtr imgP)
 {
 	m_wndClassView.Refresh(imgP);
 }

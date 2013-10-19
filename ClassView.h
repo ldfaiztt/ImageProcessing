@@ -30,10 +30,10 @@ protected:
 
 protected:
 	void FillClassView();
-	stTreeItemInfo * TransImg(shared_ptr<stImgPara> imgP);
+	stTreeItemInfo * TransImg(typeImgParaPtr imgP);
 
 public:
-	void Refresh(shared_ptr<stImgPara> imgP);
+	void Refresh(typeImgParaPtr imgP);
 
 // Overrides
 public:

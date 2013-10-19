@@ -7,7 +7,7 @@ HistogramEQ::HistogramEQ()
 {
 }
 
-HistogramEQ::HistogramEQ(shared_ptr<stImgPara>)
+HistogramEQ::HistogramEQ(typeImgParaPtr)
 {
 
 }
@@ -16,66 +16,84 @@ HistogramEQ::~HistogramEQ()
 {
 }
 
-shared_ptr<type_statistic_map> HistogramEQ::Statistic(shared_ptr<CImage> src)
+int HistogramEQ::Statistic(typeImgPtr src, vector<shared_ptr<type_statistic_map>> & scale_statistic_maps)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
+	int srcRowBytes = src->GetPitch();
+	int srcClrCount = src->GetBPP() / 8;
 
-	type_statistic_map scale_count_map;
-
-	for (int i = 0; i < srcW; i++)
+	for (int index = 0; index < srcClrCount; index++)
 	{
-		for (int j = 0; j < srcH; j++)
+		byte * buf = (byte *)src->GetBits();
+		
+		type_statistic_map scale_count_map;
+		for (int i = 0; i < srcH; i++)
 		{
-			COLORREF pixel = src->GetPixel(i, j);
-			int r = GetRValue(pixel);
-
-			type_statistic_map::iterator it = scale_count_map.find(r);
-			if (it != scale_count_map.end())
+			for (int j = 0; j < srcW; j++)
 			{
-				it->second += 1;
-			}
-			else
-			{
-				scale_count_map.insert({ r, 1 });
+				byte r = buf[i*srcRowBytes + j*srcClrCount + index];
+				type_statistic_map::iterator it = scale_count_map.find(r);
+				if (it != scale_count_map.end())
+				{
+					it->second += 1;
+				}
+				else
+				{
+					scale_count_map.insert({ r, 1 });
+				}
 			}
 		}
+
+		int sum = 0;
+		
+		shared_ptr<type_statistic_map> scale_sum_map(new type_statistic_map());
+		for (type_statistic_map::iterator it = scale_count_map.begin(); it != scale_count_map.end(); ++it)
+		{
+			sum += it->second;
+			scale_sum_map->insert({ it->first, sum });
+		}
+
+		scale_statistic_maps.push_back(scale_sum_map);
 	}
 
-	int sum = 0;
-	shared_ptr<type_statistic_map> scale_sum_map(new type_statistic_map());
-	for (type_statistic_map::iterator it = scale_count_map.begin(); it != scale_count_map.end(); ++it)
-	{
-		sum += it->second;
-		scale_sum_map->insert({ it->first, sum });
-	}
-
-	return scale_sum_map;
+	return 0;
 }
 
-shared_ptr<CImage> HistogramEQ::transit(shared_ptr<CImage> src)
+typeImgPtr HistogramEQ::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
+	int srcRowBytes = src->GetPitch();
+	int srcClrCount = src->GetBPP() / 8;
 
-	shared_ptr<type_statistic_map> statistic_map = Statistic(src);
+	vector<shared_ptr<type_statistic_map>> statistic_maps;
+	Statistic(src,statistic_maps);
 
-	shared_ptr<CImage> dst(new CImage());
+	typeImgPtr dst(new CImage());
 	dst->Create(srcW, srcH, src->GetBPP());
 
-	for (int i = 0; i < srcW; i++)
+	int dstW = dst->GetWidth();
+	int dstH = dst->GetHeight();
+	int dstRowBytes = dst->GetPitch();
+	int dstClrCount = dst->GetBPP() / 8;
+
+	for (int index = 0; index < dstClrCount; index++)
 	{
-		for (int j = 0; j < srcH; j++)
+		byte * srcBuf = (byte *)src->GetBits();
+		byte * dstBuf = (byte *)dst->GetBits();
+
+		for (int i = 0; i < srcH; i++)
 		{
-			COLORREF pixel = src->GetPixel(i, j);
-			int r = GetRValue(pixel);
+			for (int j = 0; j < srcW; j++)
+			{
+				byte r = srcBuf[i * srcRowBytes + j * srcClrCount + index];
+				int sum = statistic_maps[index]->at(r);
+				int L = (--statistic_maps[index]->end())->first;
 
-			int sum = statistic_map->at(r);
-			int L = (--statistic_map->end())->first;
-
-			int g = (sum * L) / (srcH * srcW);
-
-			dst->SetPixelRGB(i, j, g, g, g);
+				int g = (sum * L) / (srcH * srcW);
+				dstBuf[i * dstRowBytes + j * dstClrCount + index] = g;
+			}
 		}
 	}
 

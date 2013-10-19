@@ -31,7 +31,7 @@ CImageProcessingDoc::CImageProcessingDoc()
 {
 	// TODO: add one-time construction code here
 	//img = ((CImageProcessingApp *)AfxGetApp())->img;
-	//img = std::shared_ptr<CImage>(new CImage());
+	//img = std::typeImgPtr(new CImage());
 	//img.Load(_T("P1000528.JPG"));
 }
 

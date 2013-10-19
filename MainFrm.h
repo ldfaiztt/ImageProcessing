@@ -63,7 +63,7 @@ protected:
 public:
 	void RefreshChildFrm(stTreeItemInfo * item);
 	void RefreshGravingFrm(stTreeItemInfo * item);
-	void RefreshClassView(shared_ptr<stImgPara> imgP);
+	void RefreshClassView(typeImgParaPtr imgP);
 };
 
 

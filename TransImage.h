@@ -28,17 +28,21 @@ struct stImgPara
 	CString filePath;
 };
 
+typedef shared_ptr<CImage> typeImgPtr;
+typedef shared_ptr<stImgPara> typeImgParaPtr;
+
 class TransImage
 {
+protected:
+	int Gcd(int a, int b);
+	byte * getImgBuff(typeImgPtr src);
 public:
 	TransImage();
-	TransImage(shared_ptr<stImgPara> imgP);
+	TransImage(typeImgParaPtr imgP);
 	virtual ~TransImage();
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src) = 0;
+	virtual typeImgPtr transit(typeImgPtr src) = 0;
 
-	int Gcd(int a, int b);
-
-	static TransImage * CreateTransition(Transitions tsType,shared_ptr<stImgPara> imgP);
-	static shared_ptr<CImage> transit_img(shared_ptr<CImage> src, Transitions tsType, shared_ptr<stImgPara> imgP = NULL);
+	static TransImage * CreateTransition(Transitions tsType,typeImgParaPtr imgP);
+	static typeImgPtr transit_img(typeImgPtr src, Transitions tsType, typeImgParaPtr imgP = NULL);
 };
 

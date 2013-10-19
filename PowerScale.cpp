@@ -8,7 +8,7 @@ PowerScale::PowerScale()
 	y = 1.0;
 }
 
-PowerScale::PowerScale(shared_ptr<stImgPara> imgP)
+PowerScale::PowerScale(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
@@ -33,29 +33,33 @@ int PowerScale::Pow(int inV)
 	return (floor)(pow(inV, y) * c);
 }
 
-shared_ptr<CImage> PowerScale::transit(shared_ptr<CImage> src)
+typeImgPtr PowerScale::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
+	int srcRowBytes = src->GetPitch();
+	int srcClrCount = src->GetBPP() / 8;
 
-	shared_ptr<CImage> dst(new CImage());
+	typeImgPtr dst(new CImage());
 	dst->Create(srcW, srcH, src->GetBPP());
 
+	int dstW = dst->GetWidth();
+	int dstH = dst->GetHeight();
+	int dstRowBytes = dst->GetPitch();
+	int dstClrCount = dst->GetBPP() / 8;
 
-	for (int i = 0; i < srcW; i++)
+	for (int index = 0; index < dstClrCount; index++)
 	{
-		for (int j = 0; j < srcH; j++)
+		byte * srcBuf = (byte *)src->GetBits();
+		byte * dstBuf = (byte *)dst->GetBits();
+
+		for (int i = 0; i < dstH; i++)
 		{
-			COLORREF pixel = src->GetPixel(i, j);
-			int rr = GetRValue(pixel);
-			int rg = GetGValue(pixel);
-			int rb = GetBValue(pixel);
-
-			int sr = Pow(rr);
-			int sg = Pow(rg);
-			int sb = Pow(rb);
-
-			dst->SetPixelRGB(i, j, sr, sg, sb);
+			for (int j = 0; j < dstW; j++)
+			{
+				byte r = srcBuf[i * srcRowBytes + j * srcClrCount + index];
+				dstBuf[i * dstRowBytes + j * dstClrCount + index] = Pow(r);
+			}
 		}
 	}
 

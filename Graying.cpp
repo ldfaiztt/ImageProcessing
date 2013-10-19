@@ -15,14 +15,14 @@ Graying::~Graying()
 {
 }
 
-shared_ptr<CImage> Graying::transit(shared_ptr<CImage> src)
+typeImgPtr Graying::transit(typeImgPtr src)
 {
 	if (src->IsNull())
 	{
 		return src;
 	}
 
-	shared_ptr<CImage> dst(new CImage());
+	typeImgPtr dst(new CImage());
 	dst->Create(src->GetWidth(), src->GetHeight(), src->GetBPP(), 0);
 
 	if (!src->IsIndexed())
@@ -51,7 +51,7 @@ shared_ptr<CImage> Graying::transit(shared_ptr<CImage> src)
 		src->GetColorTable(0, maxColors, lpColorTable);
 		for (int i = 0; i < maxColors; i++)
 		{
-			int avg = (lpColorTable[i].rgbRed + lpColorTable[i].rgbGreen + lpColorTable[i].rgbBlue) / 3;
+			int avg = (lpColorTable[i].rgbRed * 0.3) + (lpColorTable[i].rgbGreen * 0.59) + (lpColorTable[i].rgbBlue * 0.11);
 			lpColorTable[i].rgbRed = avg;
 			lpColorTable[i].rgbGreen = avg;
 			lpColorTable[i].rgbBlue = avg;

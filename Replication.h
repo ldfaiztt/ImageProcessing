@@ -9,9 +9,9 @@ private:
 
 public:
 	Replication();
-	Replication(shared_ptr<stImgPara> imgP);
+	Replication(typeImgParaPtr imgP);
 	virtual ~Replication();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

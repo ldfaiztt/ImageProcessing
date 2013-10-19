@@ -151,7 +151,7 @@ void CPropertiesWnd::OnProperties2()
 	CString strY = pY->GetValue();
 	CString strPath = pPath->GetValue();
 
-	shared_ptr<stImgPara> imgP(new stImgPara);
+	typeImgParaPtr imgP(new stImgPara);
 	imgP->height = _wtoi(strH);
 	imgP->width = _wtoi(strW);
 	imgP->c = _wtof(strC);

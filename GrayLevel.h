@@ -10,9 +10,9 @@ private:
 
 public:
 	GrayLevel();
-	GrayLevel(shared_ptr<stImgPara> imgP);
+	GrayLevel(typeImgParaPtr imgP);
 	virtual ~GrayLevel();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

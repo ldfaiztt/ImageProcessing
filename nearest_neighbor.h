@@ -9,9 +9,9 @@ private:
 
 public:
 	NearestNeighbor();
-	NearestNeighbor(shared_ptr<stImgPara> imgP);
+	NearestNeighbor(typeImgParaPtr imgP);
 	virtual ~NearestNeighbor();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

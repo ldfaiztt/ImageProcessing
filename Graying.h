@@ -5,9 +5,9 @@ class Graying :
 {
 public:
 	Graying();
-	Graying(shared_ptr<stImgPara> imgP);
+	Graying(typeImgParaPtr imgP);
 	virtual ~Graying();
 
-	virtual shared_ptr<CImage> transit(shared_ptr<CImage> src);
+	virtual typeImgPtr transit(typeImgPtr src);
 };
 

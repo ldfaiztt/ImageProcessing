@@ -17,7 +17,7 @@ public:
 
 	int GetHeight() const throw();
 	int GetWidth() const throw();
-
+	int GetBPP() const;
 	COLORREF GetPixel(int x, int y) const throw();
 	void SetPixel(int x,int y, COLORREF color) throw();
 	void SetPixelRGB(int x, int y, BYTE r, BYTE g, BYTE b) throw();

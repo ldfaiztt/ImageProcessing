@@ -6,11 +6,11 @@ HistogramMatch::HistogramMatch()
 	filePath = L"IMG_6706.jpg";
 }
 
-HistogramMatch::HistogramMatch(shared_ptr<stImgPara> imgP)
+HistogramMatch::HistogramMatch(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
-		filePath = L"IMG_6706.jpg";
+		filePath = L"IMG_0731.jpg";
 	}
 	else
 	{
@@ -48,29 +48,44 @@ stKey HistogramMatch::MatchValInMap(shared_ptr<type_statistic_map> map, stVal va
 	return (--map->end())->first;
 }
 
-shared_ptr<CImage> HistogramMatch::transit(shared_ptr<CImage> src)
+typeImgPtr HistogramMatch::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
+	int srcRowBytes = src->GetPitch();
+	int srcClrCount = src->GetBPP() / 8;
 
 	CImage match_img;
 	match_img.Load(filePath);
-	shared_ptr<type_statistic_map> match_map = Statistic(make_shared<CImage>(match_img));
 
-	shared_ptr<type_statistic_map> src_map = Statistic(src);
+	vector<shared_ptr<type_statistic_map>> match_maps;
+	Statistic(make_shared<CImage>(match_img), match_maps);
 
-	shared_ptr<CImage> dst(new CImage());
+	vector<shared_ptr<type_statistic_map>> src_maps;
+	Statistic(src,src_maps);
+
+	typeImgPtr dst(new CImage());
 	dst->Create(srcW, srcH, src->GetBPP());
+
+	int dstW = dst->GetWidth();
+	int dstH = dst->GetHeight();
+	int dstRowBytes = dst->GetPitch();
+	int dstClrCount = dst->GetBPP() / 8;
 	
-	for (int i = 0; i < srcW; i++)
+	for (int index = 0; index < dstClrCount; index++)
 	{
-		for (int j = 0; j < srcH; j++)
+		byte * srcBuf = (byte *)src->GetBits();
+		byte * dstBuf = (byte *)dst->GetBits();
+
+		for (int i = 0; i < srcH; i++)
 		{
-			COLORREF pixel = src->GetPixel(i, j);
-			int r = GetRValue(pixel);
-			stKey g = MatchValInMap(match_map, src_map->at(r));
-			
-			dst->SetPixelRGB(i, j, g, g, g);
+			for (int j = 0; j < srcW; j++)
+			{
+				byte r = srcBuf[i * srcRowBytes + j * srcClrCount + index];
+				stKey g = MatchValInMap(match_maps[index % match_maps.size()], src_maps[index]->at(r));
+				
+				dstBuf[i * dstRowBytes + j * dstClrCount + index] = g;
+			}
 		}
 	}
 
