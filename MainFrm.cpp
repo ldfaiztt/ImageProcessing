@@ -45,8 +45,6 @@ CMainFrame::CMainFrame()
 {
 	// TODO: add member initialization code here
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
-
-	m_wndGraving = NULL;
 }
 
 CMainFrame::~CMainFrame()
@@ -438,20 +436,8 @@ void CMainFrame::RefreshChildFrm(stTreeItemInfo * item)
 {
 	if (item->frame == NULL)
 	{
-		//HINSTANCE hInst = AfxGetResourceHandle();
-		//HMENU m_hMDIMenu = ::LoadMenu(hInst, MAKEINTRESOURCE(IDR_CHILDFRAME));
-		//HACCEL m_hMDIAccel = ::LoadAccelerators(hInst, MAKEINTRESOURCE(IDR_CHILDFRAME));
-		//CChildFrame * child = (CChildFrame * )CreateNewChild(RUNTIME_CLASS(CChildFrame), IDR_CHILDFRAME, m_hMDIMenu, m_hMDIAccel);
-
-		//POSITION pos = AfxGetApp()->GetFirstDocTemplatePosition();
-		//CDocTemplate* pTemplate = AfxGetApp()->GetNextDocTemplate(pos);  //This is the first template
-		//pTemplate = AfxGetApp()->GetNextDocTemplate(pos);  //But, I want the second one
-		//CImageProcessingDoc * pDoc = (CImageProcessingDoc *)pTemplate->OpenDocumentFile(NULL);  //This create and shows the new document (whose class I called CSimulatorDoc)
-
-		//shared_ptr<CChildFrame>((CChildFrame *)CreateDocumentWindow(_T("P1000528.JPG"), (CObject *)item));
-		item->frame = shared_ptr<CChildFrame>((CChildFrame *)CreateNewWindow(_T("P1000528.JPG") + item->strType, (CObject *)item));
-		//((CImageProcessingDoc *)GetActiveDocument())->img.Destroy();
-		//((CImageProcessingDoc *)GetActiveDocument())->img = *(item->img);
+		//item->frame = (CChildFrame *)CreateNewWindow(_T("P1000528.JPG") + item->strType, (CObject *)item);
+		item->frame = (CChildFrame *)CreateNewWindow(_T(""), (CObject *)item);
 		(item->frame)->img = item->img;
 		item->frame->RecalcLayout();
 	}
@@ -461,27 +447,6 @@ void CMainFrame::RefreshChildFrm(stTreeItemInfo * item)
 		item->frame->MDIActivate();
 		item->frame->RecalcLayout();
 		item->frame->GetActiveView()->Invalidate();
-	}
-}
-
-void CMainFrame::RefreshGravingFrm(stTreeItemInfo * item)
-{
-	if (m_wndGraving == NULL)
-	{
-		HINSTANCE hInst = AfxGetResourceHandle();
-		HMENU m_hMDIMenu = ::LoadMenu(hInst, MAKEINTRESOURCE(IDR_CHILDFRAME));
-		HACCEL m_hMDIAccel = ::LoadAccelerators(hInst, MAKEINTRESOURCE(IDR_CHILDFRAME));
-
-		m_wndGraving = (CGrayingFrame *)CreateNewChild(RUNTIME_CLASS(CGrayingFrame), IDR_CHILDFRAME, m_hMDIMenu, m_hMDIAccel);
-
-		m_wndGraving->img = *item->img;
-		m_wndGraving->AdjustLayout();
-		m_wndGraving->SetFocus();
-	}
-	else if (m_wndGraving->GetSafeHwnd())
-	{
-		m_wndGraving->AdjustLayout();
-		m_wndGraving->SetFocus();
 	}
 }
 
@@ -521,3 +486,9 @@ void CMainFrame::RefreshClassView(typeImgParaPtr imgP)
 {
 	m_wndClassView.Refresh(imgP);
 }
+
+void CMainFrame::RefreshClassView(CChildFrame * child)
+{
+	m_wndClassView.Refresh(child);
+}
+

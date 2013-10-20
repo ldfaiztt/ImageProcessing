@@ -19,9 +19,7 @@ CViewTree::~CViewTree()
 }
 
 BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
-//	ON_WM_LBUTTONDBLCLK()
-//	ON_WM_CONTEXTMENU()
-//	ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
+
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -74,9 +72,36 @@ const DWORD_PTR CViewTree::getParentItemInfo(void)
 	return data;
 }
 
-//void CViewTree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
-//{
-//	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
-//	// TODO: Add your control notification handler code here
-//	*pResult = 0;
-//}
+void CViewTree::ClearShowFrame(CViewTree & tree, HTREEITEM hItem, CChildFrame * target)
+{
+	stTreeItemInfo * item = (stTreeItemInfo *)tree.GetItemData(hItem);
+
+	if (item->frame == target)
+	{
+		item->frame = NULL;
+	}
+}
+
+void CViewTree::ClearShowPtr( CChildFrame * target)
+{
+	HTREEITEM hRoot = GetRootItem();
+	while (hRoot)
+	{
+		TreeVisit(*this, hRoot, target);
+		hRoot = GetNextItem(hRoot, TVGN_NEXT);
+	}
+}
+
+void CViewTree::TreeVisit(CViewTree & tree, HTREEITEM hItem, CChildFrame * target)
+{
+	ClearShowFrame(tree, hItem, target);
+	if (tree.ItemHasChildren(hItem))
+	{
+		HTREEITEM hChildItem = tree.GetChildItem(hItem);
+		while (hChildItem != NULL)
+		{
+			TreeVisit(tree, hChildItem, target);
+			hChildItem = tree.GetNextItem(hChildItem, TVGN_NEXT);
+		}
+	}
+}

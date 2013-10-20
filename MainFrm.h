@@ -7,7 +7,6 @@
 #include "ClassView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
-#include "GravingFrm.h"
 
 class CMainFrame : public CMDIFrameWndEx
 {
@@ -44,8 +43,6 @@ protected:  // control bar embedded members
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 
-	CGrayingFrame * m_wndGraving;
-
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -62,8 +59,8 @@ protected:
 
 public:
 	void RefreshChildFrm(stTreeItemInfo * item);
-	void RefreshGravingFrm(stTreeItemInfo * item);
 	void RefreshClassView(typeImgParaPtr imgP);
+	void RefreshClassView(CChildFrame * child);
 };
 
 

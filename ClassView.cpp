@@ -181,14 +181,6 @@ void CClassView::AdjustLayout()
 	m_wndClassView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-void CClassView::OnTvnSelchanged()
-{
-	//LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
-	// TODO: Add your control notification handler code here
-	//*pResult = 0;
-	int r = 0;
-}
-
 BOOL CClassView::PreTranslateMessage(MSG* pMsg)
 {
 	if (pMsg->message == WM_LBUTTONDBLCLK && pMsg->hwnd == m_wndClassView.GetSafeHwnd())
@@ -200,17 +192,6 @@ BOOL CClassView::PreTranslateMessage(MSG* pMsg)
 
 		//return   TRUE;//   TRUE,   msg   is   processed   
 	}
-
-	if (pMsg->message == TVN_SELCHANGED && pMsg->hwnd == m_wndClassView.GetSafeHwnd())
-	{
-		OnTvnSelchanged();
-
-		::TranslateMessage(pMsg);
-		::DispatchMessage(pMsg);
-
-		//return   TRUE;//   TRUE,   msg   is   processed   
-	}
-
 
 	//   FALSE,   for   further   process   
 	return CDockablePane::PreTranslateMessage(pMsg);
@@ -359,6 +340,11 @@ void CClassView::Refresh(typeImgParaPtr imgP)
 	stTreeItemInfo * item = (stTreeItemInfo *)m_wndClassView.getCurItemInfo();
 	item->NeedToUpdate = true;
 	TransImg(imgP);
+}
+
+void CClassView::Refresh(CChildFrame * showFrame)
+{
+	m_wndClassView.ClearShowPtr(showFrame);
 }
 
 void CClassView::OnLButtonDblClk(UINT nFlags, CPoint point)

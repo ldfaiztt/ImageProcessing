@@ -10,7 +10,7 @@ using namespace std;
 
 struct stTreeItemInfo
 {
-	shared_ptr<CChildFrame> frame;
+	CChildFrame * frame;
 	typeImgPtr img;
 	bool NeedToUpdate;
 	Transitions tsType;
@@ -18,7 +18,7 @@ struct stTreeItemInfo
 
 	stTreeItemInfo()
 	{
-		frame.reset();
+		frame = NULL;
 		img.reset();
 		tsType = Transitions::none;
 		NeedToUpdate = true;
@@ -27,7 +27,7 @@ struct stTreeItemInfo
 
 	stTreeItemInfo(CChildFrame * f, typeImgPtr i, Transitions t, bool ntu = true)
 	{
-		frame = shared_ptr<CChildFrame>(f);
+		frame = f;
 		img = i;
 		tsType = t;
 		NeedToUpdate = ntu;
@@ -101,9 +101,10 @@ public:
 
 protected:
 	DECLARE_MESSAGE_MAP()
+	void ClearShowFrame(CViewTree & tree, HTREEITEM hItem, CChildFrame * target);
+	void TreeVisit(CViewTree & tree, HTREEITEM hItem, CChildFrame * target);
 public:
-	//afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	const DWORD_PTR getCurItemInfo(void);
 	const DWORD_PTR getParentItemInfo(void);
-	//afx_msg void OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult);
+	void ClearShowPtr(CChildFrame * target);
 };

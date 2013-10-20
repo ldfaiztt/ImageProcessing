@@ -63,18 +63,11 @@ void CImageProcessingView::OnDraw(CDC* pDC)
 		return;
 
 	// TODO: add draw code for native data here
-	//if (!pDoc->img.IsNull()) pDoc->img.Draw(pDC->m_hDC, 0, 0);
-
 	CChildFrame * cframe = (CChildFrame *)GetParentFrame();
 	if (cframe->img != NULL && !cframe->img->IsNull())
 	{
 		(cframe->img)->Draw(pDC->m_hDC, 0, 0);
 	}
-
-	//if (!((pDoc->img).IsNull()))
-	//{
-	//	(pDoc->img).Draw(pDC->m_hDC, 0, 0);
-	//}
 }
 
 

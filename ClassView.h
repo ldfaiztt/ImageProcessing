@@ -34,6 +34,7 @@ protected:
 
 public:
 	void Refresh(typeImgParaPtr imgP);
+	void Refresh(CChildFrame * showFrame);
 
 // Overrides
 public:
@@ -55,7 +56,6 @@ protected:
 	afx_msg void OnUpdateSort(CCmdUI* pCmdUI);
 
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-	afx_msg void OnTvnSelchanged();
 
 	DECLARE_MESSAGE_MAP()
 
