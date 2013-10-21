@@ -61,6 +61,7 @@ public:
 	void RefreshChildFrm(stTreeItemInfo * item);
 	void RefreshClassView(typeImgParaPtr imgP);
 	void RefreshClassView(CChildFrame * child);
+	shared_ptr<CImage> getSelectedImg();
 };
 
 

@@ -438,12 +438,12 @@ void CMainFrame::RefreshChildFrm(stTreeItemInfo * item)
 	{
 		//item->frame = (CChildFrame *)CreateNewWindow(_T("P1000528.JPG") + item->strType, (CObject *)item);
 		item->frame = (CChildFrame *)CreateNewWindow(_T(""), (CObject *)item);
-		(item->frame)->img = item->img;
+		(item->frame)->setImg(item->img);
 		item->frame->RecalcLayout();
 	}
 	else if (item->frame->GetSafeHwnd())
 	{
-		(item->frame)->img = item->img;
+		(item->frame)->setImg(item->img);
 		item->frame->MDIActivate();
 		item->frame->RecalcLayout();
 		item->frame->GetActiveView()->Invalidate();
@@ -484,11 +484,16 @@ CMDIChildWndEx* CMainFrame::CreateNewWindow(LPCTSTR lpcszDocName, CObject* pObj)
 
 void CMainFrame::RefreshClassView(typeImgParaPtr imgP)
 {
-	m_wndClassView.Refresh(imgP);
+	return m_wndClassView.Refresh(imgP);
 }
 
 void CMainFrame::RefreshClassView(CChildFrame * child)
 {
-	m_wndClassView.Refresh(child);
+	return m_wndClassView.Refresh(child);
+}
+
+shared_ptr<CImage> CMainFrame::getSelectedImg()
+{
+	return m_wndFileView.getSelectedImg();
 }
 

@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <vector>
 #include "ViewTree.h"
 
 class CFileViewToolBar : public CMFCToolBar
@@ -28,6 +29,8 @@ protected:
 	CViewTree m_wndFileView;
 	CImageList m_FileViewImages;
 	CFileViewToolBar m_wndToolBar;
+	std::vector<CString> fileArray;
+	//std::vector<CImage> imgArray;
 
 protected:
 	void FillFileView();
@@ -51,5 +54,9 @@ protected:
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 
 	DECLARE_MESSAGE_MAP()
+
+public:
+	std::shared_ptr<CImage> getSelectedImg();
+	void RefreshFileView(void);
 };
 

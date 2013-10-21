@@ -14,7 +14,7 @@ public:
 // Attributes
 protected:
 // Operations
-public:
+private:
    std::shared_ptr<CImage> img;
 // Overrides
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -22,6 +22,8 @@ public:
 // Implementation
 public:
 	virtual ~CChildFrame();
+	std::shared_ptr<CImage> showImg();
+	void setImg(std::shared_ptr<CImage> val);
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

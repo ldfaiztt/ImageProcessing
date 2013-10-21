@@ -16,6 +16,8 @@ static char THIS_FILE[]=__FILE__;
 
 CFileView::CFileView()
 {
+	fileArray.push_back(L"P1000528.JPG");
+	fileArray.push_back(L"P1000528_Gray.JPG");
 }
 
 CFileView::~CFileView()
@@ -93,35 +95,57 @@ void CFileView::FillFileView()
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Image files"), 0, 0);
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	HTREEITEM hImg = m_wndFileView.InsertItem(_T("P1000528.JPG"), 2, 2, hRoot);
-	//HTREEITEM hSrc = m_wndFileView.InsertItem(_T("FakeApp Source Files"), 0, 0, hRoot);
+	bool bFirst = true;
+	for each (CString fileName in fileArray)
+	{
+		shared_ptr<CImage> img(new CImage());
+		img->Load(fileName);
+		if (!img->IsNull())
+		{
+			stTreeItemInfo * item = new stTreeItemInfo();
+			item->img = img;
+			HTREEITEM hFile = m_wndFileView.InsertItem(fileName, 2, 2, hRoot);
+			m_wndFileView.SetItemData(hFile, (DWORD_PTR)item);
 
-	//m_wndFileView.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);
-	//m_wndFileView.InsertItem(_T("FakeApp.rc"), 1, 1, hSrc);
-	//m_wndFileView.InsertItem(_T("FakeAppDoc.cpp"), 1, 1, hSrc);
-	//m_wndFileView.InsertItem(_T("FakeAppView.cpp"), 1, 1, hSrc);
-	//m_wndFileView.InsertItem(_T("MainFrm.cpp"), 1, 1, hSrc);
-	//m_wndFileView.InsertItem(_T("StdAfx.cpp"), 1, 1, hSrc);
-
-	//HTREEITEM hInc = m_wndFileView.InsertItem(_T("FakeApp Header Files"), 0, 0, hRoot);
-
-	//m_wndFileView.InsertItem(_T("FakeApp.h"), 2, 2, hInc);
-	//m_wndFileView.InsertItem(_T("FakeAppDoc.h"), 2, 2, hInc);
-	//m_wndFileView.InsertItem(_T("FakeAppView.h"), 2, 2, hInc);
-	//m_wndFileView.InsertItem(_T("Resource.h"), 2, 2, hInc);
-	//m_wndFileView.InsertItem(_T("MainFrm.h"), 2, 2, hInc);
-	//m_wndFileView.InsertItem(_T("StdAfx.h"), 2, 2, hInc);
-
-	//HTREEITEM hRes = m_wndFileView.InsertItem(_T("FakeApp Resource Files"), 0, 0, hRoot);
-
-	//m_wndFileView.InsertItem(_T("FakeApp.ico"), 2, 2, hRes);
-	//m_wndFileView.InsertItem(_T("FakeApp.rc2"), 2, 2, hRes);
-	//m_wndFileView.InsertItem(_T("FakeAppDoc.ico"), 2, 2, hRes);
-	//m_wndFileView.InsertItem(_T("FakeToolbar.bmp"), 2, 2, hRes);
+			if (bFirst)
+			{
+				bFirst = false;
+				m_wndFileView.SelectItem(hFile);
+			}
+		}
+	}
 
 	m_wndFileView.Expand(hRoot, TVE_EXPAND);
-	//m_wndFileView.Expand(hSrc, TVE_EXPAND);
-	//m_wndFileView.Expand(hInc, TVE_EXPAND);
+}
+
+void CFileView::RefreshFileView(void)
+{
+	m_wndFileView.DeleteAllItems();
+
+	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Image files"), 0, 0);
+	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
+
+	bool bFirst = true;
+	for each (CString fileName in fileArray)
+	{
+		shared_ptr<CImage> img(new CImage());
+		img->Load(fileName);
+		if (!img->IsNull())
+		{
+			stTreeItemInfo * item = new stTreeItemInfo();
+			item->img = img;
+			HTREEITEM hFile = m_wndFileView.InsertItem(fileName, 2, 2, hRoot);
+			m_wndFileView.SetItemData(hFile, (DWORD_PTR)item);
+
+			if (bFirst)
+			{
+				bFirst = false;
+				m_wndFileView.SelectItem(hFile);
+			}
+		}
+	}
+
+	m_wndFileView.Expand(hRoot, TVE_EXPAND);
 }
 
 void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
@@ -171,8 +195,22 @@ void CFileView::AdjustLayout()
 
 void CFileView::OnProperties()
 {
-	AfxMessageBox(_T("Properties...."));
-
+	//AfxMessageBox(_T("Properties...."));
+	CFileDialog dlg(TRUE, 
+		NULL,
+		NULL,
+		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+		(LPCTSTR)_TEXT("JPG Files (*.jpg)|*.jpg|All Files (*.*)|*.*||"),
+		NULL);
+	if (dlg.DoModal() == IDOK)
+	{
+		fileArray.push_back(dlg.GetPathName());
+		RefreshFileView();
+	}
+	else
+	{
+		return;
+	}
 }
 
 void CFileView::OnFileOpen()
@@ -254,4 +292,9 @@ void CFileView::OnChangeVisualStyle()
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 }
 
+std::shared_ptr<CImage> CFileView::getSelectedImg()
+{
+	stTreeItemInfo * item = (stTreeItemInfo *)m_wndFileView.getCurItemInfo();
 
+	return item->img;
+}
