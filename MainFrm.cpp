@@ -466,8 +466,8 @@ CMDIChildWndEx* CMainFrame::CreateNewWindow(LPCTSTR lpcszDocName, CObject* pObj)
 		return NULL;
 	}
 
-	//((CImageProcessingDoc *)pDoc)->img = *((stTreeItemInfo *)pObj)->img;
-	//((CImageProcessingDoc *)pDoc)->img.Save(_T("gray.jpg"));
+	//((MyImageProcessingDoc *)pDoc)->img = *((stTreeItemInfo *)pObj)->img;
+	//((MyImageProcessingDoc *)pDoc)->img.Save(_T("gray.jpg"));
 
 	POSITION pos = pDoc->GetFirstViewPosition();
 	if (pos == NULL)
@@ -492,7 +492,7 @@ void CMainFrame::RefreshClassView(CChildFrame * child)
 	return m_wndClassView.Refresh(child);
 }
 
-shared_ptr<CImage> CMainFrame::getSelectedImg()
+shared_ptr<MyImage> CMainFrame::getSelectedImg()
 {
 	return m_wndFileView.getSelectedImg();
 }

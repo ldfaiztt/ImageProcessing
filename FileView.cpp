@@ -98,7 +98,7 @@ void CFileView::FillFileView()
 	bool bFirst = true;
 	for each (CString fileName in fileArray)
 	{
-		shared_ptr<CImage> img(new CImage());
+		shared_ptr<MyImage> img(new MyImage());
 		img->Load(fileName);
 		if (!img->IsNull())
 		{
@@ -128,7 +128,7 @@ void CFileView::RefreshFileView(void)
 	bool bFirst = true;
 	for each (CString fileName in fileArray)
 	{
-		shared_ptr<CImage> img(new CImage());
+		shared_ptr<MyImage> img(new MyImage());
 		img->Load(fileName);
 		if (!img->IsNull())
 		{
@@ -292,7 +292,7 @@ void CFileView::OnChangeVisualStyle()
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 }
 
-std::shared_ptr<CImage> CFileView::getSelectedImg()
+typeImgPtr CFileView::getSelectedImg()
 {
 	stTreeItemInfo * item = (stTreeItemInfo *)m_wndFileView.getCurItemInfo();
 

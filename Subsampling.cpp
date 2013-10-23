@@ -32,8 +32,9 @@ typeImgPtr Subsampling::transit(typeImgPtr src)
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
 
-	typeImgPtr dst(new CImage());
+	typeImgPtr dst(new MyImage());
 	dst->Create(dstW, dstH, src->GetBPP());
+	ResetDstColorTable(src, dst);
 
 	int gcdW = Gcd(dstW, srcW);
 	int gcdH = Gcd(dstH, srcH);

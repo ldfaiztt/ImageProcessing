@@ -30,7 +30,6 @@ protected:
 	CImageList m_FileViewImages;
 	CFileViewToolBar m_wndToolBar;
 	std::vector<CString> fileArray;
-	//std::vector<CImage> imgArray;
 
 protected:
 	void FillFileView();
@@ -56,7 +55,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	std::shared_ptr<CImage> getSelectedImg();
+	typeImgPtr getSelectedImg();
 	void RefreshFileView(void);
 };
 

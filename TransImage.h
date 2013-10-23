@@ -1,5 +1,5 @@
 #pragma once
-#include <memory>
+#include "MyImage.h"
 
 using namespace std;
 
@@ -19,18 +19,6 @@ enum class Transitions
 	histogram_local,
 };
 
-struct stImgPara
-{
-	int width;
-	int height;
-	float c;
-	float y;
-	CString filePath;
-};
-
-typedef shared_ptr<CImage> typeImgPtr;
-typedef shared_ptr<stImgPara> typeImgParaPtr;
-
 class TransImage
 {
 protected:
@@ -40,6 +28,8 @@ public:
 	TransImage();
 	TransImage(typeImgParaPtr imgP);
 	virtual ~TransImage();
+
+	int ResetDstColorTable(typeImgPtr src, typeImgPtr dst);
 	virtual typeImgPtr transit(typeImgPtr src) = 0;
 
 	static TransImage * CreateTransition(Transitions tsType,typeImgParaPtr imgP);

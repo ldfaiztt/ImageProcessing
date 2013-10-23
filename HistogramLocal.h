@@ -3,12 +3,11 @@
 #include "ImageMask.h"
 
 class HistogramLocal :
-	public TransImage
+	public HistogramEQ
 {
 private:
 	int mask_size;
-protected:
-	shared_ptr<type_statistic_map> Statistic(shared_ptr<ImageMask> src);
+	//shared_ptr<type_statistic_map> Statistic(typeImgPtr src);
 public:
 	HistogramLocal();
 	HistogramLocal(shared_ptr<stImgPara> imgP);

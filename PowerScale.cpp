@@ -40,8 +40,9 @@ typeImgPtr PowerScale::transit(typeImgPtr src)
 	int srcRowBytes = src->GetPitch();
 	int srcClrCount = src->GetBPP() / 8;
 
-	typeImgPtr dst(new CImage());
+	typeImgPtr dst(new MyImage());
 	dst->Create(srcW, srcH, src->GetBPP());
+	ResetDstColorTable(src, dst);
 
 	int dstW = dst->GetWidth();
 	int dstH = dst->GetHeight();

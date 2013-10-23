@@ -10,7 +10,7 @@
 #include "resource.h"       // main symbols
 #include <memory>
 
-// CImageProcessingApp:
+// MyImageProcessingApp:
 // See ImageProcessing.cpp for the implementation of this class
 //
 
@@ -29,7 +29,7 @@ public:
 	UINT  m_nAppLook;
 	BOOL  m_bHiColorIcons;
 
-	//CImage img;
+	//MyImage img;
 	int img_count;
 
 	virtual void PreLoadState();

@@ -1,5 +1,5 @@
 
-// ImageProcessingDoc.h : interface of the CImageProcessingDoc class
+// ImageProcessingDoc.h : interface of the MyImageProcessingDoc class
 //
 
 
@@ -14,7 +14,7 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	//CImage img;
+	//MyImage img;
 // Operations
 public:
 

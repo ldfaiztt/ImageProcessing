@@ -32,10 +32,11 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_UPDATE_COMMAND_UI(ID_SORTPROPERTIES, OnUpdateSortProperties)
 	ON_COMMAND(ID_PROPERTIES1, OnProperties1)
 	ON_UPDATE_COMMAND_UI(ID_PROPERTIES1, OnUpdateProperties1)
-	ON_COMMAND(ID_PROPERTIES2, OnProperties2)
-	ON_UPDATE_COMMAND_UI(ID_PROPERTIES2, OnUpdateProperties2)
+	ON_COMMAND(ID_PROPERTIES2, OnPropertiesFlash)
+	ON_UPDATE_COMMAND_UI(ID_PROPERTIES2, OnUpdatePropertiesFlash)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
+	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -143,17 +144,21 @@ void CPropertiesWnd::OnUpdateProperties1(CCmdUI* /*pCmdUI*/)
 	// TODO: Add your command update UI handler code here
 }
 
-void CPropertiesWnd::OnProperties2()
+void CPropertiesWnd::OnPropertiesFlash()
 {
 	CString strH = pHeight->GetValue();
 	CString strW = pWidth->GetValue();
 	CString strC = pC->GetValue();
 	CString strY = pY->GetValue();
 	CString strPath = pPath->GetValue();
+	CString strMask = pMaskSize->GetValue();
+	CString strBit = pBit->GetValue();
 
 	typeImgParaPtr imgP(new stImgPara);
 	imgP->height = _wtoi(strH);
 	imgP->width = _wtoi(strW);
+	imgP->bit_size = _wtoi(strBit);
+	imgP->mask_size = _wtoi(strMask);
 	imgP->c = _wtof(strC);
 	imgP->y = _wtof(strY);
 	imgP->filePath = strPath;
@@ -161,7 +166,7 @@ void CPropertiesWnd::OnProperties2()
 	((CMainFrame *)AfxGetMainWnd())->RefreshClassView(imgP);
 }
 
-void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
+void CPropertiesWnd::OnUpdatePropertiesFlash(CCmdUI* /*pCmdUI*/)
 {
 	// TODO: Add your command update UI handler code here
 }
@@ -192,20 +197,30 @@ void CPropertiesWnd::InitPropList()
 	//m_wndPropList.AddProperty(pGroup1);
 
 	CMFCPropertyGridProperty* pSize = new CMFCPropertyGridProperty(_T("Image Size"), 0, TRUE);
-
-	pHeight = new CMFCPropertyGridProperty(_T("Height / bits"), (_variant_t)320l, _T("Specifies the img's height or Gray level"));
+	pHeight = new CMFCPropertyGridProperty(_T("Height"), (_variant_t)320l, _T("Specifies the img's height"));
 	pHeight->EnableSpinControl(TRUE, 0, 1280);
 	pSize->AddSubItem(pHeight);
-
-	pWidth = new CMFCPropertyGridProperty( _T("Width / mask size"), (_variant_t) 240l, _T("Specifies the img's width or Mask size"));
+	pWidth = new CMFCPropertyGridProperty( _T("Width"), (_variant_t) 240l, _T("Specifies the img's width"));
 	pWidth->EnableSpinControl(TRUE, 0, 960);
 	pSize->AddSubItem(pWidth);
-	
 	pSize->Expand(TRUE);
 	m_wndPropList.AddProperty(pSize);
 
+	CMFCPropertyGridProperty* pMask = new CMFCPropertyGridProperty(_T("Mask"));
+	pMaskSize = new CMFCPropertyGridProperty(_T("Mask size"), (_variant_t)3l, _T("Specifies the img filter's Mask size"));
+	pMaskSize->EnableSpinControl(TRUE, 1, 16);
+	pMask->AddSubItem(pMaskSize);
+	pMask->Expand(TRUE);
+	m_wndPropList.AddProperty(pMask);
 
-	CMFCPropertyGridProperty* pConst = new CMFCPropertyGridProperty(_T("Gray scale func Const"), 0, TRUE);
+	CMFCPropertyGridProperty* pGray = new CMFCPropertyGridProperty(_T("Gray"));
+	pBit = new CMFCPropertyGridProperty(_T("Bit size"), (_variant_t)8l, _T("Specifies the img's gray level"));
+	pBit->EnableSpinControl(TRUE, 1, 8);
+	pGray->AddSubItem(pBit);
+	pGray->Expand(TRUE);
+	m_wndPropList.AddProperty(pGray);
+
+	CMFCPropertyGridProperty* pConst = new CMFCPropertyGridProperty(_T("Gray scale func Const"));
 
 	pC = new CMFCPropertyGridProperty(_T("C"), (_variant_t)1.0, _T("Specifies the img's Pow or Log const"));
 	pConst->AddSubItem(pC);
@@ -215,7 +230,6 @@ void CPropertiesWnd::InitPropList()
 	
 	pConst->Expand(TRUE);
 	m_wndPropList.AddProperty(pConst);
-
 
 	//CMFCPropertyGridProperty* pGroup2 = new CMFCPropertyGridProperty(_T("Font"));
 
@@ -297,4 +311,16 @@ void CPropertiesWnd::SetPropListFont()
 
 	m_wndPropList.SetFont(&m_fntPropList);
 	m_wndObjectCombo.SetFont(&m_fntPropList);
+}
+
+
+void CPropertiesWnd::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: Add your message handler code here and/or call default
+	if (nChar == VK_RETURN)
+	{
+		OnPropertiesFlash();
+	}
+
+	CDockablePane::OnKeyDown(nChar, nRepCnt, nFlags);
 }

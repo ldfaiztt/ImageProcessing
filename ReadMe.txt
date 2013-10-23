@@ -25,11 +25,11 @@ ImageProcessing.vcxproj.filters
 ImageProcessing.h
     This is the main header file for the application.  It includes other
     project specific headers (including Resource.h) and declares the
-    CImageProcessingApp application class.
+    MyImageProcessingApp application class.
 
 ImageProcessing.cpp
     This is the main application source file that contains the application
-    class CImageProcessingApp.
+    class MyImageProcessingApp.
 
 ImageProcessing.rc
     This is a listing of all of the Microsoft Windows resources that the
@@ -81,9 +81,9 @@ ChildFrm.h, ChildFrm.cpp
 The application wizard creates one document type and one view:
 
 ImageProcessingDoc.h, ImageProcessingDoc.cpp - the document
-    These files contain your CImageProcessingDoc class.  Edit these files to
+    These files contain your MyImageProcessingDoc class.  Edit these files to
     add your special document data and to implement file saving and loading
-    (via CImageProcessingDoc::Serialize).
+    (via MyImageProcessingDoc::Serialize).
     The Document will have the following strings:
         File extension:      jpg;bmp;png
         File type ID:        ImageProcessing.Document
@@ -94,12 +94,12 @@ ImageProcessingDoc.h, ImageProcessingDoc.cpp - the document
         File type long name: ImageProcessing.Document
 
 ImageProcessingView.h, ImageProcessingView.cpp - the view of the document
-    These files contain your CImageProcessingView class.
-    CImageProcessingView objects are used to view CImageProcessingDoc objects.
+    These files contain your MyImageProcessingView class.
+    MyImageProcessingView objects are used to view MyImageProcessingDoc objects.
 
 res\ImageProcessingDoc.ico
     This is an icon file, which is used as the icon for MDI child windows
-    for the CImageProcessingDoc class.  This icon is included by the main
+    for the MyImageProcessingDoc class.  This icon is included by the main
     resource file ImageProcessing.rc.
 
 

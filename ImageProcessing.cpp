@@ -17,7 +17,7 @@
 #endif
 
 
-// CImageProcessingApp
+// MyImageProcessingApp
 
 BEGIN_MESSAGE_MAP(CImageProcessingApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CImageProcessingApp::OnAppAbout)
@@ -29,7 +29,7 @@ BEGIN_MESSAGE_MAP(CImageProcessingApp, CWinAppEx)
 END_MESSAGE_MAP()
 
 
-// CImageProcessingApp construction
+// MyImageProcessingApp construction
 
 CImageProcessingApp::CImageProcessingApp()
 {
@@ -50,18 +50,18 @@ CImageProcessingApp::CImageProcessingApp()
 
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
-	//img.reset(new CImage());
+	//img.reset(new MyImage());
 	//img.Load(_T("P1000528.JPG"));
 
 	img_count = 0;
 }
 
-// The one and only CImageProcessingApp object
+// The one and only MyImageProcessingApp object
 
 CImageProcessingApp theApp;
 
 
-// CImageProcessingApp initialization
+// MyImageProcessingApp initialization
 
 BOOL CImageProcessingApp::InitInstance()
 {
@@ -119,7 +119,7 @@ BOOL CImageProcessingApp::InitInstance()
 	pDocTemplate = new CMultiDocTemplate(IDR_ImageProcessingTYPE,
 		RUNTIME_CLASS(CImageProcessingDoc),
 		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-		RUNTIME_CLASS(CImageProcessingView));
+		RUNTIME_CLASS(MyImageProcessingView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);
@@ -166,7 +166,7 @@ int CImageProcessingApp::ExitInstance()
 	return CWinAppEx::ExitInstance();
 }
 
-// CImageProcessingApp message handlers
+// MyImageProcessingApp message handlers
 
 
 // CAboutDlg dialog used for App About
@@ -206,7 +206,7 @@ void CImageProcessingApp::OnAppAbout()
 	aboutDlg.DoModal();
 }
 
-// CImageProcessingApp customization load/save methods
+// MyImageProcessingApp customization load/save methods
 
 void CImageProcessingApp::PreLoadState()
 {
@@ -228,7 +228,7 @@ void CImageProcessingApp::SaveCustomState()
 {
 }
 
-// CImageProcessingApp message handlers
+// MyImageProcessingApp message handlers
 
 
 

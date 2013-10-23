@@ -20,19 +20,19 @@ int HistogramEQ::Statistic(typeImgPtr src, vector<shared_ptr<type_statistic_map>
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
-	int srcRowBytes = src->GetPitch();
+	//int srcRowBytes = src->GetPitch();
 	int srcClrCount = src->GetBPP() / 8;
 
 	for (int index = 0; index < srcClrCount; index++)
 	{
-		byte * buf = (byte *)src->GetBits();
-		
+		//byte * buf = (byte *)src->GetBits();
 		type_statistic_map scale_count_map;
 		for (int i = 0; i < srcH; i++)
 		{
 			for (int j = 0; j < srcW; j++)
 			{
-				byte r = buf[i*srcRowBytes + j*srcClrCount + index];
+				//byte r = buf[i*srcRowBytes + j*srcClrCount + index];
+				byte r = src->getByteVal(j, i, index);
 				type_statistic_map::iterator it = scale_count_map.find(r);
 				if (it != scale_count_map.end())
 				{
@@ -70,8 +70,9 @@ typeImgPtr HistogramEQ::transit(typeImgPtr src)
 	vector<shared_ptr<type_statistic_map>> statistic_maps;
 	Statistic(src,statistic_maps);
 
-	typeImgPtr dst(new CImage());
+	typeImgPtr dst(new MyImage());
 	dst->Create(srcW, srcH, src->GetBPP());
+	ResetDstColorTable(src, dst);
 
 	int dstW = dst->GetWidth();
 	int dstH = dst->GetHeight();

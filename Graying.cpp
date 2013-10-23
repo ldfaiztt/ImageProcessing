@@ -22,7 +22,7 @@ typeImgPtr Graying::transit(typeImgPtr src)
 		return src;
 	}
 
-	typeImgPtr dst(new CImage());
+	typeImgPtr dst(new MyImage());
 	dst->Create(src->GetWidth(), src->GetHeight(), src->GetBPP(), 0);
 
 	if (!src->IsIndexed())

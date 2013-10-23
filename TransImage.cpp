@@ -28,6 +28,32 @@ TransImage::~TransImage()
 {
 }
 
+int TransImage::ResetDstColorTable(typeImgPtr src, typeImgPtr dst)
+{
+	if (src->IsIndexed())
+	{
+		int srcColorTableEntries = src->GetMaxColorTableEntries();
+		RGBQUAD	* srcColorTabs = new RGBQUAD[srcColorTableEntries];
+		src->GetColorTable(0, srcColorTableEntries, srcColorTabs);
+
+		int dstColorTableEntries = dst->GetMaxColorTableEntries();
+		RGBQUAD	* dstColorTabs = new RGBQUAD[dstColorTableEntries];
+
+		int ratio = ceil(srcColorTableEntries / dstColorTableEntries);
+		for (int i = 0; i < dstColorTableEntries; i++)
+		{
+			//dstColorTabs[i].rgbBlue = dstColorTabs[i].rgbGreen = dstColorTabs[i].rgbRed = i;
+			dstColorTabs[i] = srcColorTabs[i* ratio];
+		}
+		dst->SetColorTable(0, dstColorTableEntries, dstColorTabs);
+		
+		delete[] srcColorTabs;
+		delete[] dstColorTabs;
+	}
+	
+	return 0;
+}
+
 byte * TransImage::getImgBuff(typeImgPtr src)
 {
 	byte *pData = NULL;

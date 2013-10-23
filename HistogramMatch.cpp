@@ -55,17 +55,18 @@ typeImgPtr HistogramMatch::transit(typeImgPtr src)
 	int srcRowBytes = src->GetPitch();
 	int srcClrCount = src->GetBPP() / 8;
 
-	CImage match_img;
+	MyImage match_img;
 	match_img.Load(filePath);
 
 	vector<shared_ptr<type_statistic_map>> match_maps;
-	Statistic(make_shared<CImage>(match_img), match_maps);
+	Statistic(make_shared<MyImage>(match_img), match_maps);
 
 	vector<shared_ptr<type_statistic_map>> src_maps;
 	Statistic(src,src_maps);
 
-	typeImgPtr dst(new CImage());
+	typeImgPtr dst(new MyImage());
 	dst->Create(srcW, srcH, src->GetBPP());
+	ResetDstColorTable(src, dst);
 
 	int dstW = dst->GetWidth();
 	int dstH = dst->GetHeight();

@@ -1,15 +1,15 @@
 
-// ImageProcessingView.h : interface of the CImageProcessingView class
+// ImageProcessingView.h : interface of the MyImageProcessingView class
 //
 
 #pragma once
 
 
-class CImageProcessingView : public CView
+class MyImageProcessingView : public CView
 {
 protected: // create from serialization only
-	CImageProcessingView();
-	DECLARE_DYNCREATE(CImageProcessingView)
+	MyImageProcessingView();
+	DECLARE_DYNCREATE(MyImageProcessingView)
 
 // Attributes
 public:
@@ -29,7 +29,7 @@ protected:
 
 // Implementation
 public:
-	virtual ~CImageProcessingView();
+	virtual ~MyImageProcessingView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -46,7 +46,7 @@ protected:
 };
 
 #ifndef _DEBUG  // debug version in ImageProcessingView.cpp
-inline CImageProcessingDoc* CImageProcessingView::GetDocument() const
+inline CImageProcessingDoc* MyImageProcessingView::GetDocument() const
    { return reinterpret_cast<CImageProcessingDoc*>(m_pDocument); }
 #endif
 

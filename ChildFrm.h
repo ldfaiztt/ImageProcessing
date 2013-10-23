@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include <memory>
+#include "MyImage.h"
 
 class CChildFrame : public CMDIChildWndEx
 {
@@ -15,15 +15,15 @@ public:
 protected:
 // Operations
 private:
-   std::shared_ptr<CImage> img;
+	typeImgPtr img;
 // Overrides
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 
 // Implementation
 public:
 	virtual ~CChildFrame();
-	std::shared_ptr<CImage> showImg();
-	void setImg(std::shared_ptr<CImage> val);
+	typeImgPtr showImg();
+	void setImg(typeImgPtr val);
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

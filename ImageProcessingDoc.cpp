@@ -1,5 +1,5 @@
 
-// ImageProcessingDoc.cpp : implementation of the CImageProcessingDoc class
+// ImageProcessingDoc.cpp : implementation of the MyImageProcessingDoc class
 //
 
 #include "stdafx.h"
@@ -17,7 +17,7 @@
 #define new DEBUG_NEW
 #endif
 
-// CImageProcessingDoc
+// MyImageProcessingDoc
 
 IMPLEMENT_DYNCREATE(CImageProcessingDoc, CDocument)
 
@@ -25,13 +25,13 @@ BEGIN_MESSAGE_MAP(CImageProcessingDoc, CDocument)
 END_MESSAGE_MAP()
 
 
-// CImageProcessingDoc construction/destruction
+// MyImageProcessingDoc construction/destruction
 
 CImageProcessingDoc::CImageProcessingDoc()
 {
 	// TODO: add one-time construction code here
-	//img = ((CImageProcessingApp *)AfxGetApp())->img;
-	//img = std::typeImgPtr(new CImage());
+	//img = ((MyImageProcessingApp *)AfxGetApp())->img;
+	//img = std::typeImgPtr(new MyImage());
 	//img.Load(_T("P1000528.JPG"));
 }
 
@@ -53,7 +53,7 @@ BOOL CImageProcessingDoc::OnNewDocument()
 
 
 
-// CImageProcessingDoc serialization
+// MyImageProcessingDoc serialization
 
 void CImageProcessingDoc::Serialize(CArchive& ar)
 {
@@ -123,7 +123,7 @@ void CImageProcessingDoc::SetSearchContent(const CString& value)
 
 #endif // SHARED_HANDLERS
 
-// CImageProcessingDoc diagnostics
+// MyImageProcessingDoc diagnostics
 
 #ifdef _DEBUG
 void CImageProcessingDoc::AssertValid() const
@@ -138,4 +138,4 @@ void CImageProcessingDoc::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-// CImageProcessingDoc commands
+// MyImageProcessingDoc commands

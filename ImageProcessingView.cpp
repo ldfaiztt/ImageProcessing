@@ -1,5 +1,5 @@
 
-// ImageProcessingView.cpp : implementation of the CImageProcessingView class
+// ImageProcessingView.cpp : implementation of the MyImageProcessingView class
 //
 
 #include "stdafx.h"
@@ -19,32 +19,32 @@
 //#include <memory>
 #include "ChildFrm.h"
 
-// CImageProcessingView
+// MyImageProcessingView
 
-IMPLEMENT_DYNCREATE(CImageProcessingView, CView)
+IMPLEMENT_DYNCREATE(MyImageProcessingView, CView)
 
-BEGIN_MESSAGE_MAP(CImageProcessingView, CView)
+BEGIN_MESSAGE_MAP(MyImageProcessingView, CView)
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CImageProcessingView::OnFilePrintPreview)
+	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &MyImageProcessingView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 END_MESSAGE_MAP()
 
-// CImageProcessingView construction/destruction
+// MyImageProcessingView construction/destruction
 
-CImageProcessingView::CImageProcessingView()
+MyImageProcessingView::MyImageProcessingView()
 {
 	// TODO: add construction code here
 
 }
 
-CImageProcessingView::~CImageProcessingView()
+MyImageProcessingView::~MyImageProcessingView()
 {
 }
 
-BOOL CImageProcessingView::PreCreateWindow(CREATESTRUCT& cs)
+BOOL MyImageProcessingView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
@@ -52,9 +52,9 @@ BOOL CImageProcessingView::PreCreateWindow(CREATESTRUCT& cs)
 	return CView::PreCreateWindow(cs);
 }
 
-// CImageProcessingView drawing
+// MyImageProcessingView drawing
 
-void CImageProcessingView::OnDraw(CDC* pDC)
+void MyImageProcessingView::OnDraw(CDC* pDC)
 {
 	using namespace std;
 	CImageProcessingDoc* pDoc = GetDocument();
@@ -71,39 +71,39 @@ void CImageProcessingView::OnDraw(CDC* pDC)
 }
 
 
-// CImageProcessingView printing
+// MyImageProcessingView printing
 
 
-void CImageProcessingView::OnFilePrintPreview()
+void MyImageProcessingView::OnFilePrintPreview()
 {
 #ifndef SHARED_HANDLERS
 	AFXPrintPreview(this);
 #endif
 }
 
-BOOL CImageProcessingView::OnPreparePrinting(CPrintInfo* pInfo)
+BOOL MyImageProcessingView::OnPreparePrinting(CPrintInfo* pInfo)
 {
 	// default preparation
 	return DoPreparePrinting(pInfo);
 }
 
-void CImageProcessingView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+void MyImageProcessingView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
 	// TODO: add extra initialization before printing
 }
 
-void CImageProcessingView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+void MyImageProcessingView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
 	// TODO: add cleanup after printing
 }
 
-void CImageProcessingView::OnRButtonUp(UINT /* nFlags */, CPoint point)
+void MyImageProcessingView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
 	ClientToScreen(&point);
 	OnContextMenu(this, point);
 }
 
-void CImageProcessingView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
+void MyImageProcessingView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
 #ifndef SHARED_HANDLERS
 	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
@@ -111,20 +111,20 @@ void CImageProcessingView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 }
 
 
-// CImageProcessingView diagnostics
+// MyImageProcessingView diagnostics
 
 #ifdef _DEBUG
-void CImageProcessingView::AssertValid() const
+void MyImageProcessingView::AssertValid() const
 {
 	CView::AssertValid();
 }
 
-void CImageProcessingView::Dump(CDumpContext& dc) const
+void MyImageProcessingView::Dump(CDumpContext& dc) const
 {
 	CView::Dump(dc);
 }
 
-CImageProcessingDoc* CImageProcessingView::GetDocument() const // non-debug version is inline
+CImageProcessingDoc* MyImageProcessingView::GetDocument() const // non-debug version is inline
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CImageProcessingDoc)));
 	return (CImageProcessingDoc*)m_pDocument;
@@ -132,4 +132,4 @@ CImageProcessingDoc* CImageProcessingView::GetDocument() const // non-debug vers
 #endif //_DEBUG
 
 
-// CImageProcessingView message handlers
+// MyImageProcessingView message handlers

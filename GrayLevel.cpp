@@ -14,7 +14,7 @@ GrayLevel::GrayLevel(typeImgParaPtr imgP)
 	}
 	else
 	{
-		dstL = imgP->height;
+		dstL = imgP->bit_size;
 	}
 
 }
@@ -38,8 +38,9 @@ typeImgPtr GrayLevel::transit(typeImgPtr src)
 	int srcRowBytes = src->GetPitch();
 	srcL = src->GetBPP();
 
-	typeImgPtr dst(new CImage());
-	dst->Create(srcW, srcH, dstL,0);
+	typeImgPtr dst(new MyImage());
+	dst->Create(srcW, srcH, dstL);
+	ResetDstColorTable(src, dst);
 
 	int dstW = dst->GetWidth();
 	int dstH = dst->GetHeight();
@@ -54,20 +55,9 @@ typeImgPtr GrayLevel::transit(typeImgPtr src)
 		{
 			byte r = srcBuf[i * srcRowBytes + j];
 			byte g = mapGrayL(r);
-			dstBuf[i * dstRowBytes + (j * dstL) / 8] = (g << ((j * dstL) % 8));
+			dstBuf[i * dstRowBytes + (j * dstL) / 8] |= (g << ((j * dstL) % 8));
 		}
 	}
-
-	//for (int i = 0; i < dstW; i++)
-	//{
-	//	for (int j = 0; j < dstH; j++)
-	//	{
-	//		COLORREF p = src->GetPixel(i, j);
-	//		byte r = GetRValue(p);
-	//		byte g = mapGrayL(r);
-	//		dst->SetPixelIndexed(i, j, g);
-	//	}
-	//}
 
 	return dst;
 }

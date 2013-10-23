@@ -25,7 +25,7 @@ END_MESSAGE_MAP()
 CChildFrame::CChildFrame()
 {
 	// TODO: add member initialization code here
-	//img.reset(new CImage());
+	//img.reset(new MyImage());
 	//img->Load(_T("P1000528.JPG"));
 }
 
@@ -58,7 +58,7 @@ void CChildFrame::Dump(CDumpContext& dc) const
 }
 #endif //_DEBUG
 
-shared_ptr<CImage> CChildFrame::showImg()
+shared_ptr<MyImage> CChildFrame::showImg()
 {
 	if (img)
 	{
@@ -68,7 +68,7 @@ shared_ptr<CImage> CChildFrame::showImg()
 	return ((CMainFrame *)AfxGetMainWnd())->getSelectedImg();
 }
 
-void CChildFrame::setImg(shared_ptr<CImage> val)
+void CChildFrame::setImg(shared_ptr<MyImage> val)
 {
 	img = val;
 }

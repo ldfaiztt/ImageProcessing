@@ -358,10 +358,10 @@ void CClassView::OnShowChildFrame(stTreeItemInfo * item)
 
 void CClassView::FillClassView()
 {
-	//typeImgPtr img(new CImage());
+	//typeImgPtr img(new MyImage());
 	//img->Load(_T("P1000528.JPG"));
 
-	//typeImgPtr img_gray(new CImage());
+	//typeImgPtr img_gray(new MyImage());
 	//img_gray->Load(_T("P1000528_Gray.JPG"));
 
 	HTREEITEM hGraying = m_wndClassView.InsertItem(_T("graying"), 0, 0);

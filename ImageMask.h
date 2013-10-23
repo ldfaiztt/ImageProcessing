@@ -1,9 +1,12 @@
+#include "MyImage.h"
+
 typedef int coordinate;
 
-class ImageMask
+class ImageMask :
+	public MyImage
 {
 private:
-	CImage & ori_img;
+	MyImage & ori_img;
 	int mask_size;
 	coordinate median_x;
 	coordinate median_y;
@@ -12,9 +15,10 @@ protected:
 	coordinate route(coordinate src) const throw();
 
 public:
-	ImageMask(CImage & img, int size, coordinate x, coordinate y);
+	ImageMask(MyImage & img, int size, coordinate x, coordinate y);
 	virtual ~ImageMask();
 
+	byte getByteVal(int x, int y, int index);
 	int GetHeight() const throw();
 	int GetWidth() const throw();
 	int GetBPP() const;
