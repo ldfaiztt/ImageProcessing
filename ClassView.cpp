@@ -358,12 +358,6 @@ void CClassView::OnShowChildFrame(stTreeItemInfo * item)
 
 void CClassView::FillClassView()
 {
-	//typeImgPtr img(new MyImage());
-	//img->Load(_T("P1000528.JPG"));
-
-	//typeImgPtr img_gray(new MyImage());
-	//img_gray->Load(_T("P1000528_Gray.JPG"));
-
 	HTREEITEM hGraying = m_wndClassView.InsertItem(_T("graying"), 0, 0);
 	m_wndClassView.SetItemState(hGraying, TVIS_BOLD, TVIS_BOLD);
 	m_wndClassView.SetItemData(hGraying, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::graying, true)));
@@ -381,9 +375,6 @@ void CClassView::FillClassView()
 	HTREEITEM h4 = m_wndClassView.InsertItem(_T("bilinear interpolation method upsampling"), 3, 3, hZoom);
 	m_wndClassView.SetItemData(h4, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::bilinear_interpolation, true)));
 
-	//HTREEITEM hGrayL = m_wndClassView.InsertItem(_T("graylevel"), 1, 1, hRoot);
-	//m_wndClassView.SetItemData(hGrayL, (DWORD_PTR)(new stTreeItemInfo(NULL, img_gray, Transitions::gray_level, true)));
-
 	HTREEITEM hPow = m_wndClassView.InsertItem(_T("pow scale"), 1, 1, hGraying);
 	m_wndClassView.SetItemData(hPow, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::pow_scale, true)));
 
@@ -398,6 +389,18 @@ void CClassView::FillClassView()
 
 	HTREEITEM hHloc = m_wndClassView.InsertItem(_T("Histogram local"), 1, 1, hGraying);
 	m_wndClassView.SetItemData(hHloc, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::histogram_local, true)));
+
+	HTREEITEM hSmoo = m_wndClassView.InsertItem(_T("Smoothing"), 1, 1, hGraying);
+	m_wndClassView.SetItemData(hSmoo, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::smoothing, true)));
+
+	HTREEITEM hMedi = m_wndClassView.InsertItem(_T("Median"), 1, 1, hGraying);
+	m_wndClassView.SetItemData(hMedi, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::median, true)));
+
+	HTREEITEM hSlp = m_wndClassView.InsertItem(_T("Sharpening Laplacian"), 1, 1, hGraying);
+	m_wndClassView.SetItemData(hSlp, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::sharpening_laplacian, true)));
+
+	HTREEITEM hHbst = m_wndClassView.InsertItem(_T("High Boosting"), 1, 1, hGraying);
+	m_wndClassView.SetItemData(hHbst, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::high_boosting, true)));
 
 	m_wndClassView.Expand(hZoom, TVE_EXPAND);
 	m_wndClassView.Expand(hGraying, TVE_EXPAND);

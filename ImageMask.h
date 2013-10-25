@@ -19,6 +19,8 @@ public:
 	virtual ~ImageMask();
 
 	byte getByteVal(int x, int y, int index);
+	void setByteVal(int x, int y, int index, byte val);
+
 	int GetHeight() const throw();
 	int GetWidth() const throw();
 	int GetBPP() const;

@@ -12,6 +12,10 @@
 #include "HistogramEQ.h"
 #include "HistogramMatch.h"
 #include "HistogramLocal.h"
+#include "Smoothing.h"
+#include "Median.h"
+#include "Laplacian.h"
+#include "HighBoost.h"
 
 using namespace std;
 
@@ -116,6 +120,22 @@ TransImage * TransImage::CreateTransition(Transitions tsType, typeImgParaPtr img
 
 	case Transitions::histogram_local:
 		return new HistogramLocal(imgP);
+		break;
+
+	case Transitions::smoothing:
+		return new Smoothing(imgP);
+		break;
+
+	case Transitions::median:
+		return new Median(imgP);
+		break;
+
+	case Transitions::sharpening_laplacian:
+		return new Laplacian(imgP);
+		break;
+
+	case Transitions::high_boosting:
+		return new HighBoost(imgP);
 		break;
 
 	default:

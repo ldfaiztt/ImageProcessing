@@ -94,6 +94,34 @@ byte ImageMask::getByteVal(int x, int y, int index)
 	return ori_img.getByteVal(dstX, dstY, index);
 }
 
+void ImageMask::setByteVal(int x, int y, int index, byte val)
+{
+	int dstX = median_x + route(x);
+	int dstY = median_y + route(y);
+
+	if (dstX < 0)
+	{
+		dstX = 0;
+	}
+
+	if (dstX >= ori_img.GetWidth())
+	{
+		dstX = ori_img.GetWidth() - 1;
+	}
+
+	if (dstY < 0)
+	{
+		dstY = 0;
+	}
+
+	if (dstY >= ori_img.GetHeight())
+	{
+		dstY = ori_img.GetHeight() - 1;
+	}
+
+	return ori_img.setByteVal(dstX, dstY, index, val);
+}
+
 void ImageMask::SetPixel(int x, int y, COLORREF color) throw()
 {
 	int dstX = median_x + route(x);

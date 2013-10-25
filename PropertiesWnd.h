@@ -1,5 +1,9 @@
 
 #pragma once
+#include "MyImage.h"
+#include <unordered_map>
+
+typedef std::basic_string<TCHAR> tstring;
 
 class CPropertiesToolBar : public CMFCToolBar
 {
@@ -37,10 +41,14 @@ protected:
 	CMFCPropertyGridProperty* pHeight;
 	CMFCPropertyGridProperty* pWidth;
 	CMFCPropertyGridProperty* pMaskSize;
+	CMFCPropertyGridProperty* pMaskType;
+	CMFCPropertyGridProperty* pLaplacianType;
 	CMFCPropertyGridProperty* pBit;
 	CMFCPropertyGridProperty* pC;
 	CMFCPropertyGridProperty* pY;
 	CMFCPropertyGridProperty* pPath;
+
+	std::unordered_map<tstring, maskType> maskType_map;
 
 // Implementation
 public:

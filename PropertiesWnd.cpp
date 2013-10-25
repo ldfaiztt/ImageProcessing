@@ -13,10 +13,23 @@ static char THIS_FILE[]=__FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CResourceViewBar
+const WCHAR str1_9[] = L"{{1,1,1},{1,1,1},{1,1,1}}";
+const WCHAR str1_16[] = L"{{1,2,1},{2,4,2},{1,2,1}}";
+const WCHAR strNeg4[] = L"{{0,1,0},{1,-4,1},{0,1,0}}";
+const WCHAR strPos4[] = L"{{0,-1,0},{-1,4,-1},{0,1,0}}";
+const WCHAR strNeg8[] = L"{{1,1,1},{1,-8,1},{1,1,1}}";
+const WCHAR strPos8[] = L"{{-1,-1,-1},{-1,8,-1},{-1,-1,-1}}";
 
 CPropertiesWnd::CPropertiesWnd()
 {
 	m_nComboHeight = 0;
+	
+	maskType_map[str1_9] = maskType::average_1_9;
+	maskType_map[str1_16] = maskType::average_1_16;
+	maskType_map[strNeg4] = maskType::laplacian_nag4;
+	maskType_map[strNeg8] = maskType::laplacian_nag8;
+	maskType_map[strPos4] = maskType::laplacian_pos4;
+	maskType_map[strPos8] = maskType::laplacian_pos8;
 }
 
 CPropertiesWnd::~CPropertiesWnd()
@@ -153,6 +166,7 @@ void CPropertiesWnd::OnPropertiesFlash()
 	CString strPath = pPath->GetValue();
 	CString strMask = pMaskSize->GetValue();
 	CString strBit = pBit->GetValue();
+	tstring strMaskType = (CString)pMaskType->GetValue();
 
 	typeImgParaPtr imgP(new stImgPara);
 	imgP->height = _wtoi(strH);
@@ -161,6 +175,7 @@ void CPropertiesWnd::OnPropertiesFlash()
 	imgP->mask_size = _wtoi(strMask);
 	imgP->c = _wtof(strC);
 	imgP->y = _wtof(strY);
+	imgP->mask_type = maskType_map[strMaskType];
 	imgP->filePath = strPath;
 
 	((CMainFrame *)AfxGetMainWnd())->RefreshClassView(imgP);
@@ -212,6 +227,16 @@ void CPropertiesWnd::InitPropList()
 	pMask->AddSubItem(pMaskSize);
 	pMask->Expand(TRUE);
 	m_wndPropList.AddProperty(pMask);
+
+	pMaskType = new CMFCPropertyGridProperty(_T("Mask type"), str1_9, _T("all the mask types are here, but some of them are for special filters. mixed using mask type and filter will fail and cause using default para."));
+	pMaskType->AddOption(str1_9);
+	pMaskType->AddOption(str1_16);
+	pMaskType->AddOption(strNeg4);
+	pMaskType->AddOption(strNeg8);
+	pMaskType->AddOption(strPos4);
+	pMaskType->AddOption(strPos8);
+	pMaskType->AllowEdit(FALSE);
+	pMask->AddSubItem(pMaskType);
 
 	CMFCPropertyGridProperty* pGray = new CMFCPropertyGridProperty(_T("Gray"));
 	pBit = new CMFCPropertyGridProperty(_T("Bit size"), (_variant_t)8l, _T("Specifies the img's gray level"));

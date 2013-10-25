@@ -17,6 +17,10 @@ enum class Transitions
 	histogram_eq,
 	histogram_match,
 	histogram_local,
+	smoothing,
+	median,
+	sharpening_laplacian,
+	high_boosting,
 };
 
 class TransImage

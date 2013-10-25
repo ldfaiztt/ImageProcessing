@@ -7,7 +7,6 @@ class HistogramLocal :
 {
 private:
 	int mask_size;
-	//shared_ptr<type_statistic_map> Statistic(typeImgPtr src);
 public:
 	HistogramLocal();
 	HistogramLocal(shared_ptr<stImgPara> imgP);

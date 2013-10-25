@@ -84,9 +84,9 @@ typeImgPtr HistogramEQ::transit(typeImgPtr src)
 		byte * srcBuf = (byte *)src->GetBits();
 		byte * dstBuf = (byte *)dst->GetBits();
 
-		for (int i = 0; i < srcH; i++)
+		for (int i = 0; i < dstH; i++)
 		{
-			for (int j = 0; j < srcW; j++)
+			for (int j = 0; j < dstW; j++)
 			{
 				byte r = srcBuf[i * srcRowBytes + j * srcClrCount + index];
 				int sum = statistic_maps[index]->at(r);

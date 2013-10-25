@@ -24,43 +24,6 @@ HistogramLocal::~HistogramLocal()
 {
 }
 
-//shared_ptr<type_statistic_map> HistogramLocal::Statistic(typeImgPtr src)
-//{
-//	int srcW = src->GetWidth();
-//	int srcH = src->GetHeight();
-//
-//	type_statistic_map scale_count_map;
-//
-//	for (int i = 0; i < srcW; i++)
-//	{
-//		for (int j = 0; j < srcH; j++)
-//		{
-//			COLORREF pixel = src->GetPixel(i, j);
-//			byte r = GetRValue(pixel);
-//
-//			type_statistic_map::iterator it = scale_count_map.find(r);
-//			if (it != scale_count_map.end())
-//			{
-//				it->second += 1;
-//			}
-//			else
-//			{
-//				scale_count_map.insert({ r, 1 });
-//			}
-//		}
-//	}
-//
-//	int sum = 0;
-//	shared_ptr<type_statistic_map> scale_sum_map(new type_statistic_map());
-//	for (type_statistic_map::iterator it = scale_count_map.begin(); it != scale_count_map.end(); ++it)
-//	{
-//		sum += it->second;
-//		scale_sum_map->insert({ it->first, sum });
-//	}
-//
-//	return scale_sum_map;
-//}
-
 typeImgPtr HistogramLocal::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
