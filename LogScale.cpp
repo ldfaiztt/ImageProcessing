@@ -2,13 +2,13 @@
 #include "LogScale.h"
 
 
-LogScale::LogScale()
+LogScaleFilter::LogScaleFilter()
 {
 	c = 20.0;
 	//y = 1.0;
 }
 
-LogScale::LogScale(typeImgParaPtr imgP)
+LogScaleFilter::LogScaleFilter(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
@@ -22,16 +22,16 @@ LogScale::LogScale(typeImgParaPtr imgP)
 }
 
 
-LogScale::~LogScale()
+LogScaleFilter::~LogScaleFilter()
 {
 }
 
-int LogScale::Log(int inV)
+int LogScaleFilter::Log(int inV)
 {
 	return (floor)(log(1 + inV) * c);
 }
 
-typeImgPtr LogScale::transit(typeImgPtr src)
+typeImgPtr LogScaleFilter::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();

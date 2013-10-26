@@ -6,12 +6,12 @@
 #include <algorithm>
 #include <iostream>
 
-Median::Median()
+MedianFilter::MedianFilter()
 {
 	mask_size = 3;
 }
 
-Median::Median(typeImgParaPtr imgP)
+MedianFilter::MedianFilter(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
@@ -23,11 +23,11 @@ Median::Median(typeImgParaPtr imgP)
 	}
 }
 
-Median::~Median()
+MedianFilter::~MedianFilter()
 {
 }
 
-byte Median::MedianListSort(shared_ptr<ImageMask> src, int index)
+byte MedianFilter::MedianListSort(shared_ptr<ImageMask> src, int index)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
@@ -48,7 +48,7 @@ byte Median::MedianListSort(shared_ptr<ImageMask> src, int index)
 	return *it;
 }
 
-byte Median::MedianVectorSort(shared_ptr<ImageMask> src, int index)
+byte MedianFilter::MedianVectorSort(shared_ptr<ImageMask> src, int index)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
@@ -68,7 +68,7 @@ byte Median::MedianVectorSort(shared_ptr<ImageMask> src, int index)
 	return array[array.size() / 2];
 }
 
-byte Median::MedianList(shared_ptr<ImageMask> src, int index)
+byte MedianFilter::MedianList(shared_ptr<ImageMask> src, int index)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
@@ -101,7 +101,7 @@ byte Median::MedianList(shared_ptr<ImageMask> src, int index)
 	return *it;
 }
 
-byte Median::MedianVector(shared_ptr<ImageMask> src, int index)
+byte MedianFilter::MedianVector(shared_ptr<ImageMask> src, int index)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
@@ -132,7 +132,12 @@ byte Median::MedianVector(shared_ptr<ImageMask> src, int index)
 	return array[array.size() / 2];
 }
 
-typeImgPtr Median::transit(typeImgPtr src)
+byte MedianFilter::ProcessingMask(shared_ptr<ImageMask> src, int index)
+{
+	return MedianVectorSort(src, index);
+}
+
+typeImgPtr MedianFilter::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
@@ -155,7 +160,7 @@ typeImgPtr Median::transit(typeImgPtr src)
 			shared_ptr<ImageMask> mask(new ImageMask(*src, mask_size, j, i));
 			for (int index = 0; index < dstClrCount; index++)
 			{
-				byte g = MedianVectorSort(mask, index);
+				byte g = ProcessingMask(mask, index);
 				dst->setByteVal(j, i, index, g);
 			}
 

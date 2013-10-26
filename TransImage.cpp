@@ -16,6 +16,15 @@
 #include "Median.h"
 #include "Laplacian.h"
 #include "HighBoost.h"
+#include "BitSlicing.h"
+#include "MaxFilter.h"
+#include "MinFilter.h"
+#include "MidPointFilter.h"
+#include "ArithmeticFilter.h"
+#include "GeometricFilter.h"
+#include "HarmonicFilter.h"
+#include "ContraharmonicFilter.h"
+#include "AlphaTrimmedFilter.h"
 
 using namespace std;
 
@@ -46,7 +55,6 @@ int TransImage::ResetDstColorTable(typeImgPtr src, typeImgPtr dst)
 		int ratio = ceil(srcColorTableEntries / dstColorTableEntries);
 		for (int i = 0; i < dstColorTableEntries; i++)
 		{
-			//dstColorTabs[i].rgbBlue = dstColorTabs[i].rgbGreen = dstColorTabs[i].rgbRed = i;
 			dstColorTabs[i] = srcColorTabs[i* ratio];
 		}
 		dst->SetColorTable(0, dstColorTableEntries, dstColorTabs);
@@ -103,39 +111,75 @@ TransImage * TransImage::CreateTransition(Transitions tsType, typeImgParaPtr img
 		break;
 
 	case Transitions::pow_scale:
-		return new PowerScale(imgP);
+		return new PowerScaleFilter(imgP);
 		break;
 
 	case Transitions::log_scale:
-		return new LogScale(imgP);
+		return new LogScaleFilter(imgP);
 		break;
 
 	case Transitions::histogram_eq:
-		return new HistogramEQ(imgP);
+		return new HistogramEQFilter(imgP);
 		break;
 
 	case Transitions::histogram_match:
-		return new HistogramMatch(imgP);
+		return new HistogramMatchFilter(imgP);
 		break;
 
 	case Transitions::histogram_local:
-		return new HistogramLocal(imgP);
+		return new HistogramLocalFilter(imgP);
 		break;
 
 	case Transitions::smoothing:
-		return new Smoothing(imgP);
+		return new SmoothingFilter(imgP);
 		break;
 
 	case Transitions::median:
-		return new Median(imgP);
+		return new MedianFilter(imgP);
 		break;
 
 	case Transitions::sharpening_laplacian:
-		return new Laplacian(imgP);
+		return new LaplacianFilter(imgP);
 		break;
 
 	case Transitions::high_boosting:
-		return new HighBoost(imgP);
+		return new HighBoostFilter(imgP);
+		break;
+
+	case Transitions::bit_slicing:
+		return new BitSlicing(imgP);
+		break;
+
+	case Transitions::max:
+		return new MaxFilter(imgP);
+		break;
+
+	case Transitions::min:
+		return new MinFilter(imgP);
+		break;
+
+	case Transitions::midpoint:
+		return new MidPointFilter(imgP);
+		break;
+
+	case Transitions::arithmetic:
+		return new ArithmeticFilter(imgP);
+		break;
+
+	case Transitions::geometic:
+		return new GeometricFilter(imgP);
+		break;
+
+	case Transitions::harmonic:
+		return new HarmonicFilter(imgP);
+		break;
+
+	case Transitions::contraharmonic:
+		return new ContraharmonicFilter(imgP);
+		break;
+
+	case Transitions::alpha_trimmed:
+		return new AlphaTrimmedFilter(imgP);
 		break;
 
 	default:

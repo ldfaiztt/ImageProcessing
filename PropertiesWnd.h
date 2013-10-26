@@ -43,9 +43,11 @@ protected:
 	CMFCPropertyGridProperty* pMaskSize;
 	CMFCPropertyGridProperty* pMaskType;
 	CMFCPropertyGridProperty* pLaplacianType;
-	CMFCPropertyGridProperty* pBit;
+	CMFCPropertyGridProperty* pBitSize;
+	CMFCPropertyGridProperty* pBitMask;
 	CMFCPropertyGridProperty* pC;
 	CMFCPropertyGridProperty* pY;
+	CMFCPropertyGridProperty* pA;
 	CMFCPropertyGridProperty* pPath;
 
 	std::unordered_map<tstring, maskType> maskType_map;

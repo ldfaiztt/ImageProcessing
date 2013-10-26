@@ -1,7 +1,7 @@
 #pragma once
 #include "TransImage.h"
 
-class LogScale :
+class LogScaleFilter :
 	public TransImage
 {
 private:
@@ -11,9 +11,9 @@ private:
 	int Log(int inV);
 
 public:
-	LogScale();
-	LogScale(typeImgParaPtr imgP);
-	virtual ~LogScale();
+	LogScaleFilter();
+	LogScaleFilter(typeImgParaPtr imgP);
+	virtual ~LogScaleFilter();
 
 	virtual typeImgPtr transit(typeImgPtr src);
 };

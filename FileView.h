@@ -56,6 +56,7 @@ protected:
 
 public:
 	typeImgPtr getSelectedImg();
+	typeImgPtr getSpecialImg(Transitions tsType);
 	void RefreshFileView(void);
 };
 

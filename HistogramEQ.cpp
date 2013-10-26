@@ -3,20 +3,20 @@
 
 using namespace std;
 
-HistogramEQ::HistogramEQ()
+HistogramEQFilter::HistogramEQFilter()
 {
 }
 
-HistogramEQ::HistogramEQ(typeImgParaPtr)
+HistogramEQFilter::HistogramEQFilter(typeImgParaPtr)
 {
 
 }
 
-HistogramEQ::~HistogramEQ()
+HistogramEQFilter::~HistogramEQFilter()
 {
 }
 
-int HistogramEQ::Statistic(typeImgPtr src, vector<shared_ptr<type_statistic_map>> & scale_statistic_maps)
+int HistogramEQFilter::Statistic(typeImgPtr src, vector<shared_ptr<type_statistic_map>> & scale_statistic_maps)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
@@ -60,7 +60,7 @@ int HistogramEQ::Statistic(typeImgPtr src, vector<shared_ptr<type_statistic_map>
 	return 0;
 }
 
-typeImgPtr HistogramEQ::transit(typeImgPtr src)
+typeImgPtr HistogramEQFilter::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();

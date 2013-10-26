@@ -2,13 +2,13 @@
 #include "PowerScale.h"
 
 
-PowerScale::PowerScale()
+PowerScaleFilter::PowerScaleFilter()
 {
 	c = 1.0;
 	y = 1.0;
 }
 
-PowerScale::PowerScale(typeImgParaPtr imgP)
+PowerScaleFilter::PowerScaleFilter(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
@@ -24,16 +24,16 @@ PowerScale::PowerScale(typeImgParaPtr imgP)
 }
 
 
-PowerScale::~PowerScale()
+PowerScaleFilter::~PowerScaleFilter()
 {
 }
 
-int PowerScale::Pow(int inV)
+int PowerScaleFilter::Pow(int inV)
 {
 	return (floor)(pow(inV, y) * c);
 }
 
-typeImgPtr PowerScale::transit(typeImgPtr src)
+typeImgPtr PowerScaleFilter::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();

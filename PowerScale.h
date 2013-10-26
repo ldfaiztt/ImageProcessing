@@ -1,6 +1,6 @@
 #pragma once
 #include "TransImage.h"
-class PowerScale :
+class PowerScaleFilter :
 	public TransImage
 {
 private:
@@ -10,9 +10,9 @@ private:
 	int Pow(int inV);
 
 public:
-	PowerScale();
-	PowerScale(typeImgParaPtr imgP);
-	virtual ~PowerScale();
+	PowerScaleFilter();
+	PowerScaleFilter(typeImgParaPtr imgP);
+	virtual ~PowerScaleFilter();
 
 	virtual typeImgPtr transit(typeImgPtr src);
 };

@@ -492,8 +492,12 @@ void CMainFrame::RefreshClassView(CChildFrame * child)
 	return m_wndClassView.Refresh(child);
 }
 
-shared_ptr<MyImage> CMainFrame::getSelectedImg()
+typeImgPtr CMainFrame::getSelectedImg()
 {
 	return m_wndFileView.getSelectedImg();
 }
 
+typeImgPtr CMainFrame::getSpecialImg(Transitions tsType)
+{
+	return m_wndFileView.getSpecialImg(tsType);
+}

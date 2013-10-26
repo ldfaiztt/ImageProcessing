@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "HistogramMatch.h"
 
-HistogramMatch::HistogramMatch()
+HistogramMatchFilter::HistogramMatchFilter()
 {
 	filePath = L"IMG_6706.jpg";
 }
 
-HistogramMatch::HistogramMatch(typeImgParaPtr imgP)
+HistogramMatchFilter::HistogramMatchFilter(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
@@ -18,11 +18,11 @@ HistogramMatch::HistogramMatch(typeImgParaPtr imgP)
 	}
 }
 
-HistogramMatch::~HistogramMatch()
+HistogramMatchFilter::~HistogramMatchFilter()
 {
 }
 
-stKey HistogramMatch::MatchValInMap(shared_ptr<type_statistic_map> map, stVal val)
+stKey HistogramMatchFilter::MatchValInMap(shared_ptr<type_statistic_map> map, stVal val)
 {
 	for (type_statistic_map::iterator it = map->begin(); it != map->end(); it++)
 	{
@@ -48,7 +48,7 @@ stKey HistogramMatch::MatchValInMap(shared_ptr<type_statistic_map> map, stVal va
 	return (--map->end())->first;
 }
 
-typeImgPtr HistogramMatch::transit(typeImgPtr src)
+typeImgPtr HistogramMatchFilter::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();

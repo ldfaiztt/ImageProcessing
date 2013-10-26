@@ -1,13 +1,15 @@
 #pragma once
-#include "TransImage.h"
-class HighBoost :
-	public TransImage
+#include "Laplacian.h"
+class HighBoostFilter :
+	public LaplacianFilter
 {
 public:
-	HighBoost();
-	HighBoost(typeImgParaPtr imgP);
-	virtual ~HighBoost();
+	HighBoostFilter();
+	HighBoostFilter(typeImgParaPtr imgP);
+	virtual ~HighBoostFilter();
 
-	virtual typeImgPtr transit(typeImgPtr src);
+protected:
+	double A;
+	virtual int sharpening(shared_ptr<ImageMask> src, int index);
 };
 

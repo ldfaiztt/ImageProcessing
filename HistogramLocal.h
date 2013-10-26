@@ -2,15 +2,15 @@
 #include "HistogramEQ.h"
 #include "ImageMask.h"
 
-class HistogramLocal :
-	public HistogramEQ
+class HistogramLocalFilter :
+	public HistogramEQFilter
 {
 private:
 	int mask_size;
 public:
-	HistogramLocal();
-	HistogramLocal(shared_ptr<stImgPara> imgP);
-	virtual ~HistogramLocal();
+	HistogramLocalFilter();
+	HistogramLocalFilter(shared_ptr<stImgPara> imgP);
+	virtual ~HistogramLocalFilter();
 
 	virtual typeImgPtr transit(typeImgPtr src);
 };

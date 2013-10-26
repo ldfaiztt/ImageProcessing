@@ -78,6 +78,58 @@ struct stTreeItemInfo
 			strType = _T("histogram_local");
 			break;
 
+		case Transitions::smoothing:
+			strType = _T("smoothing");
+			break;
+
+		case Transitions::median:
+			strType = _T("median");
+			break;
+
+		case Transitions::sharpening_laplacian:
+			strType = _T("sharpening_laplacian");
+			break;
+
+		case Transitions::high_boosting:
+			strType = _T("high_boosting");
+			break;
+
+		case Transitions::bit_slicing:
+			strType = _T("bit_slicing");
+			break;
+
+		case Transitions::max:
+			strType = _T("max");
+			break;
+
+		case Transitions::min:
+			strType = _T("min");
+			break;
+
+		case Transitions::midpoint:
+			strType = _T("midpoint");
+			break;
+
+		case Transitions::arithmetic:
+			strType = _T("arithmetic");
+			break;
+
+		case Transitions::geometic:
+			strType = _T("geometic");
+			break;
+
+		case Transitions::harmonic:
+			strType = _T("harmonic");
+			break;
+
+		case Transitions::contraharmonic:
+			strType = _T("contraharmonic");
+			break;
+
+		case Transitions::alpha_trimmed:
+			strType = _T("alpha_trimmed");
+			break;
+
 		default:
 			strType = _T("processing_img");
 			break;
@@ -101,10 +153,13 @@ public:
 
 protected:
 	DECLARE_MESSAGE_MAP()
-	void ClearShowFrame(CViewTree & tree, HTREEITEM hItem, CChildFrame * target);
-	void TreeVisit(CViewTree & tree, HTREEITEM hItem, CChildFrame * target);
+	void ClearShowFrame(CViewTree & tree, HTREEITEM hItem, CObject * target);
+	typeImgPtr getImg(CViewTree & tree, HTREEITEM hItem, Transitions target);
+	void TreeVisitForChildFrame(CViewTree & tree, HTREEITEM hItem, CObject * target);
+	typeImgPtr TreeVisitForImg(CViewTree & tree, HTREEITEM hItem, Transitions target);
 public:
 	const DWORD_PTR getCurItemInfo(void);
 	const DWORD_PTR getParentItemInfo(void);
-	void ClearShowPtr(CChildFrame * target);
+	void OnCloseChildFrame(CObject * target);
+	typeImgPtr getImgOfSpecialTypeItem(Transitions target);
 };

@@ -2,12 +2,12 @@
 #include "HistogramLocal.h"
 
 
-HistogramLocal::HistogramLocal()
+HistogramLocalFilter::HistogramLocalFilter()
 {
 	mask_size = 3;
 }
 
-HistogramLocal::HistogramLocal(shared_ptr<stImgPara> imgP)
+HistogramLocalFilter::HistogramLocalFilter(shared_ptr<stImgPara> imgP)
 {
 	if (imgP == NULL)
 	{
@@ -20,11 +20,11 @@ HistogramLocal::HistogramLocal(shared_ptr<stImgPara> imgP)
 }
 
 
-HistogramLocal::~HistogramLocal()
+HistogramLocalFilter::~HistogramLocalFilter()
 {
 }
 
-typeImgPtr HistogramLocal::transit(typeImgPtr src)
+typeImgPtr HistogramLocalFilter::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();

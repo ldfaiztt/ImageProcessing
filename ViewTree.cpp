@@ -72,7 +72,7 @@ const DWORD_PTR CViewTree::getParentItemInfo(void)
 	return data;
 }
 
-void CViewTree::ClearShowFrame(CViewTree & tree, HTREEITEM hItem, CChildFrame * target)
+void CViewTree::ClearShowFrame(CViewTree & tree, HTREEITEM hItem, CObject * target)
 {
 	stTreeItemInfo * item = (stTreeItemInfo *)tree.GetItemData(hItem);
 
@@ -82,17 +82,45 @@ void CViewTree::ClearShowFrame(CViewTree & tree, HTREEITEM hItem, CChildFrame * 
 	}
 }
 
-void CViewTree::ClearShowPtr( CChildFrame * target)
+typeImgPtr CViewTree::getImg(CViewTree & tree, HTREEITEM hItem, Transitions target)
+{
+	stTreeItemInfo * item = (stTreeItemInfo *)tree.GetItemData(hItem);
+
+	if (item->tsType == target)
+	{
+		return item->img;
+	}
+
+	return NULL;
+}
+
+void CViewTree::OnCloseChildFrame( CObject * target)
 {
 	HTREEITEM hRoot = GetRootItem();
 	while (hRoot)
 	{
-		TreeVisit(*this, hRoot, target);
+		TreeVisitForChildFrame(*this, hRoot, target);
 		hRoot = GetNextItem(hRoot, TVGN_NEXT);
 	}
 }
 
-void CViewTree::TreeVisit(CViewTree & tree, HTREEITEM hItem, CChildFrame * target)
+typeImgPtr CViewTree::getImgOfSpecialTypeItem(Transitions target)
+{
+	HTREEITEM hRoot = GetRootItem();
+	while (hRoot)
+	{
+		typeImgPtr ret = TreeVisitForImg(*this, hRoot, target);
+		if (ret != NULL)
+		{
+			return ret;
+		}
+		hRoot = GetNextItem(hRoot, TVGN_NEXT);
+	}
+
+	return NULL;
+}
+
+void CViewTree::TreeVisitForChildFrame(CViewTree & tree, HTREEITEM hItem, CObject * target)
 {
 	ClearShowFrame(tree, hItem, target);
 	if (tree.ItemHasChildren(hItem))
@@ -100,8 +128,33 @@ void CViewTree::TreeVisit(CViewTree & tree, HTREEITEM hItem, CChildFrame * targe
 		HTREEITEM hChildItem = tree.GetChildItem(hItem);
 		while (hChildItem != NULL)
 		{
-			TreeVisit(tree, hChildItem, target);
+			TreeVisitForChildFrame(tree, hChildItem, target);
 			hChildItem = tree.GetNextItem(hChildItem, TVGN_NEXT);
 		}
 	}
+}
+
+typeImgPtr CViewTree::TreeVisitForImg(CViewTree & tree, HTREEITEM hItem, Transitions target)
+{
+	typeImgPtr ret = getImg(tree, hItem, target);
+	if (ret != NULL)
+	{
+		return ret;
+	}
+
+	if (tree.ItemHasChildren(hItem))
+	{
+		HTREEITEM hChildItem = tree.GetChildItem(hItem);
+		while (hChildItem != NULL)
+		{
+			ret = TreeVisitForImg(tree, hChildItem, target);
+			if (ret != NULL)
+			{
+				return ret;
+			}
+			hChildItem = tree.GetNextItem(hChildItem, TVGN_NEXT);
+		}
+	}
+
+	return NULL;
 }

@@ -11,13 +11,16 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
+const CString OrignalPic = L"P1000528.JPG";
+const CString GrayingPic = L"P1000528_Gray.JPG";
+
 /////////////////////////////////////////////////////////////////////////////
 // CFileView
 
 CFileView::CFileView()
 {
-	fileArray.push_back(L"P1000528.JPG");
-	fileArray.push_back(L"P1000528_Gray.JPG");
+	fileArray.push_back(OrignalPic);
+	fileArray.push_back(GrayingPic);
 }
 
 CFileView::~CFileView()
@@ -104,6 +107,10 @@ void CFileView::FillFileView()
 		{
 			stTreeItemInfo * item = new stTreeItemInfo();
 			item->img = img;
+			if (fileName.CompareNoCase(GrayingPic) == 0)
+			{
+				item->tsType = Transitions::graying;
+			}
 			HTREEITEM hFile = m_wndFileView.InsertItem(fileName, 2, 2, hRoot);
 			m_wndFileView.SetItemData(hFile, (DWORD_PTR)item);
 
@@ -134,6 +141,10 @@ void CFileView::RefreshFileView(void)
 		{
 			stTreeItemInfo * item = new stTreeItemInfo();
 			item->img = img;
+			if (fileName.CompareNoCase(GrayingPic) == 0)
+			{
+				item->tsType = Transitions::graying;
+			}
 			HTREEITEM hFile = m_wndFileView.InsertItem(fileName, 2, 2, hRoot);
 			m_wndFileView.SetItemData(hFile, (DWORD_PTR)item);
 
@@ -297,4 +308,9 @@ typeImgPtr CFileView::getSelectedImg()
 	stTreeItemInfo * item = (stTreeItemInfo *)m_wndFileView.getCurItemInfo();
 
 	return item->img;
+}
+
+typeImgPtr CFileView::getSpecialImg(Transitions tsType)
+{
+	return m_wndFileView.getImgOfSpecialTypeItem(tsType);
 }

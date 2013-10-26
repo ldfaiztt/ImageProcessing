@@ -3,18 +3,18 @@
 
 GrayLevel::GrayLevel()
 {
-	dstL = 8;
+	dst_L = 8;
 }
 
 GrayLevel::GrayLevel(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
-		dstL = 8;
+		dst_L = 8;
 	}
 	else
 	{
-		dstL = imgP->bit_size;
+		dst_L = imgP->bit_size;
 	}
 
 }
@@ -26,7 +26,7 @@ GrayLevel::~GrayLevel()
 
 int GrayLevel::mapGrayL(int src)
 {
-	float ratioL = pow(2, srcL) / pow(2, dstL);
+	float ratioL = pow(2, srcL) / pow(2, dst_L);
 
 	return (floor)(src / ratioL);
 }
@@ -37,6 +37,20 @@ typeImgPtr GrayLevel::transit(typeImgPtr src)
 	int srcH = src->GetHeight();
 	int srcRowBytes = src->GetPitch();
 	srcL = src->GetBPP();
+
+	int dstL;
+	if (dst_L == 1)
+	{
+		dstL = 1;
+	}
+	else if (dst_L <= 4)
+	{
+		dstL = 4;
+	}
+	else
+	{
+		dstL = 8;
+	}
 
 	typeImgPtr dst(new MyImage());
 	dst->Create(srcW, srcH, dstL);

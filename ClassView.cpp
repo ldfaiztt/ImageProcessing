@@ -341,7 +341,7 @@ void CClassView::Refresh(typeImgParaPtr imgP)
 
 void CClassView::Refresh(CChildFrame * showFrame)
 {
-	m_wndClassView.ClearShowPtr(showFrame);
+	m_wndClassView.OnCloseChildFrame(showFrame);
 }
 
 void CClassView::OnLButtonDblClk(UINT nFlags, CPoint point)
@@ -356,17 +356,14 @@ void CClassView::OnShowChildFrame(stTreeItemInfo * item)
 	((CMainFrame *)AfxGetMainWnd())->RefreshChildFrm(item);
 }
 
+typeImgPtr CClassView::getSpecialImg(Transitions tsType)
+{
+	return ((CMainFrame *)AfxGetMainWnd())->getSpecialImg(tsType);
+}
+
 void CClassView::FillClassView()
 {
-	HTREEITEM hGraying = m_wndClassView.InsertItem(_T("graying"), 0, 0);
-	m_wndClassView.SetItemState(hGraying, TVIS_BOLD, TVIS_BOLD);
-	m_wndClassView.SetItemData(hGraying, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::graying, true)));
-
-	HTREEITEM hGrayLevel = m_wndClassView.InsertItem(_T("graylevel"), 0, 0);
-	m_wndClassView.SetItemState(hGrayLevel, TVIS_BOLD, TVIS_BOLD);
-	m_wndClassView.SetItemData(hGrayLevel, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::gray_level, true)));
-
-	HTREEITEM hZoom = m_wndClassView.InsertItem(_T("subsampling"), 1, 1, hGraying);
+	HTREEITEM hZoom = m_wndClassView.InsertItem(_T("subsampling"), 0, 0);
 	m_wndClassView.SetItemData(hZoom, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::subsampling, true)));
 	HTREEITEM h2 = m_wndClassView.InsertItem(_T("replication method upsampling"), 3, 3, hZoom);
 	m_wndClassView.SetItemData(h2, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::replication, true)));
@@ -375,32 +372,68 @@ void CClassView::FillClassView()
 	HTREEITEM h4 = m_wndClassView.InsertItem(_T("bilinear interpolation method upsampling"), 3, 3, hZoom);
 	m_wndClassView.SetItemData(h4, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::bilinear_interpolation, true)));
 
-	HTREEITEM hPow = m_wndClassView.InsertItem(_T("pow scale"), 1, 1, hGraying);
+	HTREEITEM hPow = m_wndClassView.InsertItem(_T("pow scale"), 0, 0);
 	m_wndClassView.SetItemData(hPow, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::pow_scale, true)));
 
-	HTREEITEM hLog = m_wndClassView.InsertItem(_T("log scale"), 1, 1, hGraying);
+	HTREEITEM hLog = m_wndClassView.InsertItem(_T("log scale"), 0, 0);
 	m_wndClassView.SetItemData(hLog, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::log_scale, true)));
 
-	HTREEITEM hHeq = m_wndClassView.InsertItem(_T("Histogram equal"), 1, 1, hGraying);
+	HTREEITEM hHeq = m_wndClassView.InsertItem(_T("Histogram equal"), 0, 0);
 	m_wndClassView.SetItemData(hHeq, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::histogram_eq, true)));
 
-	HTREEITEM hHmc = m_wndClassView.InsertItem(_T("Histogram match"), 1, 1, hGraying);
+	HTREEITEM hHmc = m_wndClassView.InsertItem(_T("Histogram match"), 0, 0);
 	m_wndClassView.SetItemData(hHmc, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::histogram_match, true)));
 
-	HTREEITEM hHloc = m_wndClassView.InsertItem(_T("Histogram local"), 1, 1, hGraying);
+	HTREEITEM hHloc = m_wndClassView.InsertItem(_T("Histogram local"), 0, 0);
 	m_wndClassView.SetItemData(hHloc, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::histogram_local, true)));
 
-	HTREEITEM hSmoo = m_wndClassView.InsertItem(_T("Smoothing"), 1, 1, hGraying);
+	HTREEITEM hSmoo = m_wndClassView.InsertItem(_T("Smoothing"), 0, 0);
 	m_wndClassView.SetItemData(hSmoo, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::smoothing, true)));
 
-	HTREEITEM hMedi = m_wndClassView.InsertItem(_T("Median"), 1, 1, hGraying);
+	HTREEITEM hArm = m_wndClassView.InsertItem(_T("Arithmetic"), 0, 0);
+	m_wndClassView.SetItemData(hArm, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::arithmetic, true)));
+
+	HTREEITEM hGom = m_wndClassView.InsertItem(_T("geometic"), 0, 0);
+	m_wndClassView.SetItemData(hGom, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::geometic, true)));
+
+	HTREEITEM hHmn = m_wndClassView.InsertItem(_T("Harmonic"), 0, 0);
+	m_wndClassView.SetItemData(hHmn, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::harmonic, true)));
+
+	HTREEITEM hCth = m_wndClassView.InsertItem(_T("Contraharmonic"), 0, 0);
+	m_wndClassView.SetItemData(hCth, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::contraharmonic, true)));
+
+	HTREEITEM hAlt = m_wndClassView.InsertItem(_T("Alpha trimmed"), 0, 0);
+	m_wndClassView.SetItemData(hAlt, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::alpha_trimmed, true)));
+
+	HTREEITEM hMedi = m_wndClassView.InsertItem(_T("Median"), 0, 0);
 	m_wndClassView.SetItemData(hMedi, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::median, true)));
 
-	HTREEITEM hSlp = m_wndClassView.InsertItem(_T("Sharpening Laplacian"), 1, 1, hGraying);
+	HTREEITEM hMax = m_wndClassView.InsertItem(_T("Max"), 0, 0);
+	m_wndClassView.SetItemData(hMax, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::max, true)));
+
+	HTREEITEM hMin = m_wndClassView.InsertItem(_T("Min"), 0, 0);
+	m_wndClassView.SetItemData(hMin, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::min, true)));
+
+	HTREEITEM hMidPoint = m_wndClassView.InsertItem(_T("MidPoint"), 0, 0);
+	m_wndClassView.SetItemData(hMidPoint, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::midpoint, true)));
+
+	HTREEITEM hSlp = m_wndClassView.InsertItem(_T("Sharpening Laplacian"), 0, 0);
 	m_wndClassView.SetItemData(hSlp, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::sharpening_laplacian, true)));
 
-	HTREEITEM hHbst = m_wndClassView.InsertItem(_T("High Boosting"), 1, 1, hGraying);
+	HTREEITEM hHbst = m_wndClassView.InsertItem(_T("High Boosting"), 0, 0);
 	m_wndClassView.SetItemData(hHbst, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::high_boosting, true)));
+
+	HTREEITEM hGraying = m_wndClassView.InsertItem(_T("graying"), 0, 0);
+	m_wndClassView.SetItemState(hGraying, TVIS_BOLD, TVIS_BOLD);
+	typeImgPtr graving(new MyImage());
+	graving->Load(L"P1000528_Gray.JPG");
+	m_wndClassView.SetItemData(hGraying, (DWORD_PTR)(new stTreeItemInfo(NULL, graving, Transitions::graying, true)));
+
+	HTREEITEM hGrayLevel = m_wndClassView.InsertItem(_T("graylevel"), 1, 1, hGraying);
+	m_wndClassView.SetItemData(hGrayLevel, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::gray_level, true)));
+
+	HTREEITEM hBsli = m_wndClassView.InsertItem(_T("Bit_plane Slicing"), 1, 1, hGraying);
+	m_wndClassView.SetItemData(hBsli, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::bit_slicing, true)));
 
 	m_wndClassView.Expand(hZoom, TVE_EXPAND);
 	m_wndClassView.Expand(hGraying, TVE_EXPAND);

@@ -2,12 +2,12 @@
 #include "Smoothing.h"
 #include "ImageMask.h"
 
-Smoothing::Smoothing()
+SmoothingFilter::SmoothingFilter()
 {
 	DefaultInit();
 }
 
-Smoothing::Smoothing(typeImgParaPtr imgP)
+SmoothingFilter::SmoothingFilter(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
@@ -35,7 +35,7 @@ Smoothing::Smoothing(typeImgParaPtr imgP)
 	}
 }
 
-void Smoothing::DefaultInit()
+void SmoothingFilter::DefaultInit()
 {
 	mask_size = 3;
 
@@ -59,11 +59,11 @@ void Smoothing::DefaultInit()
 	weight_mask.push_back(line);
 }
 
-Smoothing::~Smoothing()
+SmoothingFilter::~SmoothingFilter()
 {
 }
 
-byte Smoothing::Average(shared_ptr<ImageMask> src, int index)
+byte SmoothingFilter::Average(shared_ptr<ImageMask> src, int index)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
@@ -83,7 +83,7 @@ byte Smoothing::Average(shared_ptr<ImageMask> src, int index)
 	return floor(sum / weight);
 }
 
-typeImgPtr Smoothing::transit(typeImgPtr src)
+typeImgPtr SmoothingFilter::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();

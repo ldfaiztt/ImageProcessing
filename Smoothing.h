@@ -4,13 +4,13 @@
 
 class ImageMask;
 
-class Smoothing :
+class SmoothingFilter :
 	public TransImage
 {
 public:
-	Smoothing();
-	Smoothing(typeImgParaPtr imgP);
-	virtual ~Smoothing();
+	SmoothingFilter();
+	SmoothingFilter(typeImgParaPtr imgP);
+	virtual ~SmoothingFilter();
 
 protected:
 	int mask_size;

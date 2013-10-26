@@ -163,18 +163,37 @@ void CPropertiesWnd::OnPropertiesFlash()
 	CString strW = pWidth->GetValue();
 	CString strC = pC->GetValue();
 	CString strY = pY->GetValue();
+	CString strA = pA->GetValue();
 	CString strPath = pPath->GetValue();
-	CString strMask = pMaskSize->GetValue();
-	CString strBit = pBit->GetValue();
+	CString strMaskSize = pMaskSize->GetValue();
+	CString strBitSize = pBitSize->GetValue();
+	CString strBitMask = pBitMask->GetValue();
 	tstring strMaskType = (CString)pMaskType->GetValue();
 
 	typeImgParaPtr imgP(new stImgPara);
 	imgP->height = _wtoi(strH);
 	imgP->width = _wtoi(strW);
-	imgP->bit_size = _wtoi(strBit);
-	imgP->mask_size = _wtoi(strMask);
+	imgP->bit_size = _wtoi(strBitSize);
+	if (strMaskType.length() < 3)
+	{
+		imgP->bit_mask = _wtoi(strBitMask);
+	} 
+	else
+	{
+		strBitMask.MakeReverse();
+		imgP->bit_mask = 0;
+		for (int i = 0; i < 8 && i < strBitMask.GetLength(); i++)
+		{
+			if (strBitMask.GetAt(i) != '0')
+			{
+				imgP->bit_mask |= ByteMask[i];
+			}
+		}
+	}
+	imgP->mask_size = _wtoi(strMaskSize);
 	imgP->c = _wtof(strC);
 	imgP->y = _wtof(strY);
+	imgP->A = _wtof(strA);
 	imgP->mask_type = maskType_map[strMaskType];
 	imgP->filePath = strPath;
 
@@ -238,20 +257,29 @@ void CPropertiesWnd::InitPropList()
 	pMaskType->AllowEdit(FALSE);
 	pMask->AddSubItem(pMaskType);
 
-	CMFCPropertyGridProperty* pGray = new CMFCPropertyGridProperty(_T("Gray"));
-	pBit = new CMFCPropertyGridProperty(_T("Bit size"), (_variant_t)8l, _T("Specifies the img's gray level"));
-	pBit->EnableSpinControl(TRUE, 1, 8);
-	pGray->AddSubItem(pBit);
-	pGray->Expand(TRUE);
-	m_wndPropList.AddProperty(pGray);
+	CMFCPropertyGridProperty* pBitOp = new CMFCPropertyGridProperty(_T("Bit Operation"));
 
-	CMFCPropertyGridProperty* pConst = new CMFCPropertyGridProperty(_T("Gray scale func Const"));
+	pBitSize = new CMFCPropertyGridProperty(_T("Bit size"), (_variant_t)8l, _T("Specifies the img's gray level"));
+	pBitSize->EnableSpinControl(TRUE, 1, 8);
+	pBitOp->AddSubItem(pBitSize);
 
-	pC = new CMFCPropertyGridProperty(_T("C"), (_variant_t)1.0, _T("Specifies the img's Pow or Log const"));
+	pBitMask = new CMFCPropertyGridProperty(_T("Bit Mask"), (_variant_t)11111111l, _T("Specifies the img's Bit-Plane Slicing, binary format. 0xff as all planes, 0x01 as lowest order 0x80 as highest order plane"));
+	pBitMask->EnableSpinControl(TRUE, 0, 255);
+	pBitOp->AddSubItem(pBitMask);
+
+	pBitOp->Expand(TRUE);
+	m_wndPropList.AddProperty(pBitOp);
+
+	CMFCPropertyGridProperty* pConst = new CMFCPropertyGridProperty(_T("filter func Const"));
+
+	pC = new CMFCPropertyGridProperty(_T("C"), (_variant_t)1.0, _T("Specifies the img's Pow or Log coefficient"));
 	pConst->AddSubItem(pC);
 
-	pY = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)1.0, _T("Specifies the img's Pow or Log const"));
+	pY = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)1.0, _T("Specifies the img's Pow or Log coefficient"));
 	pConst->AddSubItem(pY);
+
+	pA = new CMFCPropertyGridProperty(_T("A"), (_variant_t)1.7, _T("Specifies the img's high boosting coefficient"));
+	pConst->AddSubItem(pA);
 	
 	pConst->Expand(TRUE);
 	m_wndPropList.AddProperty(pConst);

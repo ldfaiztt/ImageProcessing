@@ -5,7 +5,7 @@ class GrayLevel :
 {
 private:
 	int srcL;
-	int dstL;
+	int dst_L;
 	int GrayLevel::mapGrayL(int src);
 
 public:

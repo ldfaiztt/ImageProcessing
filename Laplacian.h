@@ -5,7 +5,7 @@ class ImageMask;
 
 const int mask_size = 3;
 
-class Laplacian :
+class LaplacianFilter :
 	public TransImage
 {
 protected:
@@ -15,12 +15,12 @@ protected:
 	void Init_laplacian_nag8();
 	void Init_laplacian_pos4();
 	void Init_laplacian_pos8();
-	int sharpening(shared_ptr<ImageMask> src, int index);
+	virtual int sharpening(shared_ptr<ImageMask> src, int index);
 
 public:
-	Laplacian();
-	Laplacian(typeImgParaPtr imgP);
-	virtual ~Laplacian();
+	LaplacianFilter();
+	LaplacianFilter(typeImgParaPtr imgP);
+	virtual ~LaplacianFilter();
 
 	virtual typeImgPtr transit(typeImgPtr src);
 };

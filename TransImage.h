@@ -21,6 +21,15 @@ enum class Transitions
 	median,
 	sharpening_laplacian,
 	high_boosting,
+	bit_slicing,
+	max,
+	min,
+	midpoint,
+	arithmetic,
+	geometic,
+	harmonic,
+	contraharmonic,
+	alpha_trimmed,
 };
 
 class TransImage

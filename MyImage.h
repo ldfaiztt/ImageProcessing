@@ -2,6 +2,8 @@
 
 #include <memory>
 
+const byte ByteMask[8] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
+
 enum class maskType
 {
 	average_1_9,
@@ -18,8 +20,10 @@ struct stImgPara
 	int height;
 	int mask_size;
 	int bit_size;
+	byte bit_mask;
 	double c;
 	double y;
+	double A;
 	maskType mask_type;
 	CString filePath;
 };

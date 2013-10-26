@@ -3,12 +3,12 @@
 #include "ImageMask.h"
 
 
-Laplacian::Laplacian()
+LaplacianFilter::LaplacianFilter()
 {
 	Init_laplacian_nag4();
 }
 
-Laplacian::Laplacian(typeImgParaPtr imgP)
+LaplacianFilter::LaplacianFilter(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
@@ -41,7 +41,7 @@ Laplacian::Laplacian(typeImgParaPtr imgP)
 	}
 }
 
-void Laplacian::Init_laplacian_nag4()
+void LaplacianFilter::Init_laplacian_nag4()
 {
 	weight_mask[0][0] = 0;
 	weight_mask[0][1] = 1;
@@ -55,7 +55,7 @@ void Laplacian::Init_laplacian_nag4()
 }
 
 
-void Laplacian::Init_laplacian_nag8()
+void LaplacianFilter::Init_laplacian_nag8()
 {
 	weight_mask[0][0] = 1;
 	weight_mask[0][1] = 1;
@@ -68,7 +68,7 @@ void Laplacian::Init_laplacian_nag8()
 	weight_mask[2][2] = 1;
 }
 
-void Laplacian::Init_laplacian_pos4()
+void LaplacianFilter::Init_laplacian_pos4()
 {
 	weight_mask[0][0] = 0;
 	weight_mask[0][1] = -1;
@@ -81,7 +81,7 @@ void Laplacian::Init_laplacian_pos4()
 	weight_mask[2][2] = 0;
 }
 
-void Laplacian::Init_laplacian_pos8()
+void LaplacianFilter::Init_laplacian_pos8()
 {
 	weight_mask[0][0] = -1;
 	weight_mask[0][1] = -1;
@@ -94,11 +94,11 @@ void Laplacian::Init_laplacian_pos8()
 	weight_mask[2][2] = -1;
 }
 
-Laplacian::~Laplacian()
+LaplacianFilter::~LaplacianFilter()
 {
 }
 
-int Laplacian::sharpening(shared_ptr<ImageMask> src, int index)
+int LaplacianFilter::sharpening(shared_ptr<ImageMask> src, int index)
 {
 	int sum = 0;
 	for (int i = 0; i < mask_size; i++)
@@ -125,7 +125,7 @@ int Laplacian::sharpening(shared_ptr<ImageMask> src, int index)
 	return ret;
 }
 
-typeImgPtr Laplacian::transit(typeImgPtr src)
+typeImgPtr LaplacianFilter::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();

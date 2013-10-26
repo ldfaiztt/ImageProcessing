@@ -60,5 +60,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 	void OnShowChildFrame(stTreeItemInfo * item);
+	typeImgPtr getSpecialImg(Transitions tsType);
 };
 
