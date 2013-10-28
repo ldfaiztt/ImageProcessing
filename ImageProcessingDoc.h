@@ -8,7 +8,7 @@
 
 class CImageProcessingDoc : public CDocument
 {
-protected: // create from serialization only
+public: // create from serialization only
 	CImageProcessingDoc();
 	DECLARE_DYNCREATE(CImageProcessingDoc)
 

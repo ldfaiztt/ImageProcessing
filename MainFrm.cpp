@@ -9,6 +9,8 @@
 #include "ChildFrm.h"
 #include "ImageProcessingDoc.h"
 
+#include "HistogramEQ.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -45,6 +47,8 @@ CMainFrame::CMainFrame()
 {
 	// TODO: add member initialization code here
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
+
+	histogram = NULL;
 }
 
 CMainFrame::~CMainFrame()
@@ -425,6 +429,40 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
 	return TRUE;
 }
 
+void CMainFrame::RefreshHistoramFrm()
+{
+	stTreeItemInfo * item = m_wndClassView.getSelectItemIfo();
+	typeImgPtr img = item->img;
+	if (img == NULL)
+	{
+		img = getSelectedImg();
+	}
+
+	int bit_num = img->GetBPP();
+	if (bit_num > 8)
+	{
+		bit_num = 8;
+	}
+
+	if (histogram == NULL)
+	{
+		histogram = (CChildFrame *)CreateNewWindow(_T("Histogram"), (CObject *)item);
+		histogram->statistic_max = HistogramEQFilter::statistic(img, histogram->maps);
+		histogram->scale_max = pow(2, bit_num);
+		histogram->setDrawType(drawType::drawHistogram);
+		histogram->SetWindowText(L"Histogram");
+		histogram->RecalcLayout();
+	} 
+	else if (histogram->GetSafeHwnd())
+	{
+		histogram->statistic_max = HistogramEQFilter::statistic(img, histogram->maps);
+		histogram->scale_max = pow(2, bit_num);
+		histogram->setDrawType(drawType::drawHistogram);
+		histogram->MDIActivate();
+		histogram->RecalcLayout();
+		histogram->GetActiveView()->Invalidate();
+	}
+}
 
 void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
@@ -436,14 +474,16 @@ void CMainFrame::RefreshChildFrm(stTreeItemInfo * item)
 {
 	if (item->frame == NULL)
 	{
-		//item->frame = (CChildFrame *)CreateNewWindow(_T("P1000528.JPG") + item->strType, (CObject *)item);
 		item->frame = (CChildFrame *)CreateNewWindow(_T(""), (CObject *)item);
 		(item->frame)->setImg(item->img);
+		(item->frame)->setDrawType(drawType::drawImg);
+		(item->frame)->SetWindowText(item->strType);
 		item->frame->RecalcLayout();
 	}
 	else if (item->frame->GetSafeHwnd())
 	{
 		(item->frame)->setImg(item->img);
+		(item->frame)->setDrawType(drawType::drawImg);
 		item->frame->MDIActivate();
 		item->frame->RecalcLayout();
 		item->frame->GetActiveView()->Invalidate();
@@ -489,6 +529,11 @@ void CMainFrame::RefreshClassView(typeImgParaPtr imgP)
 
 void CMainFrame::RefreshClassView(CChildFrame * child)
 {
+	if (histogram == child)
+	{
+		histogram = NULL;
+	}
+
 	return m_wndClassView.Refresh(child);
 }
 

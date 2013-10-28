@@ -332,9 +332,14 @@ stTreeItemInfo * CClassView::TransImg(typeImgParaPtr imgP)
 	return item;
 }
 
+stTreeItemInfo * CClassView::getSelectItemIfo()
+{
+	return (stTreeItemInfo *)m_wndClassView.getCurItemInfo();
+}
+
 void CClassView::Refresh(typeImgParaPtr imgP)
 {
-	stTreeItemInfo * item = (stTreeItemInfo *)m_wndClassView.getCurItemInfo();
+	stTreeItemInfo * item = getSelectItemIfo();
 	item->NeedToUpdate = true;
 	TransImg(imgP);
 }
@@ -423,17 +428,20 @@ void CClassView::FillClassView()
 	HTREEITEM hHbst = m_wndClassView.InsertItem(_T("High Boosting"), 0, 0);
 	m_wndClassView.SetItemData(hHbst, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::high_boosting, true)));
 
-	HTREEITEM hGraying = m_wndClassView.InsertItem(_T("graying"), 0, 0);
-	m_wndClassView.SetItemState(hGraying, TVIS_BOLD, TVIS_BOLD);
+	HTREEITEM hBslt = m_wndClassView.InsertItem(_T("Bit_plane Slicing--Only Set"), 0, 0);
+	m_wndClassView.SetItemData(hBslt, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::bit_slicing_set, true)));
+
 	typeImgPtr graving(new MyImage());
 	graving->Load(L"P1000528_Gray.JPG");
+	HTREEITEM hGraying = m_wndClassView.InsertItem(_T("graying"), 0, 0);
+	m_wndClassView.SetItemState(hGraying, TVIS_BOLD, TVIS_BOLD);
 	m_wndClassView.SetItemData(hGraying, (DWORD_PTR)(new stTreeItemInfo(NULL, graving, Transitions::graying, true)));
 
 	HTREEITEM hGrayLevel = m_wndClassView.InsertItem(_T("graylevel"), 1, 1, hGraying);
 	m_wndClassView.SetItemData(hGrayLevel, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::gray_level, true)));
 
-	HTREEITEM hBsli = m_wndClassView.InsertItem(_T("Bit_plane Slicing"), 1, 1, hGraying);
-	m_wndClassView.SetItemData(hBsli, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::bit_slicing, true)));
+	HTREEITEM hBsli = m_wndClassView.InsertItem(_T("Bit_plane Slicing--Reconstruct"), 1, 1, hGraying);
+	m_wndClassView.SetItemData(hBsli, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::bit_slicing_reconstruct, true)));
 
 	m_wndClassView.Expand(hZoom, TVE_EXPAND);
 	m_wndClassView.Expand(hGraying, TVE_EXPAND);

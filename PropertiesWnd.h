@@ -63,8 +63,8 @@ protected:
 	afx_msg void OnUpdateExpandAllProperties(CCmdUI* pCmdUI);
 	afx_msg void OnSortProperties();
 	afx_msg void OnUpdateSortProperties(CCmdUI* pCmdUI);
-	afx_msg void OnProperties1();
-	afx_msg void OnUpdateProperties1(CCmdUI* pCmdUI);
+	afx_msg void OnPropertiesHistogram();
+	afx_msg void OnUpdatePropertiesHistogram(CCmdUI* pCmdUI);
 	afx_msg void OnPropertiesFlash();
 	afx_msg void OnUpdatePropertiesFlash(CCmdUI* pCmdUI);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);

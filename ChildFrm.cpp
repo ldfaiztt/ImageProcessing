@@ -25,8 +25,7 @@ END_MESSAGE_MAP()
 CChildFrame::CChildFrame()
 {
 	// TODO: add member initialization code here
-	//img.reset(new MyImage());
-	//img->Load(_T("P1000528.JPG"));
+	drwt = drawType::drawImg;
 }
 
 CChildFrame::~CChildFrame()
@@ -38,6 +37,8 @@ CChildFrame::~CChildFrame()
 BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying the CREATESTRUCT cs
+	cs.style &= ~(LONG)FWS_ADDTOTITLE;
+
 	if( !CMDIChildWndEx::PreCreateWindow(cs) )
 		return FALSE;
 
@@ -80,4 +81,14 @@ void CChildFrame::OnClose()
 	((CMainFrame *)AfxGetMainWnd())->RefreshClassView(this);
 
 	CMDIChildWndEx::OnClose();
+}
+
+drawType CChildFrame::getDrawType()
+{
+	return drwt;
+}
+
+void CChildFrame::setDrawType(drawType dt)
+{
+	drwt = dt;
 }

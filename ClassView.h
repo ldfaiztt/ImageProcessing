@@ -33,6 +33,7 @@ protected:
 	stTreeItemInfo * TransImg(typeImgParaPtr imgP);
 
 public:
+	stTreeItemInfo * getSelectItemIfo();
 	void Refresh(typeImgParaPtr imgP);
 	void Refresh(CChildFrame * showFrame);
 

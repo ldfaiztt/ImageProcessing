@@ -1,20 +1,20 @@
 #pragma once
-#include "TransImage.h"
+#include "BitSlicingSet.h"
 #include <vector>
 
-class BitSlicing :
-	public TransImage
+class BitSlicingReConstruct :
+	public BitSlicingSet
 {
 public:
-	BitSlicing();
-	BitSlicing(typeImgParaPtr imgP);
-	virtual ~BitSlicing();
+	BitSlicingReConstruct();
+	BitSlicingReConstruct(typeImgParaPtr imgP);
+	virtual ~BitSlicingReConstruct();
+	virtual typeImgPtr transit(typeImgPtr src);
+
+private:
 	int CountBitPlane(byte mask);
 
 protected:
-	byte bit_mask;
 	std::vector<byte> bit_planes;
-public:
-	virtual typeImgPtr transit(typeImgPtr src);
 };
 

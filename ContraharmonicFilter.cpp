@@ -33,6 +33,11 @@ byte ContraharmonicFilter::Contraharmonic(shared_ptr<ImageMask> src, int index)
 		}
 	}
 
+	if (sum == 0)
+	{
+		return 0;
+	}
+
 	return sum_pow / sum;
 }
 

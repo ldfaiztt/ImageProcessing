@@ -94,8 +94,12 @@ struct stTreeItemInfo
 			strType = _T("high_boosting");
 			break;
 
-		case Transitions::bit_slicing:
-			strType = _T("bit_slicing");
+		case Transitions::bit_slicing_set:
+			strType = _T("bit_slicing_set");
+			break;
+
+		case Transitions::bit_slicing_reconstruct:
+			strType = _T("bit_slicing_reconstruct");
 			break;
 
 		case Transitions::max:

@@ -86,6 +86,8 @@
 #define IDS_EDIT_MENU				306
 #define IDR_CHILDFRAME				307
 #define IDR_CHILDFRAME_256			308
+#define IDR_HISTOGRAMFRAME				309
+#define IDR_HISTOGRAMFRAME_256			310
 
 // Next default values for new objects
 //

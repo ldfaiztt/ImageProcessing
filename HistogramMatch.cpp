@@ -59,10 +59,10 @@ typeImgPtr HistogramMatchFilter::transit(typeImgPtr src)
 	match_img.Load(filePath);
 
 	vector<shared_ptr<type_statistic_map>> match_maps;
-	Statistic(make_shared<MyImage>(match_img), match_maps);
+	StatisticSum(make_shared<MyImage>(match_img), match_maps);
 
 	vector<shared_ptr<type_statistic_map>> src_maps;
-	Statistic(src,src_maps);
+	StatisticSum(src,src_maps);
 
 	typeImgPtr dst(new MyImage());
 	dst->Create(srcW, srcH, src->GetBPP());

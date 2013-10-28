@@ -43,8 +43,8 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_UPDATE_COMMAND_UI(ID_EXPAND_ALL, OnUpdateExpandAllProperties)
 	ON_COMMAND(ID_SORTPROPERTIES, OnSortProperties)
 	ON_UPDATE_COMMAND_UI(ID_SORTPROPERTIES, OnUpdateSortProperties)
-	ON_COMMAND(ID_PROPERTIES1, OnProperties1)
-	ON_UPDATE_COMMAND_UI(ID_PROPERTIES1, OnUpdateProperties1)
+	ON_COMMAND(ID_PROPERTIES1, OnPropertiesHistogram)
+	ON_UPDATE_COMMAND_UI(ID_PROPERTIES1, OnUpdatePropertiesHistogram)
 	ON_COMMAND(ID_PROPERTIES2, OnPropertiesFlash)
 	ON_UPDATE_COMMAND_UI(ID_PROPERTIES2, OnUpdatePropertiesFlash)
 	ON_WM_SETFOCUS()
@@ -147,12 +147,13 @@ void CPropertiesWnd::OnUpdateSortProperties(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_wndPropList.IsAlphabeticMode());
 }
 
-void CPropertiesWnd::OnProperties1()
+void CPropertiesWnd::OnPropertiesHistogram()
 {
 	// TODO: Add your command handler code here
+	((CMainFrame *)AfxGetMainWnd())->RefreshHistoramFrm();
 }
 
-void CPropertiesWnd::OnUpdateProperties1(CCmdUI* /*pCmdUI*/)
+void CPropertiesWnd::OnUpdatePropertiesHistogram(CCmdUI* /*pCmdUI*/)
 {
 	// TODO: Add your command update UI handler code here
 }

@@ -1,30 +1,30 @@
 #include "stdafx.h"
-#include "HistogramLocal.h"
+#include "BitSlicingSet.h"
 
 
-HistogramLocalFilter::HistogramLocalFilter()
+BitSlicingSet::BitSlicingSet()
 {
-	mask_size = 3;
+	bit_mask = 0xff;
 }
 
-HistogramLocalFilter::HistogramLocalFilter(shared_ptr<stImgPara> imgP)
+BitSlicingSet::BitSlicingSet(typeImgParaPtr imgP)
 {
 	if (imgP == NULL)
 	{
-		mask_size = 3;
+		bit_mask = 0xff;
 	}
 	else
 	{
-		mask_size = imgP->mask_size;
+		bit_mask = imgP->bit_mask;
 	}
 }
 
 
-HistogramLocalFilter::~HistogramLocalFilter()
+BitSlicingSet::~BitSlicingSet()
 {
 }
 
-typeImgPtr HistogramLocalFilter::transit(typeImgPtr src)
+typeImgPtr BitSlicingSet::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();
@@ -47,17 +47,9 @@ typeImgPtr HistogramLocalFilter::transit(typeImgPtr src)
 	{
 		for (int j = 0; j < srcW; j++)
 		{
-			shared_ptr<ImageMask> mask(new ImageMask(*src, mask_size, j, i));
-			vector<shared_ptr<type_statistic_map>> statistic_maps;
-			StatisticSum(mask, statistic_maps);
-
 			for (int index = 0; index < dstClrCount; index++)
 			{
-				byte r = srcBuf[i * srcRowBytes + j * srcClrCount + index];
-				int sum = statistic_maps[index]->at(r);
-				int L = (--statistic_maps[index]->end())->first;
-
-				int g = (sum * L) / (mask_size * mask_size);
+				byte g = srcBuf[i * srcRowBytes + j * srcClrCount + index] & bit_mask;
 				dstBuf[i * dstRowBytes + j * dstClrCount + index] = g;
 			}
 

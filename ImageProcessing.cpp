@@ -119,7 +119,7 @@ BOOL CImageProcessingApp::InitInstance()
 	pDocTemplate = new CMultiDocTemplate(IDR_ImageProcessingTYPE,
 		RUNTIME_CLASS(CImageProcessingDoc),
 		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-		RUNTIME_CLASS(MyImageProcessingView));
+		RUNTIME_CLASS(CImageProcessingView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);

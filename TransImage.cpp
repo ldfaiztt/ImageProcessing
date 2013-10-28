@@ -25,6 +25,7 @@
 #include "HarmonicFilter.h"
 #include "ContraharmonicFilter.h"
 #include "AlphaTrimmedFilter.h"
+#include "BitSlicingSet.h"
 
 using namespace std;
 
@@ -146,8 +147,12 @@ TransImage * TransImage::CreateTransition(Transitions tsType, typeImgParaPtr img
 		return new HighBoostFilter(imgP);
 		break;
 
-	case Transitions::bit_slicing:
-		return new BitSlicing(imgP);
+	case Transitions::bit_slicing_set:
+		return new BitSlicingSet(imgP);
+		break;
+
+	case Transitions::bit_slicing_reconstruct:
+		return new BitSlicingReConstruct(imgP);
 		break;
 
 	case Transitions::max:

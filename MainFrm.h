@@ -43,6 +43,8 @@ protected:  // control bar embedded members
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 
+	CChildFrame * histogram;
+
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -59,6 +61,7 @@ protected:
 
 public:
 	void RefreshChildFrm(stTreeItemInfo * item);
+	void RefreshHistoramFrm();
 	void RefreshClassView(typeImgParaPtr imgP);
 	void RefreshClassView(CChildFrame * child);
 	typeImgPtr getSelectedImg();

@@ -2,27 +2,19 @@
 #include "BitSlicing.h"
 
 
-BitSlicing::BitSlicing()
+BitSlicingReConstruct::BitSlicingReConstruct()
+	:BitSlicingSet()
 {
-	bit_mask = 0xff;
 	CountBitPlane(bit_mask);
 }
 
-BitSlicing::BitSlicing(typeImgParaPtr imgP)
+BitSlicingReConstruct::BitSlicingReConstruct(typeImgParaPtr imgP)
+	: BitSlicingSet(imgP)
 {
-	if (imgP == NULL)
-	{
-		bit_mask = 0xff;
-	} 
-	else
-	{
-		bit_mask = imgP->bit_mask;
-	}
-
 	CountBitPlane(bit_mask);
 }
 
-int BitSlicing::CountBitPlane(byte mask)
+int BitSlicingReConstruct::CountBitPlane(byte mask)
 {
 	for (int i = 0; i < 8; i++)
 	{
@@ -35,11 +27,11 @@ int BitSlicing::CountBitPlane(byte mask)
 	return bit_planes.size();
 }
 
-BitSlicing::~BitSlicing()
+BitSlicingReConstruct::~BitSlicingReConstruct()
 {
 }
 
-typeImgPtr BitSlicing::transit(typeImgPtr src)
+typeImgPtr BitSlicingReConstruct::transit(typeImgPtr src)
 {
 	int srcW = src->GetWidth();
 	int srcH = src->GetHeight();

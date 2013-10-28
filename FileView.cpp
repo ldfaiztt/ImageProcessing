@@ -19,8 +19,8 @@ const CString GrayingPic = L"P1000528_Gray.JPG";
 
 CFileView::CFileView()
 {
-	fileArray.push_back(OrignalPic);
 	fileArray.push_back(GrayingPic);
+	fileArray.push_back(OrignalPic);
 }
 
 CFileView::~CFileView()
@@ -98,9 +98,10 @@ void CFileView::FillFileView()
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Image files"), 0, 0);
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	bool bFirst = true;
-	for each (CString fileName in fileArray)
+	
+	for (int i = 0; i < fileArray.size(); i++)
 	{
+		CString fileName = fileArray[i];
 		shared_ptr<MyImage> img(new MyImage());
 		img->Load(fileName);
 		if (!img->IsNull())
@@ -114,9 +115,8 @@ void CFileView::FillFileView()
 			HTREEITEM hFile = m_wndFileView.InsertItem(fileName, 2, 2, hRoot);
 			m_wndFileView.SetItemData(hFile, (DWORD_PTR)item);
 
-			if (bFirst)
+			if (i == fileArray.size() - 1)
 			{
-				bFirst = false;
 				m_wndFileView.SelectItem(hFile);
 			}
 		}
@@ -133,8 +133,9 @@ void CFileView::RefreshFileView(void)
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
 	bool bFirst = true;
-	for each (CString fileName in fileArray)
+	for (int i = 0; i < fileArray.size(); i++)
 	{
+		CString fileName = fileArray[i];
 		shared_ptr<MyImage> img(new MyImage());
 		img->Load(fileName);
 		if (!img->IsNull())
@@ -148,9 +149,8 @@ void CFileView::RefreshFileView(void)
 			HTREEITEM hFile = m_wndFileView.InsertItem(fileName, 2, 2, hRoot);
 			m_wndFileView.SetItemData(hFile, (DWORD_PTR)item);
 
-			if (bFirst)
+			if (i == fileArray.size() - 1)
 			{
-				bFirst = false;
 				m_wndFileView.SelectItem(hFile);
 			}
 		}
@@ -207,11 +207,11 @@ void CFileView::AdjustLayout()
 void CFileView::OnProperties()
 {
 	//AfxMessageBox(_T("Properties...."));
-	CFileDialog dlg(TRUE, 
+	CFileDialog dlg(TRUE,
 		NULL,
 		NULL,
 		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
-		(LPCTSTR)_TEXT("JPG Files (*.jpg)|*.jpg|All Files (*.*)|*.*||"),
+		(LPCTSTR)_TEXT("IMG Files (*.tif; *.jpg) | *.tif; *.jpg | All Files (*.*)|*.*||"),
 		NULL);
 	if (dlg.DoModal() == IDOK)
 	{
