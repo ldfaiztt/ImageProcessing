@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <memory>
+#include "ByteVecotr.h"
 
 typedef int stKey;
 typedef int stVal;
@@ -47,6 +48,8 @@ public:
 	virtual int GetBPP() const;
 	virtual void SetPixel(int x, int y, COLORREF color) throw();
 	virtual void SetPixelRGB(int x, int y, BYTE r, BYTE g, BYTE b) throw();
+
+	ByteVecotrPtr toByteVector();
 };
 
 typedef std::shared_ptr<MyImage> typeImgPtr;

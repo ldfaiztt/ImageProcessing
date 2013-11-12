@@ -4,6 +4,7 @@ class AlphaTrimmedFilter :
 	public MedianFilter
 {
 private:
+	int N;
 	byte AlphaTrimmed(shared_ptr<ImageMask> src, int index);
 
 protected:

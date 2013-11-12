@@ -4,12 +4,14 @@
 
 ContraharmonicFilter::ContraharmonicFilter()
 {
+	Q = 1;
 }
 
 
 ContraharmonicFilter::ContraharmonicFilter(typeImgParaPtr imgP)
 : MedianFilter(imgP)
 {
+	Q = 1;
 }
 
 ContraharmonicFilter::~ContraharmonicFilter()
@@ -28,8 +30,8 @@ byte ContraharmonicFilter::Contraharmonic(shared_ptr<ImageMask> src, int index)
 		for (int j = 0; j < srcW; j++)
 		{
 			byte r = src->getByteVal(j, i, index);
-			sum += r;
-			sum_pow += r*r;
+			sum += pow(r, Q);
+			sum_pow += pow(r, Q + 1);
 		}
 	}
 

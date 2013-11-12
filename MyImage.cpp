@@ -6,7 +6,6 @@ MyImage::MyImage()
 {
 }
 
-
 MyImage::~MyImage()
 {
 }
@@ -49,4 +48,12 @@ int MyImage::GetWidth() const throw()
 int MyImage::GetHeight() const throw()
 {
 	return CImage::GetHeight();
+}
+
+ByteVecotrPtr MyImage::toByteVector()
+{
+	byte * data = (byte *)GetBits();
+	int byteNum = GetPitch() * GetHeight();
+	
+	return ByteVecotrPtr(new ByteVecotr(data, data + byteNum));
 }

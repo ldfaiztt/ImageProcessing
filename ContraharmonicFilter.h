@@ -4,6 +4,7 @@ class ContraharmonicFilter :
 	public MedianFilter
 {
 private:
+	int Q;
 	byte Contraharmonic(shared_ptr<ImageMask> src, int index);
 
 protected:
