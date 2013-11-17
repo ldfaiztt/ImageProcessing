@@ -62,22 +62,21 @@ ByteVecotrPtr RLC_BytesDecoder::DecoderWithTag(ByteVecotrPtr src, byte PlaceHold
 			{
 				it++;
 			}
+			it++;
 		}
 
 		int countLine = 0;
 		while (countLine < LineNum)
 		{
 			byte elem = *it++;
-			if (*it == PlaceHolder)
+			if (elem == PlaceHolder)
 			{
-				it++;
 				break;
 			}
 
 			byte count = *it++;
-			if (*it == PlaceHolder)
+			if (count == PlaceHolder)
 			{
-				it++;
 				break;
 			}
 
@@ -106,6 +105,7 @@ ByteVecotrPtr RLC_BytesDecoder::DecoderWithTag(ByteVecotrPtr src, byte PlaceHold
 			{
 				it++;
 			}
+			it++;
 		}
 	}
 

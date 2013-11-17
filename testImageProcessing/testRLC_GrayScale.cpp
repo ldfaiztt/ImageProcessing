@@ -7,6 +7,8 @@ typedef unsigned char byte;
 #include "../ImageProcessing/RLC_BytesDecoder.h"
 #include "../ImageProcessing/RLC_BytesEncoder.h"
 
+#include "TimeRecorder.h"
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace testImageProcessing
@@ -35,11 +37,11 @@ namespace testImageProcessing
 			Logger::WriteMessage(L"Inside the testRLC_GrayScale Test. \n");
 		}
 
-		//BEGIN_TEST_CLASS_ATTRIBUTE()
-		//	TEST_CLASS_ATTRIBUTE(L"Owner", L"Kern")
-		//	TEST_CLASS_ATTRIBUTE(L"Descrioption", L"test RLC_GrayScale")
-		//	TEST_CLASS_ATTRIBUTE(L"Priority", L"Critical")
-		//END_TEST_CLASS_ATTRIBUTE()
+		BEGIN_TEST_CLASS_ATTRIBUTE()
+			//TEST_CLASS_ATTRIBUTE(L"Owner", L"Kern")
+			TEST_CLASS_ATTRIBUTE(L"Descrioption", L"test RLC_GrayScale")
+			//TEST_CLASS_ATTRIBUTE(L"Priority", L"Critical")
+		END_TEST_CLASS_ATTRIBUTE()
 
 		TEST_CLASS_INITIALIZE(ClassInitialize)
 		{
@@ -72,7 +74,25 @@ namespace testImageProcessing
 			RLC_BytesEncoder rlcE(0,0xff);
 			RLC_BytesDecoder rlcD(0,0xff);
 			
-			ByteVecotrPtr dst = rlcD.transitData(rlcE.transitData(src));
+			TimeRecorder tr;
+
+			tr.start();
+			ByteVecotrPtr tmp = rlcE.transitData(src);
+			tr.end();
+			wostringstream wostr;
+			wostr << L"testRLC_GrayScale without line tag encoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
+
+			tr.start();
+			ByteVecotrPtr dst = rlcD.transitData(tmp);
+			tr.end();
+			wostr.str(L"");
+			wostr << L"testRLC_GrayScale without line tag decoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
+
+			wostr.str(L"");
+			wostr << L"testRLC_GrayScale compression ratio : " << (double)tmp->size() / (double)src->size() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
 
 			Assert::AreEqual(src->size(), dst->size());
 
@@ -94,10 +114,28 @@ namespace testImageProcessing
 
 			ByteVecotrPtr src = img->toByteVector();
 
-			RLC_BytesEncoder rlcE(0, 0xff);
-			RLC_BytesDecoder rlcD(0, 0xff);
+			RLC_BytesEncoder rlcE(LineNum, 0xff);
+			RLC_BytesDecoder rlcD(LineNum, 0xff);
 
-			ByteVecotrPtr dst = rlcD.transitData(rlcE.transitData(src));
+			TimeRecorder tr;
+
+			tr.start();
+			ByteVecotrPtr tmp = rlcE.transitData(src);
+			tr.end();
+			wostringstream wostr;
+			wostr << L"testRLC_GrayScale without line tag encoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
+
+			tr.start();
+			ByteVecotrPtr dst = rlcD.transitData(tmp);
+			tr.end();
+			wostr.str(L"");
+			wostr << L"testRLC_GrayScale without line tag decoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
+
+			wostr.str(L"");
+			wostr << L"testRLC_GrayScale compression ratio : " << (double)tmp->size() / (double)src->size() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
 
 			Assert::AreEqual(src->size(), dst->size());
 
@@ -121,8 +159,25 @@ namespace testImageProcessing
 			RLC_BytesEncoder rlcE(0,0xff);
 			RLC_BytesDecoder rlcD(0,0xff);
 
+			TimeRecorder tr;
+
+			tr.start();
 			ByteVecotrPtr tmp = rlcE.transitData(src);
+			tr.end();
+			wostringstream wostr;
+			wostr << L"testRLC_GrayScale without line tag encoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
+
+			tr.start();
 			ByteVecotrPtr dst = rlcD.transitData(tmp);
+			tr.end();
+			wostr.str(L"");
+			wostr << L"testRLC_GrayScale without line tag decoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
+
+			wostr.str(L"");
+			wostr << L"testRLC_GrayScale compression ratio : " << (double)tmp->size() / (double)src->size() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
 
 			Assert::AreEqual(src->size(), dst->size());
 
@@ -146,8 +201,25 @@ namespace testImageProcessing
 			RLC_BytesEncoder rlcE(5, 0xff);
 			RLC_BytesDecoder rlcD(5, 0xff);
 
+			TimeRecorder tr;
+
+			tr.start();
 			ByteVecotrPtr tmp = rlcE.transitData(src);
+			tr.end();
+			wostringstream wostr;
+			wostr << L"testRLC_GrayScale without line tag encoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
+
+			tr.start();
 			ByteVecotrPtr dst = rlcD.transitData(tmp);
+			tr.end();
+			wostr.str(L"");
+			wostr << L"testRLC_GrayScale without line tag decoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
+
+			wostr.str(L"");
+			wostr << L"testRLC_GrayScale compression ratio : " << (double)tmp->size() / (double)src->size() << endl;
+			Logger::WriteMessage(wostr.str().c_str());
 
 			Assert::AreEqual(src->size(), dst->size());
 

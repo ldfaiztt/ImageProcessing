@@ -292,9 +292,6 @@ void CClassView::OnChangeVisualStyle()
 
 void CClassView::OnNewFolder()
 {
-	typeImgPtr img = ((CMainFrame *)AfxGetMainWnd())->getSelectedImg();
-
-	img->toByteVector();
 }
 
 stTreeItemInfo * CClassView::TransImg(typeImgParaPtr imgP)
