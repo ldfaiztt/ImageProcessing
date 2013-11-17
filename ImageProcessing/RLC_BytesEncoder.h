@@ -12,12 +12,13 @@ private:
 	ByteVecotrPtr EncoderWithoutTag(ByteVecotrPtr src);
 	ByteVecotrPtr EncoderWithTag(ByteVecotrPtr src, byte PlaceHolder, int LineNum);
 
+protected:
+	ByteVecotrPtr transitDataOwn(ByteVecotrPtr src);
+
 public:
 	RLC_BytesEncoder(int lineNum, byte placeHolder);
 	RLC_BytesEncoder(int lineNum, byte placeHolder, TransData * pre);
 
 	virtual ~RLC_BytesEncoder();
-
-	ByteVecotrPtr transitDataOwn(ByteVecotrPtr src);
 };
 

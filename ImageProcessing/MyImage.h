@@ -6,6 +6,7 @@
 typedef int stKey;
 typedef int stVal;
 typedef std::map<stKey, stVal> type_statistic_map;
+typedef std::pair<stKey, stVal> type_statistic_pair;
 
 const byte ByteMask[8] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
 
