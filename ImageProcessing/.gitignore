@@ -1,0 +1,6 @@
+Debug/
+Release/
+res/
+*.jpg
+ImageProcessing.vcxproj.filters
+ImageProcessing.vcxproj

@@ -1,0 +1,6 @@
+Choose "FileView" pane by click the tab on the leftbottom. In this view you can add file and/or select one file. All the filter will work on the selected img file. By default the program auto choose the last added file.  
+
+Choose "ClassView" Pane by click the tab on the leftbottom. In this view you can choose the filter. By double click on the filter item, it work on the img selected in the "Fileview" with default parameters then show the output img.
+
+In the "Properties" pane, you can input the parameters for the filter selected in the "ClassView". Then click on "Flash" button on the righttop area to start the work. 
+Also by click the "Table" button just on the left of the "Flash" button you can show the Histogram Table for the img outputed by current selected filter in the "ClassView".

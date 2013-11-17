@@ -241,11 +241,6 @@ void CClassView::OnClassProperties()
 	// TODO: Add your command handler code here
 }
 
-void CClassView::OnNewFolder()
-{
-	AfxMessageBox(_T("New Folder..."));
-}
-
 void CClassView::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
@@ -293,6 +288,13 @@ void CClassView::OnChangeVisualStyle()
 
 	m_wndToolBar.CleanUpLockedImages();
 	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_SORT_24 : IDR_SORT, 0, 0, TRUE /* Locked */);
+}
+
+void CClassView::OnNewFolder()
+{
+	typeImgPtr img = ((CMainFrame *)AfxGetMainWnd())->getSelectedImg();
+
+	img->toByteVector();
 }
 
 stTreeItemInfo * CClassView::TransImg(typeImgParaPtr imgP)

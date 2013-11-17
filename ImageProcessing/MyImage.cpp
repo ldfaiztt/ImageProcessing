@@ -53,7 +53,24 @@ int MyImage::GetHeight() const throw()
 ByteVecotrPtr MyImage::toByteVector()
 {
 	byte * data = (byte *)GetBits();
-	int byteNum = GetPitch() * GetHeight();
+	byte * start = NULL;
+	byte * end = NULL;
+
+	int width = GetWidth();
+	int height = GetHeight();
+	int srcClrCount = GetBPP() / 8;
+	int bytesPerLine = GetPitch();
+
+	if (bytesPerLine > 0)
+	{
+		start = data;
+		end = data + height * bytesPerLine;
+	}
+	else
+	{
+		start = data + (height - 1) * bytesPerLine;
+		end = data + (bytesPerLine * (-1));
+	}
 	
-	return ByteVecotrPtr(new ByteVecotr(data, data + byteNum));
+	return ByteVecotrPtr(new ByteVecotr(start, end));
 }
