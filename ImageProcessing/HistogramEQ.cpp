@@ -16,6 +16,86 @@ HistogramEQFilter::~HistogramEQFilter()
 {
 }
 
+int HistogramEQFilter::statistic(typeImgPtr img, type_statistic_map & scale_statistic_map)
+{
+	scale_statistic_map.clear();
+
+	int srcW = img->GetWidth();
+	int srcH = img->GetHeight();
+	int srcL = img->GetBPP();
+	int srcClrCount = srcL / 8;
+	int srcRowBytes = img->GetPitch();
+	byte * srcBuf = (byte *)img->GetBits();
+
+	int max_num = 0;
+	if (srcClrCount > 0)
+	{
+		for (int i = 0; i < srcH; i++)
+		{
+			for (int j = 0; j < srcW; j++)
+			{
+				for (int index = 0; index < srcClrCount; index++)
+				{
+					byte r = img->getByteVal(j, i, index);
+					type_statistic_map::iterator it = scale_statistic_map.find(r);
+					if (it != scale_statistic_map.end())
+					{
+						it->second += 1;
+						if (it->second > max_num)
+						{
+							max_num = it->second;
+						}
+					}
+					else
+					{
+						scale_statistic_map.insert({ r, 1 });
+						if (1 > max_num)
+						{
+							max_num = 1;
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		byte bit_mask = 0;
+		for (int i = 0; i < srcL; i++)
+		{
+			bit_mask |= 1 << i;
+		}
+
+		for (int i = 0; i < srcH; i++)
+		{
+			for (int j = 0; j < srcW; j++)
+			{
+				byte r = (srcBuf[i * srcRowBytes + (j * srcL) / 8] >> ((j * srcL) % 8)) & bit_mask;
+				type_statistic_map::iterator it = scale_statistic_map.find(r);
+				if (it != scale_statistic_map.end())
+				{
+					it->second += 1;
+					if (it->second > max_num)
+					{
+						max_num = it->second;
+					}
+				}
+				else
+				{
+					scale_statistic_map.insert({ r, 1 });
+					if (1 > max_num)
+					{
+						max_num = 1;
+					}
+				}
+			}
+		}
+	}
+
+
+	return max_num;
+}
+
 int HistogramEQFilter::statistic(typeImgPtr img, vector<shared_ptr<type_statistic_map>> & scale_statistic_maps)
 {
 	scale_statistic_maps.clear();
@@ -98,7 +178,7 @@ int HistogramEQFilter::statistic(typeImgPtr img, vector<shared_ptr<type_statisti
 
 		scale_statistic_maps.push_back(scale_count_map);
 	}
-	
+
 
 	return max_num;
 }
@@ -135,7 +215,7 @@ int HistogramEQFilter::StatisticSum(typeImgPtr src, vector<shared_ptr<type_stati
 		}
 
 		int sum = 0;
-		
+
 		shared_ptr<type_statistic_map> scale_sum_map(new type_statistic_map());
 		for (type_statistic_map::iterator it = scale_count_map.begin(); it != scale_count_map.end(); ++it)
 		{
@@ -157,7 +237,7 @@ typeImgPtr HistogramEQFilter::transit(typeImgPtr src)
 	int srcClrCount = src->GetBPP() / 8;
 
 	vector<shared_ptr<type_statistic_map>> statistic_maps;
-	StatisticSum(src,statistic_maps);
+	StatisticSum(src, statistic_maps);
 
 	typeImgPtr dst(new MyImage());
 	dst->Create(srcW, srcH, src->GetBPP());

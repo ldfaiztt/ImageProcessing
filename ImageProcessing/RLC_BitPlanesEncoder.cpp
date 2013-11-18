@@ -6,17 +6,11 @@ RLC_BitPlanesEncoder::RLC_BitPlanesEncoder()
 {
 }
 
-RLC_BitPlanesEncoder::RLC_BitPlanesEncoder(TransData * pre)
-	:TransData(pre)
-{
-
-}
-
 RLC_BitPlanesEncoder::~RLC_BitPlanesEncoder()
 {
 }
 
-BitVectorPtr RLC_BitPlanesEncoder::transitDataOwn(BitVectorPtr src)
+BitVectorPtr RLC_BitPlanesEncoder::transitData(BitVectorPtr src)
 {
 	BitVectorPtr ret = BitVectorPtr(new BitVector());
 	ret->clear();

@@ -1,18 +1,18 @@
 #pragma once
-#include "TransData.h"
-#include "MyImage.h"
-#include <list>
+#include "MyBinaryTree.h"
+#include "BuildHuffmanTree.h"
+#include "BitVector.h"
 
-class VLC_HuffmanEncoder :
-	public TransData
+class VLC_HuffmanEncoder
 {
-protected:
-	int BuildHuffmanTree(list<type_statistic_pair> & lst);
+private:
+	shared_ptr<MyBinaryTree<stNodeData>> huffmanTree;
+	shared_ptr<unordered_map<stKey, shared_ptr<typeTreeNode>>> leafMap;
+
 public:
-	VLC_HuffmanEncoder();
-	VLC_HuffmanEncoder(TransData * pre);
+	VLC_HuffmanEncoder(shared_ptr<MyBinaryTree<stNodeData>> tree, shared_ptr<unordered_map<stKey, shared_ptr<typeTreeNode>>> map);
 	virtual ~VLC_HuffmanEncoder();
 
-	void SortRawData(typeImgPtr img);
+	BitVectorPtr transitData(ByteVecotrPtr src);
 };
 

@@ -1,30 +1,69 @@
 ﻿#pragma once
+#include <memory>
 
-template <class Type> class Tree;
+using namespace std;
+
+template <class Type> class MyBinaryTree;
 
 template <class Type> class TreeNode
 {
-	friend class Tree<Type>;
+	friend class MyBinaryTree<Type>;
 
 private:
 	Type data;
-	TreeNode<Type> * firstChild;
-	TreeNode<Type> * nextSibling;
-	TreeNode<Type> * parent;
+	shared_ptr<TreeNode<Type>> firstChild;
+	shared_ptr<TreeNode<Type>> nextSibling;
+	shared_ptr<TreeNode<Type>> parent;
 
-	TreeNode(Type value = NULL, TreeNode<Type> *fc = NULL, TreeNode<Type> *ns = NULL, TreeNode<Type> *pt = NULL)
+public:
+	TreeNode(Type value = NULL, shared_ptr<TreeNode<Type>> fc = NULL, shared_ptr<TreeNode<Type>> ns = NULL, shared_ptr<TreeNode<Type>> pt = NULL)
 		:data(value), firstChild(fc), nextSibling(ns), parent(pt)
 	{
 
 	}
+
+	void setParent(shared_ptr<TreeNode<Type>> pt)
+	{
+		parent = pt;
+	}
+
+	shared_ptr<TreeNode<Type>> getFirstChild()
+	{
+		return firstChild;
+	}
+
+	void setFirstChild(shared_ptr<TreeNode<Type>> fc)
+	{
+		firstChild = fc;
+	}
+
+	shared_ptr<TreeNode<Type>> getNextSlibing()
+	{
+		return nextSibling;
+	}
+
+	void setNextSlibing(shared_ptr<TreeNode<Type>> ns)
+	{
+		nextSibling = ns;
+	}
+
+	Type & getDataRef()
+	{
+		return data;
+	}
 };
 
-template <class Type> class Tree
+template <class Type> class MyBinaryTree
 {
 public:
-	Tree()
+	MyBinaryTree()
 	{
 		root = current = NULL;
+	}
+
+	MyBinaryTree(shared_ptr<TreeNode<Type>> node)
+	{
+		root = current = node;
 	}
 
 	bool Root();           																					
@@ -37,7 +76,8 @@ public:
 	//bool Parent();                 														
 	bool IsRoot();                 																	
 	void RemovesubTree();          									
-	Type GetCurrentData();         				
+	Type GetCurrentData();     
+	void setCurrentPos(shared_ptr<TreeNode<Type>> node);
 	bool IsEmpty()                  									
 	{
 		return current == NULL;
@@ -48,8 +88,8 @@ public:
 	}
 
 private:
-	TreeNode<Type> *root, *current;
-	bool Find(TreeNode<Type> *p, Type target);
-	void RemovesubTree(TreeNode<Type> *p);
-	//bool FindParent(TreeNode<Type> *t, TreeNode<Type> *p);
+	shared_ptr<TreeNode<Type>> root, current;
+	bool Find(shared_ptr<TreeNode<Type>> p, Type target);
+	void RemovesubTree(shared_ptr<TreeNode<Type>> p);
+	//bool FindParent(shared_ptr<TreeNode<Type>> t, shared_ptr<TreeNode<Type>> p);
 };

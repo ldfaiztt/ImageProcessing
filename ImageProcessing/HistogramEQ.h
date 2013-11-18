@@ -16,5 +16,6 @@ public:
 
 public:
 	static int statistic(typeImgPtr img, vector<shared_ptr<type_statistic_map>> & scale_statistic_maps);
+	static int statistic(typeImgPtr img, type_statistic_map & scale_statistic_map);
 };
 

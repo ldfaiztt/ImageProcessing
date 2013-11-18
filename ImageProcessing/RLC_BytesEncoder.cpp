@@ -2,19 +2,10 @@
 #include "RLC_BytesEncoder.h"
 
 RLC_BytesEncoder::RLC_BytesEncoder(int lineNum, byte placeHolder)
-	:TransData()
 {
 	LineNum = lineNum;
 	PlaceHolder = placeHolder;
 }
-
-RLC_BytesEncoder::RLC_BytesEncoder(int lineNum, byte placeHolder, TransData * pre)
-	: TransData(pre)
-{
-	LineNum = lineNum;
-	PlaceHolder = placeHolder;
-}
-
 
 RLC_BytesEncoder::~RLC_BytesEncoder()
 {
@@ -112,7 +103,7 @@ ByteVecotrPtr RLC_BytesEncoder::EncoderWithTag(ByteVecotrPtr src, byte PlaceHold
 	return ret;
 }
 
-ByteVecotrPtr RLC_BytesEncoder::transitDataOwn(ByteVecotrPtr src)
+ByteVecotrPtr RLC_BytesEncoder::transitData(ByteVecotrPtr src)
 {
 	if (LineNum > 0)
 	{

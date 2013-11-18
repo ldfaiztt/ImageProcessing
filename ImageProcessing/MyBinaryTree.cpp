@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
 #include "MyBinaryTree.h"
 
-template <class Type> void Tree<Type>::BuildRoot(Type rootVal)
+template <class Type> void MyBinaryTree<Type>::BuildRoot(Type rootVal)
 {
-	root = current = new TreeNode<Type>(rootVal);
+	root = current = shared_ptr(new TreeNode<Type>(rootVal));
 }
 
-template <class Type> bool Tree<Type>::IsRoot()
+template <class Type> bool MyBinaryTree<Type>::IsRoot()
 {
 	if (root == NULL)
 	{
@@ -18,7 +18,7 @@ template <class Type> bool Tree<Type>::IsRoot()
 	}
 }
 
-template <class Type> bool Tree<Type>::Root()
+template <class Type> bool MyBinaryTree<Type>::Root()
 {
 	if (root == NULL)
 	{
@@ -32,7 +32,7 @@ template <class Type> bool Tree<Type>::Root()
 	}
 }
 
-template <class Type>	Type Tree<Type>::GetCurrentData()
+template <class Type>	Type MyBinaryTree<Type>::GetCurrentData()
 {
 	if (!IsEmpty())
 	{
@@ -40,7 +40,7 @@ template <class Type>	Type Tree<Type>::GetCurrentData()
 	}
 }
 
-template <class Type> bool Tree<Type>::FirstChild()
+template <class Type> bool MyBinaryTree<Type>::FirstChild()
 {
 	if (current != NULL && current->firstChild != NULL)
 	{
@@ -52,7 +52,7 @@ template <class Type> bool Tree<Type>::FirstChild()
 	return false;
 }
 
-template <class Type> bool Tree<Type>::NextSibling()
+template <class Type> bool MyBinaryTree<Type>::NextSibling()
 {
 	if (current != NULL && current->nextSibling != NULL)
 	{
@@ -64,7 +64,7 @@ template <class Type> bool Tree<Type>::NextSibling()
 	return false;
 }
 
-template <class Type> bool Tree<Type>::Parent()
+template <class Type> bool MyBinaryTree<Type>::Parent()
 {
 	if (current != NULL && current->parent != NULL)
 	{
@@ -76,9 +76,9 @@ template <class Type> bool Tree<Type>::Parent()
 	return false;
 }
 
-template <class Type> void Tree<Type>::InsertChild(Type value)
+template <class Type> void MyBinaryTree<Type>::InsertChild(Type value)
 {
-	TreeNode<Type> * newNode = new TreeNode<Type>(value);
+	shared_ptr<TreeNode<Type>> newNode = shared_ptr(new TreeNode<Type>(value));
 	newNode->data = value;
 
 	if (current->firstChild == NULL)
@@ -97,7 +97,7 @@ template <class Type> void Tree<Type>::InsertChild(Type value)
 
 }
 
-template <class Type>	bool Tree<Type>::Find(TreeNode<Type> *p, Type target)
+template <class Type>	bool MyBinaryTree<Type>::Find(shared_ptr<TreeNode<Type>> p, Type target)
 {
 	bool result = false;
 	if (p->data == target)
@@ -116,7 +116,7 @@ template <class Type>	bool Tree<Type>::Find(TreeNode<Type> *p, Type target)
 	return result;
 }
 
-template <class Type> bool Tree<Type>::Find(Type target)
+template <class Type> bool MyBinaryTree<Type>::Find(Type target)
 {
 	if (root == NULL)
 	{
@@ -161,7 +161,7 @@ template <class Type> bool Tree<Type>::Find(Type target)
 //	return ret;
 //}
 
-template <class Type> void Tree<Type>::RemovesubTree(TreeNode<Type> *p)
+template <class Type> void MyBinaryTree<Type>::RemovesubTree(shared_ptr<TreeNode<Type>> p)
 {
 	TreeNode<Type> * q = p->firstChild, *next;
 	while (q != NULL)
@@ -173,7 +173,7 @@ template <class Type> void Tree<Type>::RemovesubTree(TreeNode<Type> *p)
 	delete p;
 }
 
-template <class Type> void Tree<Type>::RemovesubTree()
+template <class Type> void MyBinaryTree<Type>::RemovesubTree()
 {
 	if (current != NULL)
 	{
@@ -184,4 +184,9 @@ template <class Type> void Tree<Type>::RemovesubTree()
 		RemovesubTree(current);
 		current = NULL;
 	}
+}
+
+template <class Type> void MyBinaryTree<Type>::setCurrentPos(shared_ptr<TreeNode<Type>> node)
+{
+	current = node;
 }

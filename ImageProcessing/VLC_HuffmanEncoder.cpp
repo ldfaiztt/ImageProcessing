@@ -1,14 +1,9 @@
 #include "stdafx.h"
 #include "VLC_HuffmanEncoder.h"
-#include "HistogramEQ.h"
 
-VLC_HuffmanEncoder::VLC_HuffmanEncoder()
-	:TransData()
-{
-}
-
-VLC_HuffmanEncoder::VLC_HuffmanEncoder(TransData * pre)
-	: TransData(pre)
+VLC_HuffmanEncoder::VLC_HuffmanEncoder(shared_ptr<MyBinaryTree<stNodeData>> tree, shared_ptr<unordered_map<stKey, shared_ptr<typeTreeNode>>> map)
+	:huffmanTree(tree),
+	leafMap(map)
 {
 
 }
@@ -17,40 +12,36 @@ VLC_HuffmanEncoder::~VLC_HuffmanEncoder()
 {
 }
 
-bool cmp(const type_statistic_pair & x, const type_statistic_pair & y)
+BitVectorPtr VLC_HuffmanEncoder::transitData(ByteVecotrPtr src)
 {
-	return x.second < y.second;
-}
+	BitVectorPtr ret = BitVectorPtr(new BitVector());
 
-int VLC_HuffmanEncoder::BuildHuffmanTree(list<type_statistic_pair> & lst)
-{
-	while (!lst.empty())
+	for (ByteVecotr::iterator it = src->begin(); it != src->end(); it++)
 	{
-		type_statistic_pair left = lst.front();
-		lst.pop_front();
-		type_statistic_pair right = lst.front();
-		lst.pop_front();
-
-		type_statistic_pair merge = make_pair((left.first + right.first), (left.second + right.second));
-	}
-
-	return 0;
-}
-
-void VLC_HuffmanEncoder::SortRawData(typeImgPtr img)
-{
-	vector<std::shared_ptr<type_statistic_map>> maps;
-	HistogramEQFilter::statistic(img, maps);
-
-	for each (std::shared_ptr<type_statistic_map> map in maps)
-	{
-		list<type_statistic_pair> pairVec;
-		for (type_statistic_map::iterator it = map->begin(); it != map->end(); it++)
+		unordered_map<stKey, shared_ptr<typeTreeNode>>::iterator got = leafMap->find(*it);
+		if (got == leafMap->end())
 		{
-			pairVec.push_back(make_pair(it->first, it->second));
+			return NULL;
 		}
-		pairVec.sort(cmp);
+		else
+		{
+			shared_ptr<typeTreeNode> leaf = got->second;
+			huffmanTree->setCurrentPos(leaf);
 
-		BuildHuffmanTree(pairVec);
+			BitVector bits;
+			while (!huffmanTree->IsRoot())
+			{
+				bits.push_back(huffmanTree->GetCurrentData().Symbol);
+
+				huffmanTree->Parent();
+			}
+
+			for (BitVector::size_type i = 0; i < bits.size(); i++)
+			{
+				ret->push_back(bits[bits.size() - 1 - i]);
+			}
+		}
 	}
+
+	return ret;
 }

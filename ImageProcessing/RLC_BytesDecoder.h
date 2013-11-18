@@ -1,9 +1,7 @@
 #pragma once
-#include "TransData.h"
 #include "MyImage.h"
 
-class RLC_BytesDecoder :
-	public TransData
+class RLC_BytesDecoder
 {
 private:
 	byte PlaceHolder;
@@ -11,14 +9,11 @@ private:
 
 	ByteVecotrPtr DecoderWithoutTag(ByteVecotrPtr src);
 	ByteVecotrPtr DecoderWithTag(ByteVecotrPtr src, byte PlaceHolder, int LineNum);
-	
-protected:
-	ByteVecotrPtr transitDataOwn(ByteVecotrPtr src);
 
 public:
 	RLC_BytesDecoder(int lineNum, byte placeHolder);
-	RLC_BytesDecoder(int lineNum, byte placeHOlder, TransData * preOP);
-
 	virtual ~RLC_BytesDecoder();
+
+	ByteVecotrPtr transitData(ByteVecotrPtr src);
 };
 

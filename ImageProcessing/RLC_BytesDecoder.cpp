@@ -3,14 +3,6 @@
 
 
 RLC_BytesDecoder::RLC_BytesDecoder(int lineNum, byte placeHolder)
-: TransData()
-{
-	LineNum = lineNum;
-	PlaceHolder = placeHolder;
-}
-
-RLC_BytesDecoder::RLC_BytesDecoder(int lineNum, byte placeHolder, TransData * preOP)
-: TransData(preOP)
 {
 	LineNum = lineNum;
 	PlaceHolder = placeHolder;
@@ -112,7 +104,7 @@ ByteVecotrPtr RLC_BytesDecoder::DecoderWithTag(ByteVecotrPtr src, byte PlaceHold
 	return ret;
 }
 
-ByteVecotrPtr RLC_BytesDecoder::transitDataOwn(ByteVecotrPtr src)
+ByteVecotrPtr RLC_BytesDecoder::transitData(ByteVecotrPtr src)
 {
 	if (LineNum > 0)
 	{

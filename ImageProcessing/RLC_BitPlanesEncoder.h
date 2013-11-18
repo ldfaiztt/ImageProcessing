@@ -1,16 +1,13 @@
 #pragma once
-#include "TransData.h"
+#include "BitVector.h"
 
-class RLC_BitPlanesEncoder :
-	public TransData
+class RLC_BitPlanesEncoder
 {
-protected:
-	BitVectorPtr transitDataOwn(BitVectorPtr src);
 
 public:
 	RLC_BitPlanesEncoder();
-	RLC_BitPlanesEncoder(TransData * pre);
 	virtual ~RLC_BitPlanesEncoder();
 
+	BitVectorPtr transitData(BitVectorPtr src);
 };
 
