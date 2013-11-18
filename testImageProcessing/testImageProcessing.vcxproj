@@ -106,6 +106,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="testRLC_GrayScale.cpp" />
+    <ClCompile Include="testVLC_Huffman.cpp" />
     <ClCompile Include="TimeRecorder.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

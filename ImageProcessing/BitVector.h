@@ -8,6 +8,8 @@ class BitVector
 {
 public:
 	BitVector();
+	BitVector(BitVector::size_type num_bits, ULONG val);
+
 	virtual ~BitVector();
 };
 
