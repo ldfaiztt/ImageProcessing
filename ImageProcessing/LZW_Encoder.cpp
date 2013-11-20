@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "LZW_Encoder.h"
 
-LZW_Encoder::LZW_Encoder()
+LZW_Encoder::LZW_Encoder(int len)
+	:compress_data_length(len)
 {
-	compress_data_length = 12;
-
 	for (byte i = 0; i <= 0xff; i++)
 	{
 		dictionary[string(1, i)] = i;

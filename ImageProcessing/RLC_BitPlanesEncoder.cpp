@@ -2,7 +2,9 @@
 #include "RLC_BitPlanesEncoder.h"
 
 
-RLC_BitPlanesEncoder::RLC_BitPlanesEncoder()
+RLC_BitPlanesEncoder::RLC_BitPlanesEncoder(int num, bool pred)
+	:line_num(num),
+	predictor(pred)
 {
 }
 
@@ -10,9 +12,9 @@ RLC_BitPlanesEncoder::~RLC_BitPlanesEncoder()
 {
 }
 
-BitVectorPtr RLC_BitPlanesEncoder::transitData(BitVectorPtr src)
+ByteVecotrPtr RLC_BitPlanesEncoder::transitData(BitVectorPtr src)
 {
-	BitVectorPtr ret = BitVectorPtr(new BitVector());
+	ByteVecotrPtr ret = ByteVecotrPtr(new ByteVecotr());
 	ret->clear();
 
 	if (src->size() <= 0)
@@ -20,25 +22,30 @@ BitVectorPtr RLC_BitPlanesEncoder::transitData(BitVectorPtr src)
 		return ret;
 	}
 
-	bool prevElem = ~((*src)[0]);
-	int elemCount = 0;
-	ret->push_back(prevElem);
-
-	for (BitVector::size_type i = 0; i < src->size(); i++)
+	for (BitVector::size_type i = 0; i < src->size();)
 	{
-		if ((*src)[i] == prevElem)
+		bool pred = predictor;
+		int elemCount = 0;
+
+		for (int j = 0; j < line_num && i < src->size(); j++)
 		{
-			elemCount++;
+			if ((*src)[i++] == pred)
+			{
+				elemCount++;
+			}
+			else
+			{
+				ret->push_back(elemCount);
+				pred = !pred;
+				elemCount = 1;
+			}
 		}
-		else
+
+		if (elemCount > 0)
 		{
 			ret->push_back(elemCount);
-			prevElem = (*src)[i];
-			elemCount = 1;
 		}
 	}
-
-	ret->push_back(elemCount);
 
 	return ret;
 }

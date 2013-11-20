@@ -1,13 +1,17 @@
 #pragma once
 #include "BitVector.h"
+#include "ByteVecotr.h"
 
 class RLC_BitPlanesEncoder
 {
+private:
+	int line_num;
+	bool predictor;
 
 public:
-	RLC_BitPlanesEncoder();
+	RLC_BitPlanesEncoder(int num, bool pred);
 	virtual ~RLC_BitPlanesEncoder();
 
-	BitVectorPtr transitData(BitVectorPtr src);
+	ByteVecotrPtr transitData(BitVectorPtr src);
 };
 

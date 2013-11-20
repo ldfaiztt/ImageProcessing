@@ -13,7 +13,7 @@ private:
 	int compress_data_length;
 
 public:
-	LZW_Encoder();
+	LZW_Encoder(int len);
 	virtual ~LZW_Encoder();
 
 	BitVectorPtr transitData(ByteVecotrPtr src);
