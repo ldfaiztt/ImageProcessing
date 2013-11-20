@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "BuildHuffmanTree.h"
+#include "HuffmanTreeBuilder.h"
 #include "HistogramEQ.h"
 
-BuildHuffmanTree::BuildHuffmanTree()
+HuffmanTreeBuilder::HuffmanTreeBuilder()
 {
 }
 
-BuildHuffmanTree::~BuildHuffmanTree()
+HuffmanTreeBuilder::~HuffmanTreeBuilder()
 {
 }
 
@@ -15,7 +15,7 @@ bool cmp(const shared_ptr<typeTreeNode> & x, const shared_ptr<typeTreeNode> & y)
 	return x->getDataRef().Probability < y->getDataRef().Probability;
 }
 
-shared_ptr<MyBinaryTree<stNodeData>> BuildHuffmanTree::GenerateHuffmanTree(type_statistic_map & statistic_map, unordered_map<stKey, shared_ptr<typeTreeNode>> & leafMap)
+shared_ptr<MyBinaryTree<stNodeData>> HuffmanTreeBuilder::GenerateHuffmanTree(type_statistic_map & statistic_map, unordered_map<stKey, shared_ptr<typeTreeNode>> & leafMap)
 {
 	list<shared_ptr<typeTreeNode>> Nodes;
 	for (type_statistic_map::iterator it = statistic_map.begin(); it != statistic_map.end(); it++)
@@ -77,7 +77,7 @@ shared_ptr<MyBinaryTree<stNodeData>> BuildHuffmanTree::GenerateHuffmanTree(type_
 	return shared_ptr<MyBinaryTree<stNodeData>>(new MyBinaryTree<stNodeData>(Nodes.front()));
 }
 
-shared_ptr<MyBinaryTree<stNodeData>> BuildHuffmanTree::BuildTrees(ByteVecotrPtr src, unordered_map<stKey, shared_ptr<typeTreeNode>> & leafMap)
+shared_ptr<MyBinaryTree<stNodeData>> HuffmanTreeBuilder::BuildTrees(ByteVecotrPtr src, unordered_map<stKey, shared_ptr<typeTreeNode>> & leafMap)
 {
 	type_statistic_map map;
 	statistic(src, map);
@@ -85,7 +85,7 @@ shared_ptr<MyBinaryTree<stNodeData>> BuildHuffmanTree::BuildTrees(ByteVecotrPtr 
 	return GenerateHuffmanTree(map, leafMap);
 }
 
-shared_ptr<MyBinaryTree<stNodeData>> BuildHuffmanTree::BuildTrees(typeImgPtr src, unordered_map<stKey, shared_ptr<typeTreeNode>> & leafMap)
+shared_ptr<MyBinaryTree<stNodeData>> HuffmanTreeBuilder::BuildTrees(typeImgPtr src, unordered_map<stKey, shared_ptr<typeTreeNode>> & leafMap)
 {
 	type_statistic_map map;
 	statistic(src, map);
@@ -93,7 +93,7 @@ shared_ptr<MyBinaryTree<stNodeData>> BuildHuffmanTree::BuildTrees(typeImgPtr src
 	return GenerateHuffmanTree(map,leafMap);
 }
 
-int BuildHuffmanTree::statistic(ByteVecotrPtr array, type_statistic_map & scale_statistic_map)
+int HuffmanTreeBuilder::statistic(ByteVecotrPtr array, type_statistic_map & scale_statistic_map)
 {
 	int max_num = 0;
 	for each (byte r in *array)
@@ -120,7 +120,7 @@ int BuildHuffmanTree::statistic(ByteVecotrPtr array, type_statistic_map & scale_
 	return max_num;
 }
 
-int BuildHuffmanTree::statistic(typeImgPtr img, type_statistic_map & scale_statistic_map)
+int HuffmanTreeBuilder::statistic(typeImgPtr img, type_statistic_map & scale_statistic_map)
 {
 	scale_statistic_map.clear();
 

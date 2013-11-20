@@ -1,22 +1,22 @@
 #include "stdafx.h"
-#include "BuildBitPlane.h"
+#include "BitPlaneBuilder.h"
 
 
-BuildBitPlane::BuildBitPlane()
+BitPlaneBuilder::BitPlaneBuilder()
 {
 }
 
 
-BuildBitPlane::~BuildBitPlane()
+BitPlaneBuilder::~BitPlaneBuilder()
 {
 }
 
-int BuildBitPlane::build(typeImgPtr src, vector<BitVectorPtr> & result)
+int BitPlaneBuilder::build(typeImgPtr src, vector<BitVectorPtr> & result)
 {
 	return build(src->toByteVector(), result);
 }
 
-int BuildBitPlane::build(ByteVecotrPtr src, vector<BitVectorPtr> & result)
+int BitPlaneBuilder::build(ByteVecotrPtr src, vector<BitVectorPtr> & result)
 {
 	
 	for (int bit = 0; bit < 8; bit++)

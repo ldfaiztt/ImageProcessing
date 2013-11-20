@@ -2,11 +2,11 @@
 #include "MyImage.h"
 #include "BitVector.h"
 
-class BuildBitPlane
+class BitPlaneBuilder
 {
 public:
-	BuildBitPlane();
-	virtual ~BuildBitPlane();
+	BitPlaneBuilder();
+	virtual ~BitPlaneBuilder();
 
 	int build(typeImgPtr src, vector<BitVectorPtr> & result);
 	int build(ByteVecotrPtr src, vector<BitVectorPtr> & result);

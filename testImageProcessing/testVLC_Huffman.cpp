@@ -1,6 +1,13 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
+#include <atlimage.h>
+#include "../ImageProcessing/HuffmanTreeBuilder.h"
+#include "../ImageProcessing/VLC_HuffmanEncoder.h"
+#include "../ImageProcessing/VLC_HuffmanDecoder.h"
+
+#include "TimeRecorder.h"
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace testImageProcessing
@@ -31,7 +38,14 @@ namespace testImageProcessing
 
 		TEST_METHOD(TestArrayInput)
 		{
+			string strSrc = "AATELDALFJADSEWORUNFASDLHFSSCBWERQW";
+			ByteVecotr srcVec;
+			for each (char c in strSrc)
+			{
+				srcVec.push_back(c);
+			}
 
+			HuffmanTreeBuilder treeBuilder;
 		}
 
 

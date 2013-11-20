@@ -1,7 +1,7 @@
 #pragma once
 
 #include "MyBinaryTree.h"
-#include "BuildHuffmanTree.h"
+#include "HuffmanTreeBuilder.h"
 #include "BitVector.h"
 
 class VLC_HuffmanDecoder
