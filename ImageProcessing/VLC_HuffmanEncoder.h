@@ -1,16 +1,16 @@
 #pragma once
-#include "MyBinaryTree.h"
 #include "HuffmanTreeBuilder.h"
 #include "BitVector.h"
+#include "MyBinaryTree.h"
 
 class VLC_HuffmanEncoder
 {
 private:
-	shared_ptr<MyBinaryTree<stNodeData>> huffmanTree;
-	shared_ptr<unordered_map<stKey, shared_ptr<typeTreeNode>>> leafMap;
+	MyBinaryTree<stNodeData> & huffmanTree;
+	unordered_map<stKey, shared_ptr<typeTreeNode>> & leafMap;
 
 public:
-	VLC_HuffmanEncoder(shared_ptr<MyBinaryTree<stNodeData>> tree, shared_ptr<unordered_map<stKey, shared_ptr<typeTreeNode>>> map);
+	VLC_HuffmanEncoder(MyBinaryTree<stNodeData> & tree, unordered_map<stKey, shared_ptr<typeTreeNode>> & map);
 	virtual ~VLC_HuffmanEncoder();
 
 	BitVectorPtr transitData(ByteVecotrPtr src);

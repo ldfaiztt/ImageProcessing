@@ -1,8 +1,7 @@
 #pragma once
+#include <unordered_map>
 #include "MyImage.h"
 #include "MyBinaryTree.h"
-#include <list>
-#include <unordered_map>
 
 struct stNodeData
 {

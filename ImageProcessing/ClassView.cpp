@@ -6,6 +6,9 @@
 #include "ImageProcessing.h"
 #include "TransImage.h"
 
+#include "VLC_HuffmanEncoder.h"
+#include "VLC_HuffmanDecoder.h"
+
 class CClassViewMenuButton : public CMFCToolBarMenuButton
 {
 	friend class CClassView;
@@ -292,6 +295,32 @@ void CClassView::OnChangeVisualStyle()
 
 void CClassView::OnNewFolder()
 {
+	typeImgPtr img = typeImgPtr(new MyImage());
+	img->Load(L"P1000528_Gray.jpg");
+	ASSERT(!img->IsNull());
+
+	int width = img->GetWidth();
+	int BytesPerPixel = (img->GetBPP() + 7) / 8;
+	int LineNum = width * BytesPerPixel;
+
+	ByteVecotrPtr srcVec = img->toByteVector();
+
+	HuffmanTreeBuilder treeBuilder;
+	unordered_map<stKey, shared_ptr<typeTreeNode>> leafMap;
+	shared_ptr<MyBinaryTree<stNodeData>> tree = treeBuilder.BuildTrees(img, leafMap);
+
+	VLC_HuffmanEncoder encoder(*tree, leafMap);
+	BitVectorPtr tmp = encoder.transitData(srcVec);
+
+	VLC_HuffmanDecoder decoder(tree);
+	ByteVecotrPtr dst = decoder.transitData(tmp);
+
+	ASSERT(srcVec->size() == dst->size());
+
+	for (int i = 0; i < srcVec->size(); i++)
+	{
+		ASSERT((*srcVec)[i] == (*dst)[i]);
+	}
 }
 
 stTreeItemInfo * CClassView::TransImg(typeImgParaPtr imgP)

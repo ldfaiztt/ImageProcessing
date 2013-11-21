@@ -1,5 +1,4 @@
 #pragma once
-
 #include "MyImage.h"
 
 class RLC_BytesEncoder

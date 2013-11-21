@@ -63,9 +63,8 @@ shared_ptr<MyBinaryTree<stNodeData>> HuffmanTreeBuilder::GenerateHuffmanTree(typ
 			if (merge->getDataRef().Probability < (*it)->getDataRef().Probability)
 			{
 				it = Nodes.insert(it, merge);
+				break;
 			}
-
-			break;
 		}
 
 		if (it == Nodes.end())
