@@ -49,10 +49,6 @@ namespace testImageProcessing
 
 			HuffmanTreeBuilder treeBuilder;
 			unordered_map<stKey, shared_ptr<typeTreeNode>> leafMap;
-			shared_ptr<MyBinaryTree<stNodeData>> tree = treeBuilder.BuildTrees(srcVec, leafMap);
-
-			VLC_HuffmanEncoder encoder(*tree, leafMap);
-			VLC_HuffmanDecoder decoder(tree);
 
 			TimeRecorder tr;
 
@@ -60,17 +56,27 @@ namespace testImageProcessing
 			wostr << L"huffman code test with array " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
+			/*********************************************************************************/
+			/**** encoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
+			shared_ptr<MyBinaryTree<stNodeData>> tree = treeBuilder.BuildTrees(srcVec, leafMap);
+			VLC_HuffmanEncoder encoder(*tree, leafMap);
 			BitVectorPtr tmp = encoder.transitData(srcVec);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"encoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
-			
+			/*********************************************************************************/
+			/**** decoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
+			VLC_HuffmanDecoder decoder(tree);
 			ByteVecotrPtr dst = decoder.transitData(tmp);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"decoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
@@ -109,20 +115,27 @@ namespace testImageProcessing
 			wostr << L"huffman code test with img " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
+			/*********************************************************************************/
+			/**** encoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
 			shared_ptr<MyBinaryTree<stNodeData>> tree = treeBuilder.BuildTrees(img, leafMap);
 			VLC_HuffmanEncoder encoder(*tree, leafMap);
 			BitVectorPtr tmp = encoder.transitData(srcVec);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"encoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
-
+			/*********************************************************************************/
+			/**** decoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
 			VLC_HuffmanDecoder decoder(tree);
 			ByteVecotrPtr dst = decoder.transitData(tmp);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"decoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());

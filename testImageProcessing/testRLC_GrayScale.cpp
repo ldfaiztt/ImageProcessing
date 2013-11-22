@@ -79,16 +79,24 @@ namespace testImageProcessing
 			wostr << L"test RLC GrayScale without line tag using img " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
+			/*********************************************************************************/
+			/**** encoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
 			ByteVecotrPtr tmp = rlcE.transitData(src);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"encoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
+			/*********************************************************************************/
+			/**** decoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
 			ByteVecotrPtr dst = rlcD.transitData(tmp);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"decoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
@@ -125,16 +133,24 @@ namespace testImageProcessing
 			wostr << L"test RLC GrayScale with line tag using img " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
+			/*********************************************************************************/
+			/**** encoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
 			ByteVecotrPtr tmp = rlcE.transitData(src);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"encoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
+			/*********************************************************************************/
+			/**** decoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
 			ByteVecotrPtr dst = rlcD.transitData(tmp);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"decoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
@@ -170,16 +186,24 @@ namespace testImageProcessing
 			wostr << L"test RLC GrayScale without line tag using array " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
+			/*********************************************************************************/
+			/**** encoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
 			ByteVecotrPtr tmp = rlcE.transitData(src);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"encoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
+			/*********************************************************************************/
+			/**** decoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
 			ByteVecotrPtr dst = rlcD.transitData(tmp);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"decoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
@@ -215,16 +239,24 @@ namespace testImageProcessing
 			wostr << L"test RLC GrayScale with line tag using array " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
+			/*********************************************************************************/
+			/**** encoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
 			ByteVecotrPtr tmp = rlcE.transitData(src);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"encoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
+			/*********************************************************************************/
+			/**** decoder                                                                  ***/
+			/*********************************************************************************/
 			tr.start();
 			ByteVecotrPtr dst = rlcD.transitData(tmp);
 			tr.end();
+
 			wostr.str(L"");
 			wostr << L"decoder time : " << tr.getPeriod() << " " << tr.getPeriodUnit() << endl;
 			Logger::WriteMessage(wostr.str().c_str());

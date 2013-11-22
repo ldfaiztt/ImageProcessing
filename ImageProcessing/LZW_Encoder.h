@@ -3,11 +3,11 @@
 #include "BitVector.h"
 #include <unordered_map>
 
+class LZW_Encoder
+{
 typedef string lzwKey;
 typedef int lzwVal;
 
-class LZW_Encoder
-{
 private:
 	unordered_map<lzwKey, lzwVal> dictionary;
 	int compress_data_length;

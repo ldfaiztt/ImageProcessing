@@ -5,7 +5,7 @@
 LZW_Decoder::LZW_Decoder(int len)
 	:compress_data_length(len)
 {
-	for (byte i = 0; i <= 0xff; i++)
+	for (int i = 0; i <= 0xff; i++)
 	{
 		dictionary[i] = string(1, i);
 	}
@@ -24,6 +24,7 @@ ByteVecotrPtr LZW_Decoder::transitData(BitVectorPtr src)
 	lzwVal entry = "";
 	lzwVal oldCode = "";
 
+	size_t index = dictionary.size() - 1;
 	for (BitVector::size_type i = 0; i < src->size();)
 	{
 		BitVector bits;
@@ -37,7 +38,7 @@ ByteVecotrPtr LZW_Decoder::transitData(BitVectorPtr src)
 		{
 			entry = dictionary[key];
 		} 
-		else if (key == dictionary.size() - 1)
+		else if (key == dictionary.size())
 		{
 			entry = oldCode + oldCode[0];
 		}
@@ -51,7 +52,7 @@ ByteVecotrPtr LZW_Decoder::transitData(BitVectorPtr src)
 			ret->push_back(*it);
 		}
 
-		dictionary[dictionary.size()] = oldCode + entry[0];
+		dictionary[index++] = oldCode + entry[0];
 		oldCode = entry;
 	}
 

@@ -4,7 +4,7 @@
 LZW_Encoder::LZW_Encoder(int len)
 	:compress_data_length(len)
 {
-	for (byte i = 0; i <= 0xff; i++)
+	for (int i = 0; i <= 0xff; i++)
 	{
 		dictionary[string(1, i)] = i;
 	}
@@ -36,6 +36,7 @@ BitVectorPtr LZW_Encoder::transitData(ByteVecotrPtr src)
 			{
 				ret->push_back(bits[i]);
 			}
+			int tmp = bits.to_ulong();
 
 			dictionary[str + curC] = dictionary.size();  
 			str = curC;
