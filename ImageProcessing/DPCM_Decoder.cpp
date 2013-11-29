@@ -18,7 +18,7 @@ ByteVecotrPtr DPCM_Decoder::transitData(BitVectorPtr src)
 	ByteVecotrPtr ret(new ByteVecotr());
 	ret->clear();
 
-	byte predictor;
+	byte predictor = 0;
 	for (BitVector::size_type i = 0; i < src->size(); )
 	{
 		BitVector bits;
@@ -43,17 +43,19 @@ ByteVecotrPtr DPCM_Decoder::transitData(BitVectorPtr src)
 		{
 			if (bits[compress_data_length - 1] == 0)
 			{
-				current = diff;
+				current = diff + predictor;
 			}
 			else
 			{
 				bits.resize(compress_data_length - 1);
 				bits.flip();
-				current = (bits.to_ulong() + 1) * -1;
+				current = ((bits.to_ulong() + 1) * -1) + predictor;
 			}
 		}
 
 		ret->push_back(current);
+
+		predictor = current;
 	}
 
 	return ret;
