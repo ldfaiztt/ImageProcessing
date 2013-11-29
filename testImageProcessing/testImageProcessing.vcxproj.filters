@@ -41,5 +41,11 @@
     <ClCompile Include="testVLC_LZW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="testDPCM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="testRLC_BitPlane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

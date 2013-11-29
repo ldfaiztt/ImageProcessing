@@ -6,26 +6,25 @@ typedef unsigned long ULONG;
 
 #include <atlimage.h>
 #include "../ImageProcessing/MyImage.h"
-#include "../ImageProcessing/LZW_Encoder.h"
-#include "../ImageProcessing/LZW_Decoder.h"
+#include "../ImageProcessing/DPCM_Encoder.h"
+#include "../ImageProcessing/DPCM_Decoder.h"
 
 #include "TimeRecorder.h"
-
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace testImageProcessing
 {
-	TEST_CLASS(testVLC_LZW)
+	TEST_CLASS(testDPCM)
 	{
 	public:
-		testVLC_LZW()
+		testDPCM()
 		{
-			Logger::WriteMessage(L"Inside the testVLC_LZW Test. \n");
+			Logger::WriteMessage(L"Inside the testDPCM Test. \n");
 		}
 
 		BEGIN_TEST_CLASS_ATTRIBUTE()
 			//TEST_CLASS_ATTRIBUTE(L"Owner", L"Kern")
-			TEST_CLASS_ATTRIBUTE(L"Descrioption", L"test VLC_LZW")
+			TEST_CLASS_ATTRIBUTE(L"Descrioption", L"test DPCM")
 			//TEST_CLASS_ATTRIBUTE(L"Priority", L"Critical")
 			END_TEST_CLASS_ATTRIBUTE()
 
@@ -41,21 +40,10 @@ namespace testImageProcessing
 		
 		TEST_METHOD(TestArrayInput)
 		{
-			//string strSrc = "AATELDALFJ####$$$afcADSEWafcORUNFASDLHFSafcSCBWafcERQW";
-			//string strSrc = "itty bitty nitty grrritty bit bin";
-			string strSrc = "itty bitty nitty grrritty bit bin AATELDALFJ####$$$afcADSEWafcORUNFASDLHFSafcSCBWafcERQW";
-			/*for (int i = 0; i < 160; i++)
-			{
-				for (int j = 0; j < 120; j++)
-				{
-					strSrc += ((i * 3  + j) * i / (j+1)) % 0xff;
-				}
-			}*/
-
 			ByteVecotrPtr srcVec(new ByteVecotr());
-			for each (char c in strSrc)
+			for (int i = 0; i < 30; i++)
 			{
-				srcVec->push_back(c);
+				srcVec->push_back(30 - i);
 			}
 
 			TimeRecorder tr;
@@ -68,8 +56,9 @@ namespace testImageProcessing
 			/**** encoder                                                                  ***/
 			/*********************************************************************************/
 			tr.start();
-			int compress_data_length = 12;
-			LZW_Encoder encoder(compress_data_length);
+			int compress_data_length = 6;
+			byte placeHolder = 0x3f;
+			DPCM_Encoder encoder(compress_data_length, placeHolder);
 			BitVectorPtr tmp = encoder.transitData(srcVec);
 			tr.end();
 
@@ -81,7 +70,7 @@ namespace testImageProcessing
 			/**** decoder                                                                  ***/
 			/*********************************************************************************/
 			tr.start();
-			LZW_Decoder decoder(compress_data_length);
+			DPCM_Decoder decoder(compress_data_length, placeHolder);
 			ByteVecotrPtr dst = decoder.transitData(tmp);
 			tr.end();
 
@@ -122,8 +111,9 @@ namespace testImageProcessing
 			/**** encoder                                                                  ***/
 			/*********************************************************************************/
 			tr.start();
-			int compress_data_length = 12;
-			LZW_Encoder encoder(compress_data_length);
+			int compress_data_length = 6;
+			byte placeHolder = 0xff;
+			DPCM_Encoder encoder(compress_data_length, placeHolder);
 			BitVectorPtr tmp = encoder.transitData(srcVec);
 			tr.end();
 
@@ -135,7 +125,7 @@ namespace testImageProcessing
 			/**** decoder                                                                  ***/
 			/*********************************************************************************/
 			tr.start();
-			LZW_Decoder decoder(compress_data_length);
+			DPCM_Decoder decoder(compress_data_length, placeHolder);
 			ByteVecotrPtr dst = decoder.transitData(tmp);
 			tr.end();
 
@@ -154,6 +144,7 @@ namespace testImageProcessing
 				Assert::AreEqual((*srcVec)[i], (*dst)[i]);
 			}
 		}
+
 
 	};
 }

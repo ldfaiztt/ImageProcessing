@@ -21,6 +21,7 @@ BitVectorPtr LZW_Encoder::transitData(ByteVecotrPtr src)
 	ret->clear();
 
 	lzwKey str = "";
+	int testCount = 0;
 	for (ByteVecotr::iterator it = src->begin(); it != src->end(); it++)
 	{
 		char curC = *it;
@@ -41,6 +42,8 @@ BitVectorPtr LZW_Encoder::transitData(ByteVecotrPtr src)
 			dictionary[str + curC] = dictionary.size();  
 			str = curC;
 		}
+
+		testCount++;
 	}
 
 	if (!str.empty())

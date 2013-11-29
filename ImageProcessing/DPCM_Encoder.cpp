@@ -24,7 +24,7 @@ BitVectorPtr DPCM_Encoder::transitData(ByteVecotrPtr src)
 	for (ByteVecotr::iterator it = src->begin(); it != src->end(); it++)
 	{
 		byte current = *it;
-		byte diff = current - predictor;
+		int diff = current - predictor;
 		if (diff > max || diff < min)
 		{
 			BitVector mark(compress_data_length, placeHolder);
@@ -42,6 +42,7 @@ BitVectorPtr DPCM_Encoder::transitData(ByteVecotrPtr src)
 		else
 		{
 			BitVector bits(compress_data_length, diff);
+			int test = bits.to_ulong();
 			for (BitVector::size_type i = 0; i < bits.size(); i++)
 			{
 				ret->push_back(bits[i]);
