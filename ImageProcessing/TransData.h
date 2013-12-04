@@ -1,24 +1,18 @@
 #pragma once
-#include "BitVector.h"
-#include "ByteVecotr.h"
+#include "TransImage.h"
 
 class TransData
 {
-protected:
-	unique_ptr<TransData> preOP;
-
-	virtual BitVectorPtr transitDataOwn(BitVectorPtr src);
-	virtual ByteVecotrPtr transitDataOwn(ByteVecotrPtr src);
-
-public:
-	static const byte PlaceHolder = 0xff;
-
 public:
 	TransData();
-	TransData(TransData * pre);
-	virtual ~TransData();
+	~TransData();
+	static bool EnDecOder(Transitions tsYype, typeImgPtr img);
 
-	BitVectorPtr transitData(BitVectorPtr src);
-	ByteVecotrPtr transitData(ByteVecotrPtr src);
+private:
+	static void testRLC_Byte(typeImgPtr img);
+	static void testRLC_Bit(typeImgPtr img);
+	static void testHuffman(typeImgPtr img);
+	static void testLZW(typeImgPtr img);
+	static void testDPCM(typeImgPtr img);
 };
 

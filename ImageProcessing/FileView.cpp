@@ -19,8 +19,8 @@ const CString GrayingPic = L"P1000528_Gray.JPG";
 
 CFileView::CFileView()
 {
-	fileArray.push_back(GrayingPic);
 	fileArray.push_back(OrignalPic);
+	fileArray.push_back(GrayingPic);
 }
 
 CFileView::~CFileView()

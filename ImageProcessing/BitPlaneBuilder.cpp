@@ -13,7 +13,13 @@ BitPlaneBuilder::~BitPlaneBuilder()
 
 int BitPlaneBuilder::build(typeImgPtr src, vector<BitVectorPtr> & result)
 {
-	return build(src->toByteVector(), result);
+	build(src->toByteVector(), result);
+
+	int width = src->GetWidth();
+	int BytesPerPixel = (src->GetBPP() + 7) / 8;
+	int LineNum = width * BytesPerPixel;
+
+	return LineNum;
 }
 
 int BitPlaneBuilder::build(ByteVecotrPtr src, vector<BitVectorPtr> & result)
@@ -39,5 +45,5 @@ int BitPlaneBuilder::build(ByteVecotrPtr src, vector<BitVectorPtr> & result)
 		result.push_back(bits);
 	}
 
-	return 0;
+	return src->size();
 }

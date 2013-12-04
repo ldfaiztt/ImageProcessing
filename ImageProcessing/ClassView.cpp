@@ -5,9 +5,7 @@
 #include "Resource.h"
 #include "ImageProcessing.h"
 #include "TransImage.h"
-
-#include "VLC_HuffmanEncoder.h"
-#include "VLC_HuffmanDecoder.h"
+#include "TransData.h"
 
 class CClassViewMenuButton : public CMFCToolBarMenuButton
 {
@@ -295,33 +293,9 @@ void CClassView::OnChangeVisualStyle()
 
 void CClassView::OnNewFolder()
 {
-	typeImgPtr img = typeImgPtr(new MyImage());
-	img->Load(L"P1000528_Gray.jpg");
-	ASSERT(!img->IsNull());
 
-	int width = img->GetWidth();
-	int BytesPerPixel = (img->GetBPP() + 7) / 8;
-	int LineNum = width * BytesPerPixel;
-
-	ByteVecotrPtr srcVec = img->toByteVector();
-
-	HuffmanTreeBuilder treeBuilder;
-	unordered_map<stKey, shared_ptr<typeTreeNode>> leafMap;
-	shared_ptr<MyBinaryTree<stNodeData>> tree = treeBuilder.BuildTrees(img, leafMap);
-
-	VLC_HuffmanEncoder encoder(*tree, leafMap);
-	BitVectorPtr tmp = encoder.transitData(srcVec);
-
-	VLC_HuffmanDecoder decoder(tree);
-	ByteVecotrPtr dst = decoder.transitData(tmp);
-
-	ASSERT(srcVec->size() == dst->size());
-
-	for (int i = 0; i < srcVec->size(); i++)
-	{
-		ASSERT((*srcVec)[i] == (*dst)[i]);
-	}
 }
+
 
 stTreeItemInfo * CClassView::TransImg(typeImgParaPtr imgP)
 {
@@ -330,6 +304,11 @@ stTreeItemInfo * CClassView::TransImg(typeImgParaPtr imgP)
 	if (item == NULL)
 	{
 		return NULL;
+	}
+
+	if (TransData::EnDecOder(item->tsType, ((CMainFrame *)AfxGetMainWnd())->getSelectedImg()))
+	{
+		return item;
 	}
 
 	if (item->NeedToUpdate == true || item->img == NULL)
@@ -397,6 +376,7 @@ typeImgPtr CClassView::getSpecialImg(Transitions tsType)
 void CClassView::FillClassView()
 {
 	HTREEITEM hZoom = m_wndClassView.InsertItem(_T("subsampling"), 0, 0);
+	m_wndClassView.SetItemState(hZoom, TVIS_BOLD, TVIS_BOLD);
 	m_wndClassView.SetItemData(hZoom, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::subsampling, true)));
 	HTREEITEM h2 = m_wndClassView.InsertItem(_T("replication method upsampling"), 3, 3, hZoom);
 	m_wndClassView.SetItemData(h2, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::replication, true)));
@@ -471,6 +451,28 @@ void CClassView::FillClassView()
 	HTREEITEM hBsli = m_wndClassView.InsertItem(_T("Bit_plane Slicing--Reconstruct"), 1, 1, hGraying);
 	m_wndClassView.SetItemData(hBsli, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::bit_slicing_reconstruct, true)));
 
+	HTREEITEM hCompress = m_wndClassView.InsertItem(_T("compression"), 0, 0);
+	m_wndClassView.SetItemState(hCompress, TVIS_BOLD, TVIS_BOLD);
+	m_wndClassView.SetItemData(hCompress, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::graying, true)));
+
+	HTREEITEM hByte = m_wndClassView.InsertItem(_T("RLC_Byte"), 1, 1, hCompress);
+	m_wndClassView.SetItemData(hByte, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::RLC_Byte, false)));
+
+	HTREEITEM hBit = m_wndClassView.InsertItem(_T("RLC_Bit"), 1, 1, hCompress);
+	m_wndClassView.SetItemData(hBit, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::RLC_Bit, false)));
+
+	HTREEITEM hHuffman = m_wndClassView.InsertItem(_T("Huffman"), 1, 1, hCompress);
+	m_wndClassView.SetItemData(hHuffman, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::Huffman, false)));
+
+	HTREEITEM hLZW = m_wndClassView.InsertItem(_T("lZW"), 1, 1, hCompress);
+	m_wndClassView.SetItemData(hLZW, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::LZW, false)));
+
+	HTREEITEM hDPCM = m_wndClassView.InsertItem(_T("DPCM"), 1, 1, hCompress);
+	m_wndClassView.SetItemData(hDPCM, (DWORD_PTR)(new stTreeItemInfo(NULL, NULL, Transitions::DPCM, false)));
+
 	m_wndClassView.Expand(hZoom, TVE_EXPAND);
 	m_wndClassView.Expand(hGraying, TVE_EXPAND);
+	m_wndClassView.Expand(hCompress, TVE_EXPAND);
+
+
 }

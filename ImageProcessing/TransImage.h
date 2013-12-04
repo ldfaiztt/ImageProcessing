@@ -31,6 +31,11 @@ enum class Transitions
 	harmonic,
 	contraharmonic,
 	alpha_trimmed,
+	RLC_Byte,
+	RLC_Bit,
+	Huffman,
+	LZW,
+	DPCM,
 };
 
 class TransImage
