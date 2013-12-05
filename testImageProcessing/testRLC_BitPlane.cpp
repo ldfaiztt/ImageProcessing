@@ -57,7 +57,7 @@ namespace testImageProcessing
 			TimeRecorder tr;
 
 			wostringstream wostr;
-			wostr << L"LZW code test with array " << endl;
+			wostr << L"Bit Plane code test with array " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			/*********************************************************************************/
@@ -114,7 +114,7 @@ namespace testImageProcessing
 			TimeRecorder tr;
 
 			wostringstream wostr;
-			wostr << L"LZW code test with array " << endl;
+			wostr << L"Bit Plane code test with array " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			/*********************************************************************************/

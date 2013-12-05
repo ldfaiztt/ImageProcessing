@@ -103,12 +103,8 @@ namespace testImageProcessing
 		TEST_METHOD(TestImageInput)
 		{
 			typeImgPtr img = typeImgPtr(new MyImage());
-			img->Load(L"P1000528_Gray_Small.jpg");
+			img->Load(L"P1000528_Gray.jpg");
 			Assert::IsFalse(img->IsNull());
-
-			//int width = img->GetWidth();
-			//int BytesPerPixel = (img->GetBPP() + 7) / 8;
-			//int LineNum = width * BytesPerPixel;
 
 			ByteVecotrPtr srcVec = img->toByteVector();
 

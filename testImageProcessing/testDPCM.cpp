@@ -49,7 +49,7 @@ namespace testImageProcessing
 			TimeRecorder tr;
 
 			wostringstream wostr;
-			wostr << L"LZW code test with array " << endl;
+			wostr << L"DPCM code test with array " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			/*********************************************************************************/
@@ -92,7 +92,7 @@ namespace testImageProcessing
 		TEST_METHOD(TestImageInput)
 		{
 			typeImgPtr img = typeImgPtr(new MyImage());
-			img->Load(L"P1000528_Gray_Small.jpg");
+			img->Load(L"P1000528_Gray.jpg");
 			Assert::IsFalse(img->IsNull());
 
 			//int width = img->GetWidth();
@@ -104,7 +104,7 @@ namespace testImageProcessing
 			TimeRecorder tr;
 
 			wostringstream wostr;
-			wostr << L"LZW code test with img " << endl;
+			wostr << L"DPCM code test with img " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			/*********************************************************************************/
