@@ -11,6 +11,34 @@ BitPlaneBuilder::~BitPlaneBuilder()
 {
 }
 
+ByteVecotrPtr BitPlaneBuilder::reconstruct(vector<BitVectorPtr> & bitplanes)
+{
+	ByteVecotrPtr ret(new ByteVecotr());
+
+	BitVector::size_type bit_num = bitplanes[0]->size();
+	for each (BitVectorPtr plane in bitplanes)
+	{
+		if (plane->size() < bit_num)
+		{
+			bit_num = plane->size();
+		}
+	}
+
+	for (int b = 0; b < bit_num; b++)
+	{
+		int bitplane_num = 8 < bitplanes.size() ? 8 : bitplanes.size();
+		byte byt = 0;
+		for (int i = 0; i < bitplane_num; i++)
+		{
+			byt |= (*bitplanes[i])[b] << i;
+		}
+
+		ret->push_back(byt);
+	}
+
+	return ret;
+}
+
 int BitPlaneBuilder::build(typeImgPtr src, vector<BitVectorPtr> & result)
 {
 	build(src->toByteVector(), result);

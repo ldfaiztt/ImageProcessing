@@ -146,8 +146,7 @@ void TransData::testDPCM(typeImgPtr img)
 	/*********************************************************************************/
 	tr.start();
 	int compress_data_length = 6;
-	byte placeHolder = 0xff;
-	DPCM_Encoder encoder(compress_data_length, placeHolder);
+	DPCM_Encoder encoder(compress_data_length);
 	BitVectorPtr tmp = encoder.transitData(srcVec);
 	tr.end();
 
@@ -155,7 +154,7 @@ void TransData::testDPCM(typeImgPtr img)
 	/**** decoder                                                                  ***/
 	/*********************************************************************************/
 	tr.start();
-	DPCM_Decoder decoder(compress_data_length, placeHolder);
+	DPCM_Decoder decoder(compress_data_length);
 	ByteVecotrPtr dst = decoder.transitData(tmp);
 	tr.end();
 }

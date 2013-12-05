@@ -42,13 +42,14 @@ namespace testImageProcessing
 		TEST_METHOD(TestArrayInput)
 		{
 			ByteVecotrPtr srcVec(new ByteVecotr());
-			for (int i = 0; i < 30; i++)
+			for (int i = 0; i < 8; i++)
 			{
-				srcVec->push_back(30 - i);
+				srcVec->push_back(1 << (i % 4));
 			}
 
 			vector<BitVectorPtr> bitplanes;
 			vector<ByteVecotrPtr> tmps;
+			vector<BitVectorPtr> dstBitPlanes;
 			int countTmp = 0;
 			BitPlaneBuilder bpB;
 			int line_num = bpB.build(srcVec, bitplanes);
@@ -85,7 +86,9 @@ namespace testImageProcessing
 			for each (ByteVecotrPtr bitplane in tmps)
 			{
 				RLC_BitPlanesDecoder decoder(line_num, preBit);
-				BitVectorPtr dst = decoder.transitData(bitplane);
+				BitVectorPtr bitv = decoder.transitData(bitplane);
+
+				dstBitPlanes.push_back(bitv);
 			}			
 			tr.end();
 
@@ -96,6 +99,13 @@ namespace testImageProcessing
 			wostr.str(L"");
 			wostr << L"compression ratio : " << (double)countTmp / srcVec->size() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
+
+			ByteVecotrPtr dst = bpB.reconstruct(dstBitPlanes);
+			Assert::AreEqual(srcVec->size(), dst->size());
+			for (int i = 0; i < srcVec->size(); i++)
+			{
+				Assert::AreEqual((*srcVec)[i], (*dst)[i]);
+			}
 		}
 
 		TEST_METHOD(TestImageInput)
@@ -106,6 +116,7 @@ namespace testImageProcessing
 
 			vector<BitVectorPtr> bitplanes;
 			vector<ByteVecotrPtr> tmps;
+			vector<BitVectorPtr> dstBitPlanes;
 			int countTmp = 0;
 			BitPlaneBuilder bpB;
 			int line_num = bpB.build(img, bitplanes);
@@ -143,6 +154,8 @@ namespace testImageProcessing
 			{
 				RLC_BitPlanesDecoder decoder(line_num, preBit);
 				BitVectorPtr dst = decoder.transitData(bitplane);
+
+				dstBitPlanes.push_back(dst);
 			}
 			tr.end();
 
@@ -153,6 +166,14 @@ namespace testImageProcessing
 			wostr.str(L"");
 			wostr << L"compression ratio : " << (double)countTmp / img->toByteVector()->size() << endl;
 			Logger::WriteMessage(wostr.str().c_str());
+
+			ByteVecotrPtr dst = bpB.reconstruct(dstBitPlanes);
+			ByteVecotrPtr srcVec = img->toByteVector();
+			Assert::AreEqual(srcVec->size(), dst->size());
+			for (int i = 0; i < srcVec->size(); i++)
+			{
+				Assert::AreEqual((*srcVec)[i], (*dst)[i]);
+			}
 		}
 	};
 }

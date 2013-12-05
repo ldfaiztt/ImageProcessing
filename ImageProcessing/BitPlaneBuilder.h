@@ -10,5 +10,6 @@ public:
 
 	int build(typeImgPtr src, vector<BitVectorPtr> & result);
 	int build(ByteVecotrPtr src, vector<BitVectorPtr> & result);
+	ByteVecotrPtr reconstruct(vector<BitVectorPtr> & bitplanes);
 };
 

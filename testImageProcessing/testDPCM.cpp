@@ -41,7 +41,7 @@ namespace testImageProcessing
 		TEST_METHOD(TestArrayInput)
 		{
 			ByteVecotrPtr srcVec(new ByteVecotr());
-			for (int i = 0; i < 30; i++)
+			for (int i = 0; i < 100; i++)
 			{
 				srcVec->push_back(30 - i);
 			}
@@ -57,8 +57,7 @@ namespace testImageProcessing
 			/*********************************************************************************/
 			tr.start();
 			int compress_data_length = 6;
-			byte placeHolder = 0x3f;
-			DPCM_Encoder encoder(compress_data_length, placeHolder);
+			DPCM_Encoder encoder(compress_data_length);
 			BitVectorPtr tmp = encoder.transitData(srcVec);
 			tr.end();
 
@@ -70,7 +69,7 @@ namespace testImageProcessing
 			/**** decoder                                                                  ***/
 			/*********************************************************************************/
 			tr.start();
-			DPCM_Decoder decoder(compress_data_length, placeHolder);
+			DPCM_Decoder decoder(compress_data_length);
 			ByteVecotrPtr dst = decoder.transitData(tmp);
 			tr.end();
 
@@ -112,8 +111,7 @@ namespace testImageProcessing
 			/*********************************************************************************/
 			tr.start();
 			int compress_data_length = 6;
-			byte placeHolder = 0xff;
-			DPCM_Encoder encoder(compress_data_length, placeHolder);
+			DPCM_Encoder encoder(compress_data_length);
 			BitVectorPtr tmp = encoder.transitData(srcVec);
 			tr.end();
 
@@ -125,7 +123,7 @@ namespace testImageProcessing
 			/**** decoder                                                                  ***/
 			/*********************************************************************************/
 			tr.start();
-			DPCM_Decoder decoder(compress_data_length, placeHolder);
+			DPCM_Decoder decoder(compress_data_length);
 			ByteVecotrPtr dst = decoder.transitData(tmp);
 			tr.end();
 

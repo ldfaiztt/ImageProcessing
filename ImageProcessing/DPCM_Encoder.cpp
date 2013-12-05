@@ -2,9 +2,8 @@
 #include "DPCM_Encoder.h"
 
 
-DPCM_Encoder::DPCM_Encoder(int len, byte ph)
-	:compress_data_length(len),
-	placeHolder(ph)
+DPCM_Encoder::DPCM_Encoder(int len)
+	:compress_data_length(len)
 {
 }
 
@@ -19,6 +18,8 @@ BitVectorPtr DPCM_Encoder::transitData(ByteVecotrPtr src)
 
 	int max = pow(2, compress_data_length - 1) - 1;
 	int min = -1 * pow(2, compress_data_length - 1);
+	byte placeHolder = max;
+	max--;
 
 	byte predictor = 0;
 	for (ByteVecotr::iterator it = src->begin(); it != src->end(); it++)
@@ -42,7 +43,6 @@ BitVectorPtr DPCM_Encoder::transitData(ByteVecotrPtr src)
 		else
 		{
 			BitVector bits(compress_data_length, diff);
-			int test = bits.to_ulong();
 			for (BitVector::size_type i = 0; i < bits.size(); i++)
 			{
 				ret->push_back(bits[i]);

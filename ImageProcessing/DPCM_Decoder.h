@@ -6,10 +6,10 @@ class DPCM_Decoder
 {
 private:
 	int compress_data_length;
-	byte placeHolder;
+	//byte placeHolder;
 
 public:
-	DPCM_Decoder(int len, byte ph);
+	DPCM_Decoder(int len);
 	virtual ~DPCM_Decoder();
 
 	ByteVecotrPtr transitData(BitVectorPtr src);

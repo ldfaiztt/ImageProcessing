@@ -41,16 +41,7 @@ namespace testImageProcessing
 		
 		TEST_METHOD(TestArrayInput)
 		{
-			//string strSrc = "AATELDALFJ####$$$afcADSEWafcORUNFASDLHFSafcSCBWafcERQW";
-			//string strSrc = "itty bitty nitty grrritty bit bin";
 			string strSrc = "itty bitty nitty grrritty bit bin AATELDALFJ####$$$afcADSEWafcORUNFASDLHFSafcSCBWafcERQW";
-			/*for (int i = 0; i < 160; i++)
-			{
-				for (int j = 0; j < 120; j++)
-				{
-					strSrc += ((i * 3  + j) * i / (j+1)) % 0xff;
-				}
-			}*/
 
 			ByteVecotrPtr srcVec(new ByteVecotr());
 			for each (char c in strSrc)

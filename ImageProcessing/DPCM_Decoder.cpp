@@ -2,9 +2,8 @@
 #include "DPCM_Decoder.h"
 
 
-DPCM_Decoder::DPCM_Decoder(int len, byte ph)
-	:compress_data_length(len),
-	placeHolder(ph)
+DPCM_Decoder::DPCM_Decoder(int len)
+	:compress_data_length(len)
 {
 }
 
@@ -17,6 +16,9 @@ ByteVecotrPtr DPCM_Decoder::transitData(BitVectorPtr src)
 {
 	ByteVecotrPtr ret(new ByteVecotr());
 	ret->clear();
+
+	int max = pow(2, compress_data_length - 1) - 1;
+	byte placeHolder = max;
 
 	byte predictor = 0;
 	for (BitVector::size_type i = 0; i < src->size(); )
