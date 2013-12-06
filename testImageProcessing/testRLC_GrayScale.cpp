@@ -102,7 +102,7 @@ namespace testImageProcessing
 			Logger::WriteMessage(wostr.str().c_str());
 
 			wostr.str(L"");
-			wostr << L"compression ratio : " << (double)tmp->size() / (double)src->size() << endl;
+			wostr << L"compression ratio : " << (double)tmp->size() / (double)src->size() << L" (compressed / original)" << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			Assert::AreEqual(src->size(), dst->size());
@@ -156,7 +156,7 @@ namespace testImageProcessing
 			Logger::WriteMessage(wostr.str().c_str());
 
 			wostr.str(L"");
-			wostr << L"compression ratio : " << (double)tmp->size() / (double)src->size() << endl;
+			wostr << L"compression ratio : " << (double)tmp->size() / (double)src->size() << L" (compressed / original)" << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			Assert::AreEqual(src->size(), dst->size());
@@ -209,7 +209,7 @@ namespace testImageProcessing
 			Logger::WriteMessage(wostr.str().c_str());
 
 			wostr.str(L"");
-			wostr << L"compression ratio : " << (double)tmp->size() / (double)src->size() << endl;
+			wostr << L"compression ratio : " << (double)tmp->size() / (double)src->size() << L" (compressed / original)" << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			Assert::AreEqual(src->size(), dst->size());
@@ -262,7 +262,7 @@ namespace testImageProcessing
 			Logger::WriteMessage(wostr.str().c_str());
 
 			wostr.str(L"");
-			wostr << L"compression ratio : " << (double)tmp->size() / (double)src->size() << endl;
+			wostr << L"compression ratio : " << (double)tmp->size() / (double)src->size() << L" (compressed / original)" << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			Assert::AreEqual(src->size(), dst->size());

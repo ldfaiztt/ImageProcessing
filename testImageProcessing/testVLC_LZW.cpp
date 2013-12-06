@@ -81,7 +81,7 @@ namespace testImageProcessing
 			Logger::WriteMessage(wostr.str().c_str());
 
 			wostr.str(L"");
-			wostr << L"compression ratio : " << (double)tmp->size() / (double)(srcVec->size() * 8) << endl;
+			wostr << L"compression ratio : " << (double)tmp->size() / (double)(srcVec->size() * 8) << L" (compressed / original)" << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			Assert::AreEqual(srcVec->size(), dst->size());
@@ -109,7 +109,7 @@ namespace testImageProcessing
 			/**** encoder                                                                  ***/
 			/*********************************************************************************/
 			tr.start();
-			int compress_data_length = 12;
+			int compress_data_length = 18;
 			LZW_Encoder encoder(compress_data_length);
 			BitVectorPtr tmp = encoder.transitData(srcVec);
 			tr.end();
@@ -131,7 +131,7 @@ namespace testImageProcessing
 			Logger::WriteMessage(wostr.str().c_str());
 
 			wostr.str(L"");
-			wostr << L"compression ratio : " << (double)tmp->size() / (double)(srcVec->size() * 8) << endl;
+			wostr << L"compression ratio : " << (double)tmp->size() / (double)(srcVec->size() * 8) << L" (compressed / original)" << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			Assert::AreEqual(srcVec->size(), dst->size());

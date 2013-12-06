@@ -29,10 +29,10 @@ namespace testImageProcessing
 			//TEST_CLASS_ATTRIBUTE(L"Priority", L"Critical")
 			END_TEST_CLASS_ATTRIBUTE()
 
-			TEST_CLASS_INITIALIZE(ClassInitialize)
+		TEST_CLASS_INITIALIZE(ClassInitialize)
 		{
 				Logger::WriteMessage(L"Initializing the class. \n");
-			}
+		}
 
 		TEST_CLASS_CLEANUP(ClassFinalize)
 		{
@@ -42,9 +42,9 @@ namespace testImageProcessing
 		TEST_METHOD(TestArrayInput)
 		{
 			ByteVecotrPtr srcVec(new ByteVecotr());
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 307200; i++)
 			{
-				srcVec->push_back(1 << (i % 4));
+				srcVec->push_back(rand() % 256);
 			}
 
 			vector<BitVectorPtr> bitplanes;
@@ -97,7 +97,7 @@ namespace testImageProcessing
 			Logger::WriteMessage(wostr.str().c_str());
 
 			wostr.str(L"");
-			wostr << L"compression ratio : " << (double)countTmp / srcVec->size() << endl;
+			wostr << L"compression ratio : " << (double)countTmp / srcVec->size() << L" (compressed / original)" << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			ByteVecotrPtr dst = bpB.reconstruct(dstBitPlanes);
@@ -114,6 +114,7 @@ namespace testImageProcessing
 			img->Load(L"P1000528_Gray.jpg");
 			Assert::IsFalse(img->IsNull());
 
+			ByteVecotrPtr srcVec = img->toByteVector();
 			vector<BitVectorPtr> bitplanes;
 			vector<ByteVecotrPtr> tmps;
 			vector<BitVectorPtr> dstBitPlanes;
@@ -125,7 +126,7 @@ namespace testImageProcessing
 			TimeRecorder tr;
 
 			wostringstream wostr;
-			wostr << L"Bit Plane code test with array " << endl;
+			wostr << L"Bit Plane code test with Image " << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			/*********************************************************************************/
@@ -153,9 +154,9 @@ namespace testImageProcessing
 			for each (ByteVecotrPtr bitplane in tmps)
 			{
 				RLC_BitPlanesDecoder decoder(line_num, preBit);
-				BitVectorPtr dst = decoder.transitData(bitplane);
+				BitVectorPtr bitv = decoder.transitData(bitplane);
 
-				dstBitPlanes.push_back(dst);
+				dstBitPlanes.push_back(bitv);
 			}
 			tr.end();
 
@@ -164,11 +165,10 @@ namespace testImageProcessing
 			Logger::WriteMessage(wostr.str().c_str());
 
 			wostr.str(L"");
-			wostr << L"compression ratio : " << (double)countTmp / img->toByteVector()->size() << endl;
+			wostr << L"compression ratio : " << (double)countTmp / srcVec->size() << L" (compressed / original)" << endl;
 			Logger::WriteMessage(wostr.str().c_str());
 
 			ByteVecotrPtr dst = bpB.reconstruct(dstBitPlanes);
-			ByteVecotrPtr srcVec = img->toByteVector();
 			Assert::AreEqual(srcVec->size(), dst->size());
 			for (int i = 0; i < srcVec->size(); i++)
 			{

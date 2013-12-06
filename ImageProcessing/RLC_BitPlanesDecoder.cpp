@@ -25,7 +25,7 @@ BitVectorPtr RLC_BitPlanesDecoder::transitData(ByteVecotrPtr src)
 		while (lineCount < line_num && it != src->end())
 		{
 			byte elemCount = *it++;
-			for (int i = 0; i < elemCount && lineCount < line_num && it != src->end(); i--)
+			for (int i = 0; i < elemCount && lineCount < line_num; i++)
 			{
 				ret->push_back(pred);
 				lineCount++;

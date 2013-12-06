@@ -30,7 +30,8 @@ ByteVecotrPtr BitPlaneBuilder::reconstruct(vector<BitVectorPtr> & bitplanes)
 		byte byt = 0;
 		for (int i = 0; i < bitplane_num; i++)
 		{
-			byt |= (*bitplanes[i])[b] << i;
+			byte bt = (*bitplanes[i])[b];
+			byt |= bt << i;
 		}
 
 		ret->push_back(byt);
@@ -41,26 +42,27 @@ ByteVecotrPtr BitPlaneBuilder::reconstruct(vector<BitVectorPtr> & bitplanes)
 
 int BitPlaneBuilder::build(typeImgPtr src, vector<BitVectorPtr> & result)
 {
-	build(src->toByteVector(), result);
+	int size = build(src->toByteVector(), result);
 
 	int width = src->GetWidth();
 	int BytesPerPixel = (src->GetBPP() + 7) / 8;
 	int LineNum = width * BytesPerPixel;
 
-	return LineNum;
+	return size;
 }
 
 int BitPlaneBuilder::build(ByteVecotrPtr src, vector<BitVectorPtr> & result)
 {
-	
 	for (int bit = 0; bit < 8; bit++)
 	{
 		byte bit_mask = 1 << bit;
 		BitVectorPtr bits(new BitVector());
+		bits->reset();
 
 		for (ByteVecotr::iterator it = src->begin(); it != src->end(); it++)
 		{
-			if (*it & bit_mask > 0)
+			byte by = *it;
+			if ((by & bit_mask) > 0)
 			{
 				bits->push_back(true);
 			}
